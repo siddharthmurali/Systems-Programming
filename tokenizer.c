@@ -136,6 +136,9 @@ int main(int argc, char **argv) {
 		//creates a character string for the full inputed tokenstream
 		sizeWord = (strlen((argv[x])));
 		printf("New Argument: %s\n",argv[x]);	
+
+		char* tmp=" ";
+		strcat(tokenStream,tmp);
 		tokenStream=(char *)realloc(tokenStream, sizeof(strlen(argv[x])));
 		strcat(tokenStream,argv[x]);
 		printf("\n");
