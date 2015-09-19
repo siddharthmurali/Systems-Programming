@@ -133,11 +133,24 @@ int main(int argc, char **argv) {
 	int x = 2;
 	int sizeWord=0;
 	char *tokenStream=(char *)malloc ( sizeof (strlen(argv[1])));
+	char **stringArray = (char **)malloc((argc) * sizeof(char *));
+//	char stringArray[argc];
+	int i;
 
 	strcpy(tokenStream,argv[1]);
+	
 
 	for (x; x<argc; x++){
 		//creates a character string for the full inputed tokenstream
+		
+		int stringSize = sizeof(argv[x]);
+		
+		stringArray[x] = (char *)malloc(stringSize+1);
+		
+		strcpy(stringArray[x], argv[x]);		
+		printf("%s\n", stringArray[x]);
+		//above populates stringArray
+		
 		sizeWord = (strlen((argv[x])));
 		printf("New Argument: %s\n",argv[x]);	
 		char* tmp=" ";
@@ -148,13 +161,14 @@ int main(int argc, char **argv) {
 	}
 
 	//passes this string to TKCreate to create a new tokenizer struct
-
+	
+	
 	TokenizerT* newToken=TKCreate(tokenStream); 
 	char* tmp=TKGetNextToken(newToken); 
 	
 			
 	printf("FUll STRING: %s and first character from TKGetNextToken:  %s\n", tokenStream,tmp);
-
+	
 	TKDestroy(newToken);	
   return 0;
 }
