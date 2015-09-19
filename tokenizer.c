@@ -101,24 +101,21 @@ char *TKGetNextToken( TokenizerT * tk ) {
 	int y=0;
 	char *token=(char *)malloc(sizeof(char)); 
 
+	//early implementation, plan to use this for the ctypes. Indicator is the type of token the word currently is
 	int previousIndVar = 0;
 	int indicatorVar = 0; 
 
 
 	for (x;x<strlen(tk->tokenString);x++){
+		//starts grabbing each character from tokenstream and adds it to token 
 		token[strlen(token)]=tk->tokenString[x]; 
-		previousIndVar=indicatorVar;
-		indicatorVar=checkType(previousIndVar, tk->tokenString[x]);
-		if (previousIndVar!=indicatorVar){
-			tk->stringLocation=x; 
-			
-		
-
-		}
 		token=(char *)realloc(token, sizeof(char)); 
+
+		//method checkType here to do ctype checks
 	
 	}
 
+		//delimmiter for the token word
 		token[strlen(token)+1]='\0';
 
   return token;
@@ -143,6 +140,8 @@ int main(int argc, char **argv) {
 		//creates a character string for the full inputed tokenstream
 		sizeWord = (strlen((argv[x])));
 		printf("New Argument: %s\n",argv[x]);	
+		char* tmp=" ";
+		strcat(tokenStream,tmp);
 		tokenStream=(char *)realloc(tokenStream, sizeof(strlen(argv[x])));
 		strcat(tokenStream,argv[x]);
 		printf("\n");
