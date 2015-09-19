@@ -49,6 +49,13 @@ TokenizerT *TKCreate( char * ts ) {
  */
 
 void TKDestroy( TokenizerT * tk ) {
+
+free(tk);
+free(tk -> tokenString);
+free(tk -> tokens);
+free(tk -> tokenTypes);
+
+//We need to free all pointers within a struct
 }
 
 
@@ -145,7 +152,10 @@ int main(int argc, char **argv) {
 
 	TokenizerT* newToken=TKCreate(tokenStream); 
 	char* tmp=TKGetNextToken(newToken); 
+	
 			
-	printf("FUll STRING: %s and first character from TKGetNextToken:  %s\n", tokenStream,tmp);	
+	printf("FUll STRING: %s and first character from TKGetNextToken:  %s\n", tokenStream,tmp);
+
+	TKDestroy(newToken);	
   return 0;
 }
