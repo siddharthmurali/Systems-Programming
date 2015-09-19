@@ -38,6 +38,9 @@ TokenizerT *TKCreate( char * ts ) {
 	newWord->stringLocation=0; 
 	newWord->tokens = (char  **)malloc(sizeof(char *));
 	*newWord->tokens = (char *)malloc(sizeof(char));	
+
+	newWord->tokenTypes = (char  **)malloc(sizeof(char *));
+	*newWord->tokenTypes = (char *)malloc(sizeof(char));	
   return newWord;
 }
 
