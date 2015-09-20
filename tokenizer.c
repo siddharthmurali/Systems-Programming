@@ -35,7 +35,7 @@ typedef struct TokenizerT_ TokenizerT;
 TokenizerT *TKCreate( char * ts ) {
 	TokenizerT* newWord = malloc ( sizeof (TokenizerT));
 	newWord->tokenString=ts;
-	newWord->stringLocation=0; 
+	newWord->stringLocation=1; 
 	newWord->tokens = (char  **)malloc(sizeof(char *));
 	*newWord->tokens = (char *)malloc(sizeof(char));	
 
@@ -100,7 +100,7 @@ int checkType(int previousIndVar, char tokenLetter){
 
 char *TKGetNextToken( TokenizerT * tk ) {
 
-	int x=0;
+	int x=tk->stringLocation;
 	int y=0;
 	char *token=(char *)malloc(sizeof(char)); 
 
@@ -108,19 +108,27 @@ char *TKGetNextToken( TokenizerT * tk ) {
 	int previousIndVar = 0;
 	int indicatorVar = 0; 
 
-
+	previousIndVar=checkType(0,tk->tokenString[x]);
+	token[strlen(token)]=tk->tokenString[0]; 
 	for (x;x<strlen(tk->tokenString);x++){
-		//starts grabbing each character from tokenstream and adds it to token 
-		token[strlen(token)]=tk->tokenString[x]; 
-		token=(char *)realloc(token, sizeof(char)); 
 
 		//method checkType here to do ctype checks
-	
+		indicatorVar=checkType(previousIndVar, tk->tokenString[x]);	
+		if (previousIndVar!=indicatorVar){
+			tk->stringLocation=x;		
+			break;
+		}else { 
+
+			token=(char *)realloc(token, sizeof(char)); 
+			token[strlen(token)]=tk->tokenString[x];
+
+		}
 	}
 
 		//delimmiter for the token word
 		token[strlen(token)+1]='\0';
 
+		
   return token;
 }
 
@@ -170,7 +178,7 @@ int main(int argc, char **argv) {
 	char* tmp=TKGetNextToken(newToken); 
 	
 			
-	printf("FUll STRING: %s and first character from TKGetNextToken:  %s\n", tokenStream,tmp);
+	printf("FUll STRING: %s and first token from TKGetNextToken:  %s\n", tokenStream,tmp);
 	
 	TKDestroy(newToken);	
   return 0;
