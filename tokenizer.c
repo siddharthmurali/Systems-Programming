@@ -37,7 +37,7 @@ TokenizerT *TKCreate( char * ts ) {
 	newWord->tokenString=ts;
 	newWord->stringLocation=1; 
 	newWord->tokens = (char  **)malloc(sizeof(char *));
-	*newWord->tokens = (char *)malloc(sizeof(char));	
+	newWord->tokens[0] = (char *)malloc(sizeof(char));	
 
 	newWord->tokenTypes = (char  **)malloc(sizeof(char *));
 	*newWord->tokenTypes = (char *)malloc(sizeof(char));	
@@ -64,26 +64,169 @@ free(tk -> tokenTypes);
 
 
 //Sees what type of token the character is based off the previous character
-int checkType(int previousIndVar, char tokenLetter){
+char* checkType(TokenizerT* tk, char* word){
+
+	int prevInd=0;
+	int currInd=0;	
+	int x=1;
+	int stringLocation=0;
+
+	char* token = (char *)malloc(sizeof(char));
+	char* tokenType= "word";
+	token[strlen(token)]=word[0]; 
+/*
+
+Indicator Key Values: 
+
+1 - Alpha 
+2 - Number 
+3 - Punctuation 
+4 - Hexadecimal Number 
+5 - Octal Number 
+6 - C Operator  
+7 - Floating Point 
+8 - Octal or Hexadecmial 
+
+*/
+	for(x;x<strlen(word);x++){
+		int asciiVal=word[x];
+
+		//for alphbetic characters
+		if (isalpha(asciiVal)){
+			currInd=1;
+			if(prevInd==1) {
+				tokenType="word";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x]; 
+				prevInd=1;
+			}else if (prevInd==0) {
+				tokenType="word";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x]; 
+				prevInd=1;
+			} else {
+				if(prevInd==4){
+					if(((asciiVal>=61)&&(asciiVal<=66))||((asciiVal>=65)&&(asciiVal<=70))){
+						tokenType="hexadecmial";
+						token[strlen(token)]=word[x]; 
+						token = (char *)realloc(token, sizeof(char));
+						prevInd=4;
+					}
+				}
+
+				if(prevInd==7) {
+					if(word[x]=='e') {
+						tokenType="Floating Point";
+						token[strlen(token)]=word[x]; 
+						token = (char *)realloc(token, sizeof(char));
+					}
+				} 
+
+				if(prevInd==3) {
+					token[strlen(token)+1]='\0';
+					prevInd=0; 
+					return token;
+				}
+
+				if(prevInd==2){
+					token[strlen(token)+1]='\0';
+					printf("%s '%s'\n",tokenType,token);
+					prevInd=0;
+					free(token);
+					token=(char *)malloc(sizeof(char));
+				}
+
+				if (prevInd==8){
+
+					if((asciiVal==88)||(asciiVal==120)){
+						tokenType="hexadecmial";
+						token[strlen(token)]=word[x]; 
+						token = (char *)realloc(token, sizeof(char));
+						prevInd=4;
+
+					}else{
 
 
-	if(isalpha(tokenLetter)>0){ 
 
-		return 1; 
 
+					}
+				}
+			}	
+
+		} else if (isdigit(asciiVal)) {   // for number characters
+			currInd=2; 
+
+			if(prevInd==2){
+				tokenType="Number";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x]; 
+				prevInd=2;
+			}else if (prevInd==0) {
+				if(word[x]!='0'){
+					tokenType="Number";
+					token = (char *)realloc(token, sizeof(char));
+					token[strlen(token)]=word[x]; 
+					prevInd=2;
+				}else{ 
+					tokenType="Hexadecimal or Octal";
+					token = (char *)realloc(token, sizeof(char));
+					token[strlen(token)]=word[x]; 
+					prevInd=8;
+				}
+			} else {
+				if (prevInd==1) {
+					tokenType="Word";
+					token = (char *)realloc(token, sizeof(char));
+					token[strlen(token)]=word[x]; 
+					prevInd=1;
+				} 
+				
+				if ((prevInd==8) || (prevInd==5)){
+
+					if ((asciiVal>48)&&(asciiVal<55)){
+
+						tokenType="Octal";
+						token = (char *)realloc(token, sizeof(char));
+						token[strlen(token)]=word[x]; 
+						prevInd=5;
+
+					}
+
+				}
+
+				if (prevInd==5){
+
+					if ((asciiVal>48)&&(asciiVal<55)){
+
+						tokenType="Octal";
+						token = (char *)realloc(token, sizeof(char));
+						token[strlen(token)]=word[x]; 
+						prevInd=5;
+
+					} else {
+
+						token[strlen(token)+1]='\0';
+						return token;
+
+					}
+				}
+			}
+
+		}else if (ispunct(word[x])){
+
+			currInd=3; 
+
+			if (prevInd!=2) {
+
+			}
+		}	
 	}
-	else if  (isdigit(tokenLetter)>0) {
-
-
-		return 2;
-	}else {
-
-	return 0;
-
-	}
-
-
-	return 0;
+	
+	token[strlen(token)+1]='\0';
+	
+					printf("%s '%s'\n",tokenType,token);
+					free(token);
+	return token;
 }
 
 /*
@@ -100,6 +243,8 @@ int checkType(int previousIndVar, char tokenLetter){
 
 char *TKGetNextToken( TokenizerT * tk ) {
 
+
+/*
 	int x=tk->stringLocation;
 	int y=0;
 	char *token=(char *)malloc(sizeof(char)); 
@@ -108,12 +253,10 @@ char *TKGetNextToken( TokenizerT * tk ) {
 	int previousIndVar = 0;
 	int indicatorVar = 0; 
 
-	previousIndVar=checkType(0,tk->tokenString[x]);
 	token[strlen(token)]=tk->tokenString[0]; 
 	for (x;x<strlen(tk->tokenString);x++){
 
 		//method checkType here to do ctype checks
-		indicatorVar=checkType(previousIndVar, tk->tokenString[x]);	
 		if (previousIndVar!=indicatorVar){
 			tk->stringLocation=x;		
 			break;
@@ -127,9 +270,12 @@ char *TKGetNextToken( TokenizerT * tk ) {
 
 		//delimmiter for the token word
 		token[strlen(token)+1]='\0';
+*/
+
+
 
 		
-  return token;
+  return checkType(tk,"asdfasdf12123");
 }
 
 /*
@@ -179,7 +325,11 @@ int main(int argc, char **argv) {
 	
 			
 	printf("FUll STRING: %s and first token from TKGetNextToken:  %s\n", tokenStream,tmp);
-	
+
+
+
+	printf("\n");
+	printf("Checktype Testing:  %s\n",tmp);		
 	TKDestroy(newToken);	
   return 0;
 }
