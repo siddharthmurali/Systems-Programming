@@ -64,16 +64,16 @@ free(tk -> tokenTypes);
 
 
 //Sees what type of token the character is based off the previous character
-char* checkType(TokenizerT* tk, char* word){
+char* checkType( char* word){
 
 	int prevInd=0;
 	int currInd=0;	
-	int x=1;
+	int x=0;
 	int stringLocation=0;
 
 	char* token = (char *)malloc(sizeof(char));
 	char* tokenType= "word";
-	token[strlen(token)]=word[0]; 
+	//token[strlen(token)]=word[0]; 
 /*
 
 Indicator Key Values: 
@@ -93,6 +93,9 @@ Indicator Key Values:
 
 		//for alphbetic characters
 		if (isalpha(asciiVal)){
+			if (prevInd==3){
+				prevInd=0;
+			}
 			currInd=1;
 			if(prevInd==1) {
 				tokenType="word";
@@ -111,6 +114,7 @@ Indicator Key Values:
 						token[strlen(token)]=word[x]; 
 						token = (char *)realloc(token, sizeof(char));
 						prevInd=4;
+						continue;
 					}
 				}
 
@@ -119,6 +123,7 @@ Indicator Key Values:
 						tokenType="Floating Point";
 						token[strlen(token)]=word[x]; 
 						token = (char *)realloc(token, sizeof(char));
+						continue;
 					}
 				} 
 
@@ -134,8 +139,65 @@ Indicator Key Values:
 					prevInd=0;
 					free(token);
 					token=(char *)malloc(sizeof(char));
+					token[strlen(token)]=word[x];
+					continue;
 				}
 
+				if(prevInd==7){
+
+					if(asciiVal==101){
+						tokenType="Float";
+						token = (char *)realloc(token, sizeof(char));
+						token[strlen(token)]=word[x]; 
+						prevInd=7;
+						continue;
+					}else {
+						token[strlen(token)+1]='\0';
+						printf("%s '%s'\n",tokenType,token);
+						prevInd=0;
+						free(token);
+						token=(char *)malloc(sizeof(char));
+						token[strlen(token)]=word[x];
+						prevInd=1;
+						continue;
+					}
+				}
+
+
+
+				if(prevInd==4){
+						if(((asciiVal>=65)&&(asciiVal<=70))||((asciiVal>=97)&&(asciiVal<=102))){
+							tokenType="Hexadecmial";
+							token[strlen(token)]=word[x]; 
+							token = (char *)realloc(token, sizeof(char));
+							prevInd=4;
+							continue;
+						}else{
+							token[strlen(token)+1]='\0';
+							printf("%s '%s'\n",tokenType,token);
+							prevInd=0;
+							free(token);
+							token=(char *)malloc(sizeof(char));
+							token[strlen(token)]=word[x];
+							prevInd=1;
+							continue;
+						}
+				}
+
+
+				if(prevInd==5){
+					token[strlen(token)+1]='\0';
+					printf("%s '%s'\n",tokenType,token);
+					prevInd=0;
+					free(token);
+					token=(char *)malloc(sizeof(char));
+					token[strlen(token)]=word[x];
+					prevInd=1;
+					continue;
+				}
+
+
+	
 				if (prevInd==8){
 
 					if((asciiVal==88)||(asciiVal==120)){
@@ -143,6 +205,7 @@ Indicator Key Values:
 						token[strlen(token)]=word[x]; 
 						token = (char *)realloc(token, sizeof(char));
 						prevInd=4;
+						continue;
 
 					}else{
 
@@ -162,34 +225,73 @@ Indicator Key Values:
 				token[strlen(token)]=word[x]; 
 				prevInd=2;
 			}else if (prevInd==0) {
-				if(word[x]!='0'){
+				if(asciiVal!=48){
 					tokenType="Number";
 					token = (char *)realloc(token, sizeof(char));
 					token[strlen(token)]=word[x]; 
 					prevInd=2;
+					continue;
 				}else{ 
 					tokenType="Hexadecimal or Octal";
 					token = (char *)realloc(token, sizeof(char));
 					token[strlen(token)]=word[x]; 
 					prevInd=8;
+					continue;
+					printf("in else\n");
 				}
 			} else {
 				if (prevInd==1) {
-					tokenType="Word";
-					token = (char *)realloc(token, sizeof(char));
-					token[strlen(token)]=word[x]; 
-					prevInd=1;
+					if (asciiVal!=48){
+						tokenType="Word";
+						token = (char *)realloc(token, sizeof(char));
+						token[strlen(token)]=word[x]; 
+						prevInd=1;
+					}else{
+
+						token[strlen(token)+1]='\0';
+
+						printf("%s '%s'\n",tokenType,token);
+						prevInd=2;
+						free(token);
+						tokenType="Hexadecimal or Octal";
+						token=(char *)malloc(sizeof(char));
+						token[strlen(token)]=word[x]; 
+						prevInd=8;
+						continue;
+
+					}
 				} 
 				
 				if ((prevInd==8) || (prevInd==5)){
-
-					if ((asciiVal>48)&&(asciiVal<55)){
+					if ((asciiVal>=48)&&(asciiVal<=55)){
 
 						tokenType="Octal";
 						token = (char *)realloc(token, sizeof(char));
 						token[strlen(token)]=word[x]; 
 						prevInd=5;
+						continue;
 
+					}
+
+				}
+
+				if(prevInd==7){
+						tokenType="Float";
+						token = (char *)realloc(token, sizeof(char));
+						token[strlen(token)]=word[x]; 
+						prevInd=7;
+						continue;
+				}
+
+				if (prevInd==4){
+
+
+					if((asciiVal>48)&&(asciiVal<57)){
+						tokenType="Hexadecimal";
+						token = (char *)realloc(token, sizeof(char));
+						token[strlen(token)]=word[x]; 
+						prevInd=4;
+						continue;
 					}
 
 				}
@@ -206,7 +308,11 @@ Indicator Key Values:
 					} else {
 
 						token[strlen(token)+1]='\0';
-						return token;
+
+					printf("%s '%s'\n",tokenType,token);
+					prevInd=2;
+					free(token);
+					token=(char *)malloc(sizeof(char));
 
 					}
 				}
@@ -214,18 +320,419 @@ Indicator Key Values:
 
 		}else if (ispunct(word[x])){
 
-			currInd=3; 
 
-			if (prevInd!=2) {
+			if (asciiVal==46) {
 
+				if (prevInd==2){
+				
+					tokenType="Float";
+					token = (char *)realloc(token, sizeof(char));
+					token[strlen(token)]=word[x]; 
+					prevInd=7;
+				}
+				continue;
 			}
+
+			if(prevInd!=3434){
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+
+		}
+		
+		if( asciiVal == 40){
+			free(token);
+			tokenType="Left Paranthesis";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+		if( asciiVal == 41){
+
+			free(token);
+			tokenType="Right Paranthesis";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+
+		if( asciiVal == 91){
+
+			free(token);
+			tokenType="Left Bracket";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+		if( asciiVal == 93){
+
+			free(token);
+			tokenType="Right Bracket";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+
+		if( asciiVal == 38){
+
+			free(token);
+			tokenType="And";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x];
+			int asciiVal2=word[x+1]; 
+
+			if (asciiVal2==38){
+				tokenType="Double And";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+
+ 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+
+		if( asciiVal == 45){
+
+			free(token);
+			tokenType="Minus";
+			token=(char *)malloc(sizeof(char));
+
+			token[strlen(token)]=word[x]; 
+			int asciiVal2=word[x+1]; 
+
+			if (asciiVal2==45){
+				tokenType="Double Minus";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+
+		if( asciiVal == 33){
+			free(token);
+			tokenType="Exlamation";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			int asciiVal2=word[x+1]; 
+
+			if (asciiVal2==61){
+				free(token);
+				token=(char *)malloc(sizeof(char));
+				token[strlen(token)]=word[x]; 
+				tokenType="Not Equal";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+
+		if( asciiVal == 126){
+
+			free(token);
+			tokenType="Tilda";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+		if( asciiVal == 43){
+			free(token);
+			tokenType="Plus";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			int asciiVal2=word[x+1]; 
+
+			if (asciiVal2==43){
+				tokenType="Double Plus";
+				token = (char *)realloc(token, sizeof(char));
+				x=x+1;
+				token[strlen(token)]=word[x+1]; 
+			}
+			if (asciiVal2==61){
+				tokenType="Plus Equals";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+		if( asciiVal == 60){
+			free(token);
+			tokenType="Greater Than";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			int asciiVal2=word[x+1]; 
+
+			if (asciiVal2==60){
+				tokenType="Double greater than";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			if (asciiVal2==61){
+				tokenType="Greater than or equal too";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+		if( asciiVal == 62){
+
+			free(token);
+			tokenType="Less than";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			int asciiVal2=word[x+1]; 
+
+			if (asciiVal2==62){
+				tokenType="Double Less than";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			if (asciiVal2==61){
+				tokenType="Less than or equal too";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+		if( asciiVal == 61){
+
+			free(token);
+			tokenType="Equals";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			int asciiVal2=word[x+1]; 
+
+			if (asciiVal2==61){
+				tokenType="Double Equals";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+		if( asciiVal == 124){
+
+			free(token);
+			tokenType="Pipeline";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			int asciiVal2=word[x+1]; 
+
+			if (asciiVal2==124){
+				tokenType="Double Pipeline";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
+		if( asciiVal == 58){
+
+			free(token);
+			tokenType="Colon";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+		if( asciiVal == 59){
+
+			free(token);
+			tokenType="Semi-colon";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+		if( asciiVal == 63){
+
+			free(token);
+			tokenType="Question Mark";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+		if( asciiVal == 123){
+
+			free(token);
+			tokenType="Right Curly Brace";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+		if( asciiVal == 125){
+
+			free(token);
+			tokenType="Left";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+		if( asciiVal == 39){
+
+			free(token);
+			tokenType="Aprostophe";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+		if( asciiVal == 44){
+
+			free(token);
+			tokenType="Comma";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+		if( asciiVal == 37){
+
+			free(token);
+			tokenType="Modulus";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+		if( asciiVal == 94){
+
+			free(token);
+			tokenType="Bitwise executive or";
+			token=(char *)malloc(sizeof(char));
+			token[strlen(token)]=word[x]; 
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+		if( asciiVal == 45){
+
+			int asciiVal2=word[x+1]; 
+
+			if (asciiVal2==62){
+				free(token);
+				token=(char *)malloc(sizeof(char));
+				token[strlen(token)]=word[x]; 
+				tokenType="Pointer";
+				token = (char *)realloc(token, sizeof(char));
+				token[strlen(token)]=word[x+1]; 
+			x=x+1;
+			}
+			token[strlen(token)+1]='\0';
+			printf("%s '%s'\n",tokenType,token);
+			free(token);
+			token=(char *)malloc(sizeof(char));
+			prevInd=3;
+		}
+
 		}	
 	}
-	
-	token[strlen(token)+1]='\0';
-	
+
+					if (prevInd!=3){	
+					token[strlen(token)+1]='\0';
 					printf("%s '%s'\n",tokenType,token);
 					free(token);
+				}
 	return token;
 }
 
@@ -275,7 +782,7 @@ char *TKGetNextToken( TokenizerT * tk ) {
 
 
 		
-  return checkType(tk,"asdfasdf12123");
+  return checkType("0x23hello0x123asdf");
 }
 
 /*
@@ -287,49 +794,12 @@ char *TKGetNextToken( TokenizerT * tk ) {
 
 int main(int argc, char **argv) {
 
-	int x = 2;
+	int x = 1;
 	int sizeWord=0;
-	char *tokenStream=(char *)malloc ( sizeof (strlen(argv[1])));
-	char **stringArray = (char **)malloc((argc) * sizeof(char *));
-//	char stringArray[argc];
-	int i;
-
-	strcpy(tokenStream,argv[1]);
-	
-
 	for (x; x<argc; x++){
 		//creates a character string for the full inputed tokenstream
-		
-		int stringSize = sizeof(argv[x]);
-		
-		stringArray[x] = (char *)malloc(stringSize+1);
-		
-		strcpy(stringArray[x], argv[x]);		
-		printf("%s\n", stringArray[x]);
-		//above populates stringArray
-		
-		sizeWord = (strlen((argv[x])));
-		printf("New Argument: %s\n",argv[x]);	
-		char* tmp=" ";
-		strcat(tokenStream,tmp);
-		tokenStream=(char *)realloc(tokenStream, sizeof(strlen(argv[x])));
-		strcat(tokenStream,argv[x]);
-		printf("\n");
+		checkType(argv[x]);	
 	}
 
-	//passes this string to TKCreate to create a new tokenizer struct
-	
-	
-	TokenizerT* newToken=TKCreate(tokenStream); 
-	char* tmp=TKGetNextToken(newToken); 
-	
-			
-	printf("FUll STRING: %s and first token from TKGetNextToken:  %s\n", tokenStream,tmp);
-
-
-
-	printf("\n");
-	printf("Checktype Testing:  %s\n",tmp);		
-	TKDestroy(newToken);	
   return 0;
 }
