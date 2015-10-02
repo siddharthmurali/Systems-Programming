@@ -224,8 +224,24 @@ int SLRemove(SortedListPtr list, void *newObj){
  * You need to fill in this function as part of your implementation.
  */
 
-SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
+SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
 
+	if(list == NULL){
+		return NULL;
+	}
+	
+	if(list -> size == 0){
+		return NULL;
+	}
+	
+
+	SortedListIteratorPtr iter = (SortedListIteratorPtr)malloc(sizeof(struct SorterListIterator));
+	iter -> curr = list -> front; //CURR IS A NODE PTR
+	iter -> curr -> refCount++;
+	iter -> df = list -> df;
+
+	return iter;
+}
 
 /*
  * SLDestroyIterator destroys an iterator object that was created using
@@ -247,8 +263,15 @@ void SLDestroyIterator(SortedListIteratorPtr iter);
  * You need to fill in this function as part of your implementation.
 */
 
-void * SLGetItem( SortedListIteratorPtr iter );
+void * SLGetItem( SortedListIteratorPtr iter ){
 
+	if(iter -> curr -> data == NULL){
+		return 0;
+	}
+
+	return iter -> curr -> data;
+
+}
 /*
  * SLNextItem returns the pointer to the data associated with the
  * next object in the list associated with the given iterator.
