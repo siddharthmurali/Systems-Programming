@@ -1,0 +1,78 @@
+Here is a simple function that locates a value in a singly-linked list. Its arguments are a pointer to the first node in the list and the value to locate.
+
+Node * search_list( Node *node, int const value)
+{
+	while( node != NULL)
+	{
+		if( node -> value == value )
+		{
+			break;
+		}
+		
+		node = node -> link;
+	}
+	
+	return node;
+}
+
+
+	This function looks simple enough, but it works only with linked lists whose values are integers. If you also had a linked list of strings, you would need to write a different function, identical in every respect to this one except for the type of the parameter 'value' and the manner in which the node values are compared.
+
+	A more general approach is to make the searching function typeless so that it will work on lists of values of any type. We must revise two aspects of the function to make it typeless. First, we must change how the comparison is performed so that the function can compare values of any type. This goal sounds impossible. If you write statements to compare integer values, how can they possibly work with other types such as strings? What we need is a way to abstract the comparison so we can fill in whatever kind of comparison we need. The solution lies in using a function pointer.
+	The search's caller must write a function that knows how to compare the values they want to search. The comparison function needs to be handed off to the search function. Since a function is not something that can be copied, the caller can instead create a pointer to the comparison function and hand that to the search function. We can presume the caller knows how to compare the data that they are asking the function to search; since they are giving the data to the search function, it is reasonable to presume the caller knows its type.
+	
+	The second aspect we must change is to pass a pointer to the values being searched, rather than the values themselves, into the comparison function. The problem is that if we pass the value itself, since C passes by value, the search function must declare the type of the parameters beforehand - this is precisely what it doesn't know. C does have a void type, which means no type at all, but you can not create a variable of type void. You can however create a pointer of type void. Recall that all the dynamic memory operations, malloc, calloc and realloc, return void pointers. We can point to anything with a void pointer. The search function can point to the values of unknown type with void pointers, and pass those pointers to the compare function it was passed.
+	
+	Before using the pointers in the comparison function itself, they must be cast to the correct type. A cast circumvents the usual type checking, so you must be very careful that the comparison function is called with proper type of arguments. See the example below:
+	
+	
+/*
+* Function to serach a linked list for a specific value.
+* Arguments are:
+*	node: a pointer to the first node in the list
+*	value: a pointer to the value we're looking for
+*	compare: a pointer to a function that can compare the values in the list
+*/	
+
+#include <stdio.h>
+#include "node.h"
+
+Node * search_list( Node *node, void const *value, int (*compare)(void const *, void const *) )
+{
+	while( node != NULL )
+	{
+		if( compare( &node->value, value) == 0 )
+		{
+			break;
+		}
+		node = node->link;
+	}
+
+	return node;
+}
+
+
+	In this case, the compare function compares two values. The search function passes pointers to the two values to be compared and checks the return value; in this case zero for two values that are equal and nonzero for unequal values. The search function is now typeless beacause it doesn't perform the actual comparison. It is true that the search function's caller must now write the necessary comparison function, but doing so is easy beacause the caller knows the type of the values in the list. If several lists with different types of values are used, writing one comparison function for each type allows a single search function to operate on all of the lists, which is certainly less work then rewriting the entire search function itself for each possible type.
+	
+	Note that the third parameter to the function above is a pointer to a function. The full prototype is used to declare this parameter. Note also that the parameter node is not declared const even though the function never modifies any of the nodes to which it points. If node were declared const the function would have to return a const result, which would restrict the caller from modifying the node that was located.
+	
+	Pointers to the value argument and &node->value are passed to the comparison function. The latter is the value in the node we are currently examining. To search a particular linked list, the user would write the appropriate comparison function and pass pointers to it and to the desired value. For example, here is a comparison function for searching a list of integers:
+	
+int compare_ints( void const *a, void const *b)
+{
+	if( *((int *) a) == *((int  *) b) )
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
+}
+
+	The function would be used like this:
+	
+desired_node = search_list( root, &desired_value, compare_ints);
+
+	Note the casts: The arguments to the comparison function must be declared void* to match the prototype of the search function; they are then cast to int* in order to compare the values as integers in compare_ints. Do not ever try to dereference a void*, they  should always be cast first before you use them.
+	
