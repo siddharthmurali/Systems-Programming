@@ -56,8 +56,8 @@ struct SortedList{
 
 	Nodeptr front;
 	int size;
-	CompareFuncT compareFunc;
-	DestructFuncT destroyFunc;
+	CompareFuncT cf;
+	DestructFuncT df;
 
 };
 

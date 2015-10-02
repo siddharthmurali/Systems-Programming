@@ -19,6 +19,19 @@
 
 SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
 
+	if(cf == NULL || df == NULL){
+		return NULL;
+	}
+
+	SortedListPtr list = (SortedListPtr)malloc(sizeof(struct SortedList));
+	
+	list -> size = 0;
+	list -> cf = cf;
+	list -> df = df;
+	list -> front = NULL;
+
+	retrun list;
+
 }
 
 /*
