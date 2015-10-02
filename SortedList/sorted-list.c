@@ -109,7 +109,7 @@ int SLRemove(SortedListPtr list, void *newObj){
 
 	int compareValue = 1; 
 
-	//If list contains more than 1 node
+	//If list contains more than 1 node, find appropriate node
 	do {
 		compareValue = compFunc((curr->data),newObj);
 
@@ -142,6 +142,7 @@ int SLRemove(SortedListPtr list, void *newObj){
 		}
 	}
 
+	//Delete node if nothing is pointing to it 
 	if (tmp->RefCount==0){
 
 		DeleteNode(tmp);
@@ -190,9 +191,11 @@ void SLDestroyIterator(SortedListIteratorPtr iter){
 	if (iter==NULL) 
 		return; 
 
+	// if iterator points to something, decrease the refcount
 	if (iter->current!=NULL) 
 		iter->current->RefCount--; 
 
+	// if the node that was pointed by the iterator has nothign pointing to it delete it 
 	if ( iter->current->RefCount<1) 
 		DeleteNode(iter->current, iter->destroyFunc); 
 
@@ -230,5 +233,28 @@ void * SLGetItem( SortedListIteratorPtr iter ){
  * You need to fill in this function as part of your implementation.
  */
 
-void * SLNextItem(SortedListIteratorPtr iter);
+void * SLNextItem(SortedListIteratorPtr iter){
+
+	if (iter == NULL) 
+		return; 
+
+	// if iter is at the end of the list	
+	if ( iter->current->next == NULL) 
+		return NUll; 
+	else { 
+
+		Nodeptr tmp = iter->current; 
+		iter->current = tmp->next; 
+		iter->current->RefCount++;
+		tmp->RefCount--;
+
+		if (tmp->RefCount<1) 
+			DeleteNode(tmp, iter->destroyFunc);
+
+		return;
+	}
+	
+
+
+}
 
