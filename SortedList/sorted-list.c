@@ -162,9 +162,12 @@ int SLInsert(SortedListPtr list, void *newObj){
 
 int SLRemove(SortedListPtr list, void *newObj){
 
-Nodeptr curr = list->front; 
+	Nodeptr curr = list->front; 
 	Nodeptr prev = curr; 
 	CompareFuncT compFunc = list->cf; 
+
+	if (curr==NULL) 
+		return 0; 
 
 	//If head is only node
 	if (curr->next==NULL) 
@@ -174,8 +177,8 @@ Nodeptr curr = list->front;
 			list->front=NULL; 
 			curr->RefCount--; 
 			list->size--; 
-			if (cur->RefCount==0)
-				DeleteNode(curr); 	
+			if (curr->RefCount==0)
+				DeleteNode(curr, list->df); 	
 
 			return 1;
 		} 
@@ -193,7 +196,12 @@ Nodeptr curr = list->front;
 		prev=curr; 
 		curr=prev->next;
 
-	} while (curr->next!=NULL)
+	} while (curr!=NULL)
+
+
+	if (compareValue==1)
+		return 0;
+
 
 	//Remove Node
 	Nodeptr tmp = curr;
@@ -218,9 +226,14 @@ Nodeptr curr = list->front;
 
 	if (tmp->RefCount==0){
 
-		DeleteNode(tmp);
+		DeleteNode(tmp, list->df);
+		return 1; 
+	} else {
 
-	}	
+		return 1;
+	}
+
+	return 0;
 }
 
 /* Deletes a node that has nothign pointing to id */ 
@@ -247,12 +260,12 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
 void SLDestroyIterator(SortedListIteratorPtr iter);
 
 	// if iterator points to something, decrease the refcount
-	if (iter->current!=NULL) 
-		iter->current->RefCount--; 
+	if (iter->curr!=NULL) 
+		iter->curr->RefCount--; 
 
 	// if the node that was pointed by the iterator has nothign pointing to it delete it 
-	if ( iter->current->RefCount<1) 
-		DeleteNode(iter->current, iter->destroyFunc); 
+	if ( iter->curr->RefCount<1) 
+		DeleteNode(iter->curr, iter->df); 
 
 	free (iter);
 }
@@ -288,17 +301,17 @@ void * SLNextItem(SortedListIteratorPtr iter){
 		return; 
 
 	// if iter is at the end of the list	
-	if ( iter->current->next == NULL) 
+	if ( iter->curr->next == NULL) 
 		return NUll; 
 	else { 
 
-		Nodeptr tmp = iter->current; 
-		iter->current = tmp->next; 
-		iter->current->RefCount++;
+		Nodeptr tmp = iter->curr; 
+		iter->curr = tmp->next; 
+		iter->curr->RefCount++;
 		tmp->RefCount--;
 
 		if (tmp->RefCount<1) 
-			DeleteNode(tmp, iter->destroyFunc);
+			DeleteNode(tmp, iter->df);
 
 		return;
 	}
