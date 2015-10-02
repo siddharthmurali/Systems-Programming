@@ -162,8 +162,8 @@ int SLInsert(SortedListPtr list, void *newObj){
 
 int SLRemove(SortedListPtr list, void *newObj){
 
-	NodePtr curr = list->head; 
-	NodePtr prev = front; 
+Nodeptr curr = list->front; 
+	Nodeptr prev = curr; 
 	CompareFuncT compFunc = list->cf; 
 
 	//If head is only node
@@ -171,10 +171,10 @@ int SLRemove(SortedListPtr list, void *newObj){
 		if (compFunc((curr->data),newObj)!=0)
 			return 0;
 		else { 
-			list->head=NULL; 
-			curr->ref--; 
-			list->length--; 
-			if (curr->ref==0)
+			list->front=NULL; 
+			curr->RefCount--; 
+			list->size--; 
+			if (cur->RefCount==0)
 				DeleteNode(curr); 	
 
 			return 1;
@@ -183,59 +183,54 @@ int SLRemove(SortedListPtr list, void *newObj){
 
 	int compareValue = 1; 
 
-	//If list contains more than 1 node, find appropriate node
+	//If list contains more than 1 node
 	do {
 		compareValue = compFunc((curr->data),newObj);
 
 		if (compareValue==0) 
 			break;
 		 
-		prev=front; 
+		prev=curr; 
 		curr=prev->next;
 
 	} while (curr->next!=NULL)
 
-
+	//Remove Node
+	Nodeptr tmp = curr;
 
 	if(compareValue==0) {
 
+		//If it is not tail node nor a head node
+		if (tmp->next!=NULL){
 
-		if (
 
+			prev->next=curr->next;
+			tmp->next=NULL;
+			tmp->RefCount--; 
 
+		} else { // If it is a tail node
 
+			prev->next=NULL;
+			tmp->RefCount--;	
+			
+		}
 	}
-	
 
-<<<<<<< HEAD
-	//Delete node if nothing is pointing to it 
 	if (tmp->RefCount==0){
 
 		DeleteNode(tmp);
 
 	}	
-
 }
 
 /* Deletes a node that has nothign pointing to id */ 
-=======
->>>>>>> ec6b642c81d0b7205cb6a4e2c93de15eea9dd4c0
 
+void DeleteNode(Nodeptr ptr, DestructFunct df){
+	
+	df(ptr->data);
+	free(ptr);
 }
 
-
-/*
- * SLCreateIterator creates an iterator object that will allow the caller
- * to "walk" through the list from beginning to the end using SLNextItem.
- *
- * If the function succeeds, it returns a non-NULL pointer to a
- * SortedListIterT object, otherwise it returns NULL.  The SortedListT
- * object should point to the first item in the sorted list, if the sorted
- * list is not empty.  If the sorted list object is empty, then the iterator
- * should have a null pointer.
- *
- * You need to fill in this function as part of your implementation.
- */
 
 SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
 
@@ -251,7 +246,6 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
 
 void SLDestroyIterator(SortedListIteratorPtr iter);
 
-<<<<<<< HEAD
 	// if iterator points to something, decrease the refcount
 	if (iter->current!=NULL) 
 		iter->current->RefCount--; 
@@ -262,8 +256,6 @@ void SLDestroyIterator(SortedListIteratorPtr iter);
 
 	free (iter);
 }
-=======
->>>>>>> ec6b642c81d0b7205cb6a4e2c93de15eea9dd4c0
 
 /*
  * SLGetItem returns the pointer to the data associated with the
@@ -310,8 +302,6 @@ void * SLNextItem(SortedListIteratorPtr iter){
 
 		return;
 	}
-	
-
 
 }
 
