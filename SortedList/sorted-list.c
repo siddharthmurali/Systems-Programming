@@ -28,18 +28,19 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
  */
 void SLDestroy(SortedListPtr list){
 
-	DestructFuncT clear=list->df; 
+	DestructFuncT clear=list->destroyFunc; 
+	Nodeptr curr = list->front;
 
-	while(list->head!=NULL){
+	while(list->front!=NULL){
 	
-		curr=list->head;	
+		curr=list->front;	
 
 		//Clears the data pointed to by the current node
 		if (curr->data!=NULL) 
 			clear(curr->data);
 
 		//Iterates and destroys current node
-		list->head=curr->next;
+		list->front=curr->next;
 		free(curr);
 	}
 	
@@ -74,8 +75,8 @@ int SLInsert(SortedListPtr list, void *newObj);
 
 int SLRemove(SortedListPtr list, void *newObj){
 
-	NodePtr curr = list->head; 
-	NodePtr prev = front; 
+	Nodeptr curr = list->front; 
+	Nodeptr prev = curr; 
 	CompareFuncT compFunc = list->cf; 
 
 	//If head is only node
@@ -83,10 +84,10 @@ int SLRemove(SortedListPtr list, void *newObj){
 		if (compFunc((curr->data),newObj)!=0)
 			return 0;
 		else { 
-			list->head=NULL; 
-			curr->ref--; 
-			list->length--; 
-			if (curr->ref==0)
+			list->front=NULL; 
+			curr->RefCount--; 
+			list->size--; 
+			if (curr->size==0)
 				DeleteNode(curr); 	
 
 			return 1;
@@ -102,17 +103,32 @@ int SLRemove(SortedListPtr list, void *newObj){
 		if (compareValue==0) 
 			break;
 		 
-		prev=front; 
+		prev=curr; 
 		curr=prev->next;
 
 	} while (curr->next!=NULL)
 
-
+	//Remove Node
+	Nodeptr tmp = curr;
 
 	if(compareValue==0) {
 
+		//If it is tail node
+		if (tmp->next!=NULL){
 
-		if (
+
+		prev->next=curr->next;
+		tmp->next= 
+
+
+		} else { // It is not a tail node nor a head node
+
+
+
+
+
+
+		}
 
 
 
