@@ -128,8 +128,8 @@ int SLRemove(SortedListPtr list, void *newObj);
  */
 struct SortedListIterator{
 
-	Nodeptr current;
-	DestroyFuncT destroyFunc;
+	Nodeptr curr;
+	DestroyFuncT df;
 };
 typedef struct SortedListIterator* SortedListIteratorPtr;
 
