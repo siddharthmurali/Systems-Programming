@@ -274,7 +274,7 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
  * You need to fill in this function as part of your implementation.
  */
 
-void SLDestroyIterator(SortedListIteratorPtr iter);
+void SLDestroyIterator(SortedListIteratorPtr iter){
 
 	// if iterator points to something, decrease the refcount
 	if (iter->curr!=NULL) 
