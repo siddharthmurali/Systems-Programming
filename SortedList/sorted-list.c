@@ -41,19 +41,18 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
  */
 void SLDestroy(SortedListPtr list){
 
-	DestructFuncT clear=list->destroyFunc; 
-	Nodeptr curr = list->front;
+	DestructFuncT clear=list->df; 
 
-	while(list->front!=NULL){
+	while(list->head!=NULL){
 	
-		curr=list->front;	
+		curr=list->head;	
 
 		//Clears the data pointed to by the current node
 		if (curr->data!=NULL) 
 			clear(curr->data);
 
 		//Iterates and destroys current node
-		list->front=curr->next;
+		list->head=curr->next;
 		free(curr);
 	}
 	
@@ -71,7 +70,82 @@ void SLDestroy(SortedListPtr list){
  * You need to fill in this function as part of your implementation.
  */
 
-int SLInsert(SortedListPtr list, void *newObj);
+int SLInsert(SortedListPtr list, void *newObj){
+	
+	if(newObj == NULL){
+		return 0;
+	}
+
+	if(list == NULL){
+		return 0;
+	}
+
+	//Populate NewNode data with newObj
+	NodePtr NewNode = (Nodeptr)malloc(sizeof(struct Node));
+	NewNode -> data = newObj;
+	NewNode -> next = NULL:
+	NewNode -> RefCount = 1;
+
+	//If there's nothing in the list, then add NewNode to the front
+	if(list -> size = 0){
+		list -> front = NewNode;
+		list -> size = 1;
+		
+		return 1;
+	}
+	
+	//if list already contains nodes, we need to figure out where to add it
+	if(list -> size != 0){
+	
+		NodePtr curr = list -> front;
+		NodePtr lag = NULL:
+		
+		//Compare data to see where to insert NewNode ----    -1 = 1st is smaller  0 = objects are equal  1 = 2nd object is smaller
+		int val = cf(curr -> data, NewNode -> data);
+		
+		//First deal with val = 0, so curr-> data == NewNode-> data
+		if(val == 0){
+			free(NewNode);
+			df(newObj);
+			return 0;
+		}
+		//If val == -1 then we need to make NewNode the new front
+		if(val == -1){
+			NewNode -> next = list -> front;
+			list -> front = NewNode;
+			list -> size++;
+			return 1;
+		}
+		//If val == 1, then we need to insert NewNode somewhere past front
+		if(val == 1){
+			while(true){
+				lag = curr;
+				curr = curr -> next;
+				
+				//We found a match somewhere in the list so free NewNode
+				if(cf(curr -> data, NewNode -> data) == 0){
+					free(NewNode);
+					return 0;
+				}
+				//We found that curr is less than Newnode in the list so insert right before it
+				if(cf(curr -> data, NewNode -> data) == -1){
+					lag -> next = NewNode;
+					NewNode -> next = curr;
+					list -> size++;
+					return 1;
+				}
+				//We reach the tail of the list and NewNode is still the smallest item, NewNode becomes the new tail
+				if(curr  == NULL){
+					lag -> next = NewNode;
+					list -> size++;
+					return 1;
+				}
+				
+			}
+		}
+
+	return 0;	
+}
 
 
 /*
@@ -88,8 +162,8 @@ int SLInsert(SortedListPtr list, void *newObj);
 
 int SLRemove(SortedListPtr list, void *newObj){
 
-	Nodeptr curr = list->front; 
-	Nodeptr prev = curr; 
+	NodePtr curr = list->head; 
+	NodePtr prev = front; 
 	CompareFuncT compFunc = list->cf; 
 
 	//If head is only node
@@ -97,10 +171,10 @@ int SLRemove(SortedListPtr list, void *newObj){
 		if (compFunc((curr->data),newObj)!=0)
 			return 0;
 		else { 
-			list->front=NULL; 
-			curr->RefCount--; 
-			list->size--; 
-			if (cur->RefCount==0)
+			list->head=NULL; 
+			curr->ref--; 
+			list->length--; 
+			if (curr->ref==0)
 				DeleteNode(curr); 	
 
 			return 1;
@@ -116,32 +190,24 @@ int SLRemove(SortedListPtr list, void *newObj){
 		if (compareValue==0) 
 			break;
 		 
-		prev=curr; 
+		prev=front; 
 		curr=prev->next;
 
 	} while (curr->next!=NULL)
 
-	//Remove Node
-	Nodeptr tmp = curr;
+
 
 	if(compareValue==0) {
 
-		//If it is not tail node nor a head node
-		if (tmp->next!=NULL){
+
+		if (
 
 
-			prev->next=curr->next;
-			tmp->next=NULL;
-			tmp->RefCount--; 
 
-		} else { // If it is a tail node
-
-			prev->next=NULL;
-			tmp->RefCount--;	
-			
-		}
 	}
+	
 
+<<<<<<< HEAD
 	//Delete node if nothing is pointing to it 
 	if (tmp->RefCount==0){
 
@@ -152,13 +218,10 @@ int SLRemove(SortedListPtr list, void *newObj){
 }
 
 /* Deletes a node that has nothign pointing to id */ 
+=======
+>>>>>>> ec6b642c81d0b7205cb6a4e2c93de15eea9dd4c0
 
-static void DeleteNode(Nodeptr ptr, DestructFunct df){
-	
-	df(ptr->data);
-	free(ptr);
 }
-
 
 
 /*
@@ -186,11 +249,9 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
  * You need to fill in this function as part of your implementation.
  */
 
-void SLDestroyIterator(SortedListIteratorPtr iter){
+void SLDestroyIterator(SortedListIteratorPtr iter);
 
-	if (iter==NULL) 
-		return; 
-
+<<<<<<< HEAD
 	// if iterator points to something, decrease the refcount
 	if (iter->current!=NULL) 
 		iter->current->RefCount--; 
@@ -201,6 +262,8 @@ void SLDestroyIterator(SortedListIteratorPtr iter){
 
 	free (iter);
 }
+=======
+>>>>>>> ec6b642c81d0b7205cb6a4e2c93de15eea9dd4c0
 
 /*
  * SLGetItem returns the pointer to the data associated with the
@@ -210,13 +273,7 @@ void SLDestroyIterator(SortedListIteratorPtr iter){
  * You need to fill in this function as part of your implementation.
 */
 
-void * SLGetItem( SortedListIteratorPtr iter ){
-
-
-
-
-
-}
+void * SLGetItem( SortedListIteratorPtr iter );
 
 /*
  * SLNextItem returns the pointer to the data associated with the
