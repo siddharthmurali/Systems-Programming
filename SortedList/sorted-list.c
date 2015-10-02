@@ -30,7 +30,7 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
 	list -> df = df;
 	list -> front = NULL;
 
-	retrun list;
+	return list;
 
 }
 
@@ -234,6 +234,7 @@ void DeleteNode(Nodeptr ptr, DestructFunct df){
 
 SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
 
+	//Obviously if list == null or size == 0 then return null
 	if(list == NULL){
 		return NULL;
 	}
@@ -245,7 +246,7 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
 
 	SortedListIteratorPtr iter = (SortedListIteratorPtr)malloc(sizeof(struct SorterListIterator));
 	iter -> curr = list -> front; //CURR IS A NODE PTR
-	iter -> curr -> refCount++;
+	iter -> curr -> refCount++; //REFCOUNT!!!
 	iter -> df = list -> df;
 
 	return iter;
@@ -283,10 +284,11 @@ void SLDestroyIterator(SortedListIteratorPtr iter);
 
 void * SLGetItem( SortedListIteratorPtr iter ){
 
+	//null check
 	if(iter -> curr -> data == NULL){
 		return 0;
 	}
-
+	//simply return the node data
 	return iter -> curr -> data;
 
 }
@@ -309,6 +311,7 @@ void * SLNextItem(SortedListIteratorPtr iter){
 
 	if (iter == NULL) 
 		return; 
+	
 
 	// if iter is at the end of the list	
 	if ( iter->current->next == NULL) 
