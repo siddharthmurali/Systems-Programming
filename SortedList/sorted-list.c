@@ -162,8 +162,8 @@ int SLInsert(SortedListPtr list, void *newObj){
 
 int SLRemove(SortedListPtr list, void *newObj){
 
-	NodePtr curr = list->head; 
-	NodePtr prev = front; 
+Nodeptr curr = list->front; 
+	Nodeptr prev = curr; 
 	CompareFuncT compFunc = list->cf; 
 
 	//If head is only node
@@ -171,10 +171,10 @@ int SLRemove(SortedListPtr list, void *newObj){
 		if (compFunc((curr->data),newObj)!=0)
 			return 0;
 		else { 
-			list->head=NULL; 
-			curr->ref--; 
-			list->length--; 
-			if (curr->ref==0)
+			list->front=NULL; 
+			curr->RefCount--; 
+			list->size--; 
+			if (cur->RefCount==0)
 				DeleteNode(curr); 	
 
 			return 1;
@@ -190,39 +190,47 @@ int SLRemove(SortedListPtr list, void *newObj){
 		if (compareValue==0) 
 			break;
 		 
-		prev=front; 
+		prev=curr; 
 		curr=prev->next;
 
 	} while (curr->next!=NULL)
 
-
+	//Remove Node
+	Nodeptr tmp = curr;
 
 	if(compareValue==0) {
 
+		//If it is not tail node nor a head node
+		if (tmp->next!=NULL){
 
-		if (
 
+			prev->next=curr->next;
+			tmp->next=NULL;
+			tmp->RefCount--; 
 
+		} else { // If it is a tail node
 
+			prev->next=NULL;
+			tmp->RefCount--;	
+			
+		}
 	}
-	
 
+	if (tmp->RefCount==0){
 
+		DeleteNode(tmp);
+
+	}	
 }
 
+/* Deletes a node that has nothign pointing to id */ 
 
-/*
- * SLCreateIterator creates an iterator object that will allow the caller
- * to "walk" through the list from beginning to the end using SLNextItem.
- *
- * If the function succeeds, it returns a non-NULL pointer to a
- * SortedListIterT object, otherwise it returns NULL.  The SortedListT
- * object should point to the first item in the sorted list, if the sorted
- * list is not empty.  If the sorted list object is empty, then the iterator
- * should have a null pointer.
- *
- * You need to fill in this function as part of your implementation.
- */
+void DeleteNode(Nodeptr ptr, DestructFunct df){
+	
+	df(ptr->data);
+	free(ptr);
+}
+
 
 SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
 
@@ -254,6 +262,16 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list){
 
 void SLDestroyIterator(SortedListIteratorPtr iter);
 
+	// if iterator points to something, decrease the refcount
+	if (iter->current!=NULL) 
+		iter->current->RefCount--; 
+
+	// if the node that was pointed by the iterator has nothign pointing to it delete it 
+	if ( iter->current->RefCount<1) 
+		DeleteNode(iter->current, iter->destroyFunc); 
+
+	free (iter);
+}
 
 /*
  * SLGetItem returns the pointer to the data associated with the
@@ -287,5 +305,26 @@ void * SLGetItem( SortedListIteratorPtr iter ){
  * You need to fill in this function as part of your implementation.
  */
 
-void * SLNextItem(SortedListIteratorPtr iter);
+void * SLNextItem(SortedListIteratorPtr iter){
+
+	if (iter == NULL) 
+		return; 
+
+	// if iter is at the end of the list	
+	if ( iter->current->next == NULL) 
+		return NUll; 
+	else { 
+
+		Nodeptr tmp = iter->current; 
+		iter->current = tmp->next; 
+		iter->current->RefCount++;
+		tmp->RefCount--;
+
+		if (tmp->RefCount<1) 
+			DeleteNode(tmp, iter->destroyFunc);
+
+		return;
+	}
+
+}
 
