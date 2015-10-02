@@ -70,7 +70,79 @@ void SLDestroy(SortedListPtr list){
  * You need to fill in this function as part of your implementation.
  */
 
-int SLInsert(SortedListPtr list, void *newObj);
+int SLInsert(SortedListPtr list, void *newObj){
+	
+	if(newObj == NULL){
+		return 0;
+	}
+
+	if(list == NULL){
+		return 0;
+	}
+
+	//Populate NewNode data with newObj
+	NodePtr NewNode = (Nodeptr)malloc(sizeof(struct Node));
+	NewNode -> data = newObj;
+	NewNode -> next = NULL:
+	NewNode -> RefCount = 1;
+
+	//If there's nothing in the list, then add NewNode to the front
+	if(list -> size = 0){
+		list -> front = NewNode;
+		list -> size = 1;
+		
+		return 1;
+	}
+	
+	//if list already contains nodes, we need to figure out where to add it
+	if(list -> size != 0){
+	
+		NodePtr curr = list -> front;
+		NodePtr lag = NULL:
+		
+		//Compare data to see where to insert NewNode ----    -1 = 1st is smaller  0 = objects are equal  1 = 2nd object is smaller
+		int val = cf(curr -> data, NewNode -> data);
+		
+		//First deal with val = 0, so curr-> data == NewNode-> data
+		if(val == 0){
+			free(NewNode);
+			df(newObj);
+			return 0;
+		}
+		//If val == -1 then we need to make NewNode the new front
+		if(val == -1){
+			NewNode -> next = list -> front;
+			list -> front = NewNode;
+			list -> size++;
+			return 1;
+		}
+		//If val == 1, then we need to insert NewNode somewhere past front
+		if(val == 1){
+			while(true){
+				lag = curr;
+				curr = curr -> next;
+				
+				//We found a match somewhere in the list so free NewNode
+				if(cf(curr -> data, NewNode -> data) == 0){
+					free(NewNode);
+					return 0;
+				}
+				//We found that curr is less than Newnode in the list so insert right before it
+				if(cf(curr -> data, NewNode -> data) == -1){
+					lag -> next = NewNode;
+					NewNode -> next = curr;
+					list -> size++;
+					return 1;
+				}
+				//We reach the tail of the list and NewNode is still the smallest item, NewNode becomes the new tail
+				if(curr  == NULL){
+					lag -> next = NewNode;
+					list -> size++;
+					return 1;
+				}
+				
+			return 0;
+}
 
 
 /*
