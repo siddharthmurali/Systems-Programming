@@ -1,4 +1,4 @@
-fndef SORTED_LIST_H
+#ifndef SORTED_LIST_H
 #define SORTED_LIST_H
 /*
  * sorted-list.h
@@ -28,10 +28,9 @@ fndef SORTED_LIST_H
 *  Your code will have appropriate comparator function and a destruct functions added to it.
  */
 
-typedef Node* Nodeptr;
+typedef struct Node* Nodeptr;
 
 struct Node{
-
 	void* data;
 	Nodeptr next;
 	int RefCount;
@@ -53,7 +52,6 @@ typedef void (*DestructFuncT)( void * );
  * Sorted list type that will hold all the data to be sorted.
  */
 struct SortedList{
-
 	Nodeptr front;
 	int size;
 	CompareFuncT cf;
@@ -127,10 +125,10 @@ int SLRemove(SortedListPtr list, void *newObj);
  * A SortedListIterator provides a one-way traversal through all of a SortedList
  */
 struct SortedListIterator{
-
 	Nodeptr curr;
-	DestroyFuncT df;
+	DestructFuncT df;
 };
+
 typedef struct SortedListIterator* SortedListIteratorPtr;
 
 
@@ -190,6 +188,7 @@ void * SLNextItem(SortedListIteratorPtr iter);
 
 void * SLGetItem( SortedListIteratorPtr iter );
 
+void DeleteNode(Nodeptr ptr, DestructFuncT df);
 
 
 #endif
