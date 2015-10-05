@@ -91,10 +91,10 @@ int SLInsert(SortedListPtr list, void *newObj){
 	NewNode -> RefCount = 1;
 
 	//If there's nothing in the list, then add NewNode to the front
-	if(list -> size = 0){
+	if(list -> size == 0){
 		list -> front = NewNode;
 		list -> size = 1;
-		
+		printf("Front node inserted");		
 		return 1;
 	}
 	
@@ -118,6 +118,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 			NewNode -> next = list -> front;
 			list -> front = NewNode;
 			list -> size++;
+			printf("3rd input");
 			return 1;
 		}
 		//If val == 1, then we need to insert NewNode somewhere past front
@@ -144,7 +145,13 @@ int SLInsert(SortedListPtr list, void *newObj){
 					list -> size++;
 					return 1;
 				}
-				
+			
+				if(curr->next==NULL){
+
+					curr->next=NewNode;
+					return 1;
+	
+				}	
 			}
 		}
 	}

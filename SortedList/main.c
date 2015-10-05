@@ -52,8 +52,10 @@ int main (int argc, char ** argv){
 	int a = 1; 
 	int b = 8; 
 	int c = 6; 	
+	int returnFront = 0 ;
+	returnFront=SLInsert(slInt, (void *)&x);
 
-	SLInsert(slInt, (void *)&x);
+	printf("Front node return value = %d\n", returnFront);
 	SLInsert(slInt, (void *)&y);
 	SLInsert(slInt, (void *)&a);
 	SLInsert(slInt, (void *)&b);
