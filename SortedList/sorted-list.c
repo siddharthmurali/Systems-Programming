@@ -223,7 +223,6 @@ int SLRemove(SortedListPtr list, void *newObj){
 
 
 			prev->next=curr->next;
-			tmp->next=NULL;
 			tmp->RefCount--; 
 
 		} else { // If it is a tail node
@@ -252,7 +251,7 @@ void DeleteNode(Nodeptr ptr, DestructFuncT df){
 	
 	df(ptr->data);
 	printf("deleting node");
-	//free(ptr);
+	free(ptr);
 }
 
 
@@ -315,7 +314,7 @@ void * SLGetItem( SortedListIteratorPtr iter ){
 
 //	printf("%s\n", iter -> curr ->data);
 	//simply return the node data
-	return iter -> curr -> data;
+	return iter -> curr ;
 
 }
 /*
@@ -340,9 +339,9 @@ void * SLNextItem(SortedListIteratorPtr iter){
 	
 
 	// if iter is at the end of the list	
-	if ( iter->curr->next == NULL) 
+	if ( iter->curr->next == NULL){ 
 		return NULL; 
-	else { 
+	}else { 
 
 		Nodeptr tmp = iter->curr; 
 		iter->curr = tmp->next; 
