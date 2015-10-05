@@ -307,7 +307,7 @@ void * SLGetItem( SortedListIteratorPtr iter ){
 		return 0;
 	}
 
-	printf("%s\n", iter -> curr ->data);
+//	printf("%s\n", iter -> curr ->data);
 	//simply return the node data
 	return iter -> curr -> data;
 

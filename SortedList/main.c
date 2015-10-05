@@ -22,13 +22,30 @@ void destroyFunc(void *p){
 	free(p);
 }
 
+void printInt(SortedListPtr list){
+ 	if(list == NULL) {
+		printf("Error. List is null");
+		return;
+	}
+	
+ 	Nodeptr ptr = NULL;
+
+	if (list->front==NULL) 
+		printf("List->front is NULL\n");
+ 	
+	for(ptr = list->front; ptr != NULL; ptr = ptr->next){
+		printf("%d->", *(int*)ptr->data);
+	}
+	printf("\n");
+}
+
 int main (int argc, char ** argv){
 
 	printf("Testing Int Comparing \n");
 
 	
 	SortedListPtr slInt=SLCreate(compInt,destroyFunc);
-	printf("Input is: 3, 5, 1, 8, 9");
+	printf("Input is: 3, 5, 1, 8, 9\n");
 
 	int x = 3; 
 	int y = 5; 
@@ -42,9 +59,11 @@ int main (int argc, char ** argv){
 	SLInsert(slInt, (void *)&b);
 	SLInsert(slInt, (void *)&c);
 
-	SortedListIteratorPtr iter = SLCreateIterator(slInt);
-	SLGetItem(iter);
-	SLNextItem(iter);	
+	printInt(slInt);
+
+//	SortedListIteratorPtr iter = SLCreateIterator(slInt);
+//	SLGetItem(iter);
+//	SLNextItem(iter);	
 
 	return 0;
 }
