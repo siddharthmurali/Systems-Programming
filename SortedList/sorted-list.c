@@ -306,6 +306,8 @@ void * SLGetItem( SortedListIteratorPtr iter ){
 	if(iter -> curr -> data == NULL){
 		return 0;
 	}
+
+	printf("%s\n", iter -> curr ->data);
 	//simply return the node data
 	return iter -> curr -> data;
 
@@ -328,12 +330,12 @@ void * SLGetItem( SortedListIteratorPtr iter ){
 void * SLNextItem(SortedListIteratorPtr iter){
 
 	if (iter == NULL) 
-		return; 
+		return NULL; 
 	
 
 	// if iter is at the end of the list	
 	if ( iter->curr->next == NULL) 
-		return; 
+		return NULL; 
 	else { 
 
 		Nodeptr tmp = iter->curr; 
@@ -344,7 +346,7 @@ void * SLNextItem(SortedListIteratorPtr iter){
 		if (tmp->RefCount<1) 
 			DeleteNode(tmp, iter->df);
 
-		return;
+		return 0;
 	}
 
 }

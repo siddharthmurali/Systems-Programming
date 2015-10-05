@@ -42,6 +42,9 @@ int main (int argc, char ** argv){
 	SLInsert(slInt, (void *)&b);
 	SLInsert(slInt, (void *)&c);
 
-	
+	SortedListIteratorPtr iter = SLCreateIterator(slInt);
+	SLGetItem(iter);
+	SLNextItem(iter);	
+
 	return 0;
 }
