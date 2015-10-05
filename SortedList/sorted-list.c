@@ -94,7 +94,6 @@ int SLInsert(SortedListPtr list, void *newObj){
 	if(list -> size == 0){
 		list -> front = NewNode;
 		list -> size = 1;
-		printf("Front node inserted");		
 		return 1;
 	}
 	
@@ -118,7 +117,6 @@ int SLInsert(SortedListPtr list, void *newObj){
 			NewNode -> next = list -> front;
 			list -> front = NewNode;
 			list -> size++;
-			printf("3rd input");
 			return 1;
 		}
 		//If val == 1, then we need to insert NewNode somewhere past front
@@ -253,7 +251,8 @@ int SLRemove(SortedListPtr list, void *newObj){
 void DeleteNode(Nodeptr ptr, DestructFuncT df){
 	
 	df(ptr->data);
-	free(ptr);
+	printf("deleting node");
+	//free(ptr);
 }
 
 

@@ -19,7 +19,7 @@ int compInt(void * p1, void * p2 ){
 }
 
 void destroyFunc(void *p){
-	free(p);
+	//free(p);
 }
 
 void printInt(SortedListPtr list){
@@ -32,7 +32,8 @@ void printInt(SortedListPtr list){
 
 	if (list->front==NULL) 
 		printf("List->front is NULL\n");
- 	
+ 
+	printf("Sorted List: ");	
 	for(ptr = list->front; ptr != NULL; ptr = ptr->next){
 		printf("%d->", *(int*)ptr->data);
 	}
@@ -41,12 +42,10 @@ void printInt(SortedListPtr list){
 
 int main (int argc, char ** argv){
 
-	printf("Testing Int Comparing \n");
-
-	
 	SortedListPtr slInt=SLCreate(compInt,destroyFunc);
 	printf("Input is: 3, 5, 1, 8, 9\n");
 
+	printf("Testing inserting nodes\n");
 	int x = 3; 
 	int y = 5; 
 	int a = 1; 
@@ -55,13 +54,26 @@ int main (int argc, char ** argv){
 	int returnFront = 0 ;
 	returnFront=SLInsert(slInt, (void *)&x);
 
-	printf("Front node return value = %d\n", returnFront);
 	SLInsert(slInt, (void *)&y);
 	SLInsert(slInt, (void *)&a);
 	SLInsert(slInt, (void *)&b);
 	SLInsert(slInt, (void *)&c);
 
 	printInt(slInt);
+	printf("\n");
+
+	printf("Testing removing nodes\n"); 
+	int d=1;
+	SLRemove(slInt, (void *)&d);
+	printInt(slInt);
+	printf("\n");
+
+	printf("Testing another insertion\n"); 
+	int e=4; 
+	SLInsert(slInt, (void *)&e);
+	printInt(slInt);
+	printf("\n");
+	
 
 //	SortedListIteratorPtr iter = SLCreateIterator(slInt);
 //	SLGetItem(iter);
