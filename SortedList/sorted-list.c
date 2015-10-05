@@ -30,6 +30,8 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
 	list -> df = df;
 	list -> front = NULL;
 
+	printf("check");
+
 	return list;
 
 }
@@ -91,7 +93,7 @@ int SLInsert(SortedListPtr list, void *newObj){
 	NewNode -> RefCount = 1;
 
 	//If there's nothing in the list, then add NewNode to the front
-	if(list -> size = 0){
+	if(list -> size == 0){
 		list -> front = NewNode;
 		list -> size = 1;
 		
