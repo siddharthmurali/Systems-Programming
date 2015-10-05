@@ -22,6 +22,25 @@ void destroyFunc(void *p){
 	free(p);
 }
 
+void printInt(SortedListPtr list){
+ 	if(list == NULL) {
+		printf("Error. Sorted List is null");
+		return;
+	}
+
+	if (list->front == NULL) {
+		printf("Error. list-front is null");
+	}
+	
+ 	Nodeptr ptr = NULL;
+ 	printf("%d\n", *(int *)(list->front->data));	
+	for(ptr = list->front; ptr != NULL; ptr = ptr->next){
+		printf("%d->", *(int*)ptr->data);
+	}
+	printf("\n");
+}
+
+
 int main (int argc, char ** argv){
 
 	printf("Testing Int Comparing \n");
@@ -41,6 +60,8 @@ int main (int argc, char ** argv){
 	SLInsert(slInt, (void *)&a);
 	SLInsert(slInt, (void *)&b);
 	SLInsert(slInt, (void *)&c);
+
+	printInt(slInt);
 
 	
 	return 0;
