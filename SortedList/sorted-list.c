@@ -96,7 +96,6 @@ int SLInsert(SortedListPtr list, void *newObj){
 	if(list -> size == 0){
 		list -> front = NewNode;
 		list -> size = 1;
-		
 		return 1;
 	}
 	
@@ -146,7 +145,13 @@ int SLInsert(SortedListPtr list, void *newObj){
 					list -> size++;
 					return 1;
 				}
-				
+			
+				if(curr->next==NULL){
+
+					curr->next=NewNode;
+					return 1;
+	
+				}	
 			}
 		}
 	}
@@ -220,7 +225,6 @@ int SLRemove(SortedListPtr list, void *newObj){
 
 
 			prev->next=curr->next;
-			tmp->next=NULL;
 			tmp->RefCount--; 
 
 		} else { // If it is a tail node
@@ -248,6 +252,7 @@ int SLRemove(SortedListPtr list, void *newObj){
 void DeleteNode(Nodeptr ptr, DestructFuncT df){
 	
 	df(ptr->data);
+	printf("deleting node");
 	free(ptr);
 }
 
@@ -309,9 +314,9 @@ void * SLGetItem( SortedListIteratorPtr iter ){
 		return 0;
 	}
 
-	printf("%s\n", iter -> curr ->data);
+//	printf("%s\n", iter -> curr ->data);
 	//simply return the node data
-	return iter -> curr -> data;
+	return iter -> curr ;
 
 }
 /*
@@ -336,9 +341,9 @@ void * SLNextItem(SortedListIteratorPtr iter){
 	
 
 	// if iter is at the end of the list	
-	if ( iter->curr->next == NULL) 
+	if ( iter->curr->next == NULL){ 
 		return NULL; 
-	else { 
+	}else { 
 
 		Nodeptr tmp = iter->curr; 
 		iter->curr = tmp->next; 

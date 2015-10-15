@@ -19,32 +19,98 @@ int compInt(void * p1, void * p2 ){
 }
 
 void destroyFunc(void *p){
-	free(p);
+	//free(p);
+}
+
+void printInt(SortedListPtr list){
+ 	if(list == NULL) {
+		printf("Error. List is null");
+		return;
+	}
+	
+ 	Nodeptr ptr = NULL;
+
+	if (list->front==NULL) 
+		printf("List->front is NULL\n");
+ 
+	printf("Sorted List: ");	
+	for(ptr = list->front; ptr != NULL; ptr = ptr->next){
+		printf("%d->", *(int*)ptr->data);
+	}
+	printf("\n");
 }
 
 int main (int argc, char ** argv){
 
-	printf("Testing Int Comparing \n");
-
-	
 	SortedListPtr slInt=SLCreate(compInt,destroyFunc);
-	printf("Input is: 3, 5, 1, 8, 9");
+	printf("\n");
+	printf("Input is: 3, 5, 1, 8, 9\n");
 
+	printf("Testing inserting nodes\n");
 	int x = 3; 
 	int y = 5; 
 	int a = 1; 
 	int b = 8; 
 	int c = 6; 	
+	int returnFront = 0 ;
+	returnFront=SLInsert(slInt, (void *)&x);
 
-	SLInsert(slInt, (void *)&x);
 	SLInsert(slInt, (void *)&y);
 	SLInsert(slInt, (void *)&a);
 	SLInsert(slInt, (void *)&b);
 	SLInsert(slInt, (void *)&c);
 
+	printInt(slInt);
+	printf("\n");
+
+	printf("Testing removing nodes\n"); 
+	int d=1;
+	SLRemove(slInt, (void *)&d);
+	printInt(slInt);
+	printf("\n");
+
+	printf("Testing another insertion\n"); 
+	int e=4; 
+	SLInsert(slInt, (void *)&e);
+	printInt(slInt);
+	printf("\n");
+	
+
+	printf("Testing first iterator");
+	printf("\n");
 	SortedListIteratorPtr iter = SLCreateIterator(slInt);
-	SLGetItem(iter);
+	Nodeptr tmp = SLGetItem(iter);
+	printf("Iterator is pointing to %d\n",*(int *)tmp->data); 
 	SLNextItem(iter);	
+	SLNextItem(iter);	
+	tmp=SLGetItem(iter);
+	printf("Iterator is now pointing to %d\n",*(int *)tmp->data); 
+	printf("\n");
+
+	printf("Testing second iterator");
+	printf("\n");
+	SortedListIteratorPtr iter2 = SLCreateIterator(slInt);
+	Nodeptr tmp2 = SLGetItem(iter2);
+	printf("Iterator is pointing to %d\n",*(int *)tmp2->data); 
+	SLNextItem(iter2);	
+	tmp2=SLGetItem(iter2);
+	printf("Iterator is now pointing to %d\n",*(int *)tmp2->data); 
+	printf("\n");
+
+	printf("Testing removing a node with iterator pointing to it\n"); 
+	printf("Removing a node with one iterator pointing to it.\n"); 
+	int q=6;
+	SLRemove(slInt, (void *)&q);
+	printInt(slInt);
+	tmp2=SLGetItem(iter2);
+	printf("Iterator is still pointing to %d\n",*(int *)tmp2->data); 
+	SLNextItem(iter2);	
+	SLNextItem(iter2);	
+	SLNextItem(iter2);	
+	tmp2=SLGetItem(iter2);
+	printf("After SLNextItem, Iterator is now pointing to %d\n",*(int *)tmp2->data); 
+
+	printf("\n");
 
 	return 0;
 }
