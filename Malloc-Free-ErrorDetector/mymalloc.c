@@ -17,7 +17,7 @@ void *mymalloc(unsigned int size, char * file, int line){
 
 	
 	if (front==null)  
-		intialize=1;
+		intialize=0;
 	
 	if (!intialize){
 		front = (memBlock*)malloc(sizeof(memBlock)); 
