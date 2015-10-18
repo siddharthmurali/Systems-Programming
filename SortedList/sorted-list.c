@@ -30,6 +30,8 @@ SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
 	list -> df = df;
 	list -> front = NULL;
 
+	printf("check");
+
 	return list;
 
 }
