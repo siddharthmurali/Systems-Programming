@@ -250,7 +250,6 @@ int SLRemove(SortedListPtr list, void *newObj){
 void DeleteNode(Nodeptr ptr, DestructFuncT df){
 	
 	df(ptr->data);
-	printf("deleting node");
 	free(ptr);
 }
 

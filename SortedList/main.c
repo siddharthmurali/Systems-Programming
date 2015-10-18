@@ -106,11 +106,17 @@ int main (int argc, char ** argv){
 	printf("Iterator is still pointing to %d\n",*(int *)tmp2->data); 
 	SLNextItem(iter2);	
 	SLNextItem(iter2);	
-	SLNextItem(iter2);	
 	tmp2=SLGetItem(iter2);
 	printf("After SLNextItem, Iterator is now pointing to %d\n",*(int *)tmp2->data); 
 
 	printf("\n");
 
+	printf("Destroying the iterators\n"); 
+	SLDestroyIterator(iter);
+	SLDestroyIterator(iter2); 
+	printf("Success.\n"); 
+	printf("Destroying the list\n");
+	SLDestroy(slInt);
+	printf("Success.\n"); 
 	return 0;
 }
