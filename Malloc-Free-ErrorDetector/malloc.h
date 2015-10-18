@@ -5,12 +5,14 @@
 #define MYMALLOC_H
 
 typedef struct memBlock memBlock;
-struct memBlock{
+struct memBlock{ 		// memBlock struct for each memory "node"
 	memBlock *prev;
 	memBlock *next;
 	int isFree;
 	int size;
 };
+
+// Function definitions to be implemented in malloc.c
 
 void *mymalloc(unsigned int size, char * file, int line);
 void *mycalloc(int numEle, unsigned int size, char *file, int line);
