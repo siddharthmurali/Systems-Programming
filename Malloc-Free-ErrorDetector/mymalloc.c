@@ -21,10 +21,12 @@ void *mycalloc(int numEle, unsigned int size, char *file, int line){
 	if (debug && (front==NULL)) 
 		printf("Front is equal to NULL in Calloc");
 
+	//intializes doubly linked list if first malloc
 	if (front==NULL) {
 		intializer();
 	}
 
+	//checks to see if there are free nodes at the end of the list, each node is a byte. 
 	while(nodeDelptr->isFree==1) {
                 count++;
 
@@ -48,14 +50,15 @@ void *mycalloc(int numEle, unsigned int size, char *file, int line){
 		return (void *) 0;
 	}	
 
-
+	//Deletes the number of nodes needed. Aka when number of free nodes=totalsize
 	while(nodeDelptr->next!=NULL){
 
 		nodeDelptr=nodeDelptr->next; 
 		free(nodeDelptr->prev);	
 	}
 
-	
+
+	//adds a new node to the beginning of the list of size=totalsize	
 	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
 	newBlock->next=front; 
 	front =  newBlock;
@@ -98,6 +101,8 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	if (debug) 
 		printf("Before initialization\n");
 
+
+	//intializes doubly linked list if first malloc
 	if (front==NULL){
 		intializer();
 	}
@@ -114,6 +119,7 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	if (debug)
 		printf("Before while loop: nodedelptr->isFree = %d\n",nodeDelptr->isFree);
 
+	//checks to make sure there are enough free nodes at the end of the list.
 	while(nodeDelptr->isFree==1) {
 		count++;
 
@@ -138,12 +144,17 @@ void *mymalloc(unsigned int size, char * file, int line) {
 		return (void *) 0;
 	}
 
+	//delets the free nodes at the end of the doubly linked list
 	while(nodeDelptr->next!=NULL){
 
 		nodeDelptr=nodeDelptr->next; 
 		free(nodeDelptr->prev);	
 	}
 
+
+	//adds a new node to the beginning of the list of the new mallocd data. This is where the 
+	//free nodes are joined into one node. Ex. malloc(sizeof(int)) ==> 4 free nodes are deleted at 
+	//the end of the list and 1 node of size=4 is created in the beginning
 	
 	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
 	newBlock->next=front; 

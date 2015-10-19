@@ -20,15 +20,21 @@ int main(int argc, char **argv){
 //Implement Test Cases
 
 	printf("\n");
+
+	//MALLOC TEST
 	printf("Preliminary Malloc Tests:\n"); 
 
 	char* s = (char*) malloc(sizeof(char)); 
+	char* a = (char*) malloc(sizeof(char)); 
 
-	s = "d"; 
+	s = "d";
+	a = "s"; 
 	printf("s = %s\n", s); 
+	printf("a = %s\n", a); 
 
 	printf("\n");
 
+	//CALLOC TEST
 	printf("Preliminary Calloc Tests:\n"); 
 
 	int* t = (int*) calloc(3,sizeof(int)); 
@@ -37,6 +43,12 @@ int main(int argc, char **argv){
 	t[1] = 3;
 
 	printf("t[0] = %d and t[1] = %d\n", t[0],t[1]); 
+	printf("\n");
+
+
+	//HEAP STRESS TEST - Heap Overflow 
+	printf("Heap Overflow Test:\n");
+		
 
 return 0;
 }
