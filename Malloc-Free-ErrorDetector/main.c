@@ -19,6 +19,7 @@ int main(int argc, char **argv){
 
 //Implement Test Cases
 
+	printf("\n");
 	printf("Preliminary Malloc Tests:\n"); 
 
 	char* s = (char*) malloc(sizeof(char)); 
@@ -26,8 +27,18 @@ int main(int argc, char **argv){
 	free(s);
 
 	s = "d"; 
-
 	printf("s = %s\n", s); 
+
+	printf("\n");
+
+	printf("Preliminary Calloc Tests:\n"); 
+
+	int* t = (int*) calloc(3,sizeof(int)); 
+
+	t[0] = 2; 
+	t[1] = 3;
+
+	printf("t[0] = %d and t[1] = %d\n", t[0],t[1]); 
 
 return 0;
 }
