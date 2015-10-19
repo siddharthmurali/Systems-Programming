@@ -95,20 +95,12 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	
 	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
 	newBlock->next=front; 
-<<<<<<< HEAD
 	front =  newBlock;
-=======
-	front = newBlock;
->>>>>>> 4c2174b140abf760c54bf30b02621e027972201b
 	newBlock->prev=NULL; 
 	newBlock->size=size; 
 	
 	
-<<<<<<< HEAD
 	return front->data;
-=======
-	return (void *)newBlock->data;
->>>>>>> 6f629371e9f5b2065dee0830f7cbb654adf4087d
 
 }
 
@@ -120,7 +112,7 @@ void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 
 } 
 
-
+/*
 void myfree(void *ptr, char *file, int line){
 	
 	int i;
@@ -151,5 +143,4 @@ void myfree(void *ptr, char *file, int line){
 
 
 
-}
-	
+*/	
