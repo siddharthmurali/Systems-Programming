@@ -8,6 +8,52 @@ int debug = 1;
 
 void *mycalloc(int numEle, unsigned int size, char *file, int line){
 
+	if (size==0){ 
+		printf("ERROR: size of malloc cannot be 0"); 
+		return (void *) 0;
+	}
+
+	int totalsize=numEle*size; 
+	int count = 0; 
+	int spaceCheck = 0;
+	memBlock* nodeDelptr = end;
+
+	while(nodeDelptr->isFree==1) {
+                count++;
+
+                if (debug)
+                        printf("In while loop to delete nodes\n");
+                if (count==totalsize) {
+                        spaceCheck=1;
+                        break;
+
+                }
+
+                if (count>size)
+                        break;
+
+                nodeDelptr=nodeDelptr->prev;
+        }
+
+	if (!spaceCheck) {
+		printf("ERROR: Not enough space to allocate desired size\n"); 
+		return (void *) 0;
+	}	
+
+
+	while(nodeDelptr->next!=NULL){
+
+		nodeDelptr=nodeDelptr->next; 
+		free(nodeDelptr->prev);	
+	}
+
+	
+	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
+	newBlock->next=front; 
+	front =  newBlock;
+	newBlock->prev=NULL; 
+	newBlock->size=totalsize; 
+	newBlock->data = malloc(numEle * (sizeof(size)));
 
 
 }	
@@ -98,6 +144,7 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	front =  newBlock;
 	newBlock->prev=NULL; 
 	newBlock->size=size; 
+	newBlock->data = malloc(sizeof(size));
 	
 	
 	return front->data;
@@ -127,10 +174,6 @@ void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 
 } 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 59348fa1547044e2e6a21e459de3fef7360fc63a
 void myfree(void *ptr, char *file, int line){
 	
 	int i;
@@ -161,7 +204,3 @@ void myfree(void *ptr, char *file, int line){
 
 
 
-<<<<<<< HEAD
-=======
-	
->>>>>>> 59348fa1547044e2e6a21e459de3fef7360fc63a
