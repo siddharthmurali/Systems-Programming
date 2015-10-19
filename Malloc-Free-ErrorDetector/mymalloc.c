@@ -37,6 +37,9 @@ void *mycalloc(int numEle, unsigned int size, char *file, int line){
                         spaceCheck=1;
                         break;
 
+<<<<<<< HEAD
+return 0;
+=======
                 }
 
                 if (count>totalsize)
@@ -65,6 +68,7 @@ void *mycalloc(int numEle, unsigned int size, char *file, int line){
 	newBlock->prev=NULL; 
 	newBlock->size=totalsize; 
 	newBlock->data = malloc(numEle * (sizeof(size)));
+>>>>>>> 2214a2f25ba519127b8e6f414dd0cb383048ac64
 }	
 
 
@@ -137,7 +141,6 @@ void *mymalloc(unsigned int size, char * file, int line) {
 		nodeDelptr=nodeDelptr->prev;	
 	}	
 
-	
 
 	if (!spaceCheck){ 
 		printf("Error: Not enough space to malloc size of %d",size); 
@@ -168,16 +171,23 @@ void *mymalloc(unsigned int size, char * file, int line) {
 
 }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 2214a2f25ba519127b8e6f414dd0cb383048ac64
 /*
 void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 
-	
+	int ptrSize;
+	int ptrIsFree;
+	memBlock* ptrNext;
+	memBlock* ptrPrev;	
 	
 	ptrSize = ptr - (sizeof(int) +1);
-	ptrIsFree = ptrSize -(sizeof(int +1);
-        ptrNext = ptrIsFree -(sizeof(memBlock* +1);
-        ptrPrev = ptrNext - (sizeof(memBlock* + 1);	
-	if(p == NULL){
+	ptrIsFree = ptrSize -(sizeof(int) +1);
+        ptrNext = ptrIsFree -(sizeof(memBlock*) +1);
+        ptrPrev = ptrNext - (sizeof(memBlock*) + 1);	
+	if(ptr == NULL){
 		printf("%s:%d: Error: Cannot realloc to Null", file, line);
 		exit(EXIT_FAILURE);
 	}
@@ -191,31 +201,56 @@ void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 				
 
 } 
+<<<<<<< HEAD
+*/
+=======
+>>>>>>> 2214a2f25ba519127b8e6f414dd0cb383048ac64
 
 void myfree(void *ptr, char *file, int line){
+
+//	printf("seg check\n");
 	
 	int i;
+	void* ptrSize;
+	void* ptrIsFree;	
+	memBlock* ptrNext;
+	memBlock* ptrPrev;
+
+//	printf("seg check\n");
 
 	ptrSize = ptr - (sizeof(int) + 1);
-	ptrIsFree = ptrSize -(sizeof(int +1);
-	ptrNext = ptrIsFree -(sizeof(memBlock* +1);
-	ptrPrev = ptrNext - (sizeof(memBlock* + 1);
-	if(ptrSize ==0){
+	ptrIsFree = ptrSize -(sizeof(int) +1);
+	ptrNext = ptrIsFree -(sizeof(memBlock*) +1);
+	ptrPrev = ptrNext - (sizeof(memBlock*) + 1);
+
+	printf("seg check\n");
+
+	int *ptrSizeUV = ptrSize;
+	
+	printf("%d\n", *ptrSizeUV);
+
+	printf("seg check\n");
+
+	if(ptrSizeUV ==0){
 		printf("Error: Cannot free size 0");
 		return;
 	}
-	
+
+	printf("seg check after EC\n");
+
 	ptrPrev->next = ptrNext;
 
-	else{
-		for(i = 0; i<=ptrSize; i++){
-			memBlock* newBlock = (memBlock*)malloc(sizeof(memBlock));
-			end -> next = newBlock;
-			end = newBlock;
-			end -> isFree = 0;
-		}
-		return;
-	}					
+	printf("seg check before for\n");	
+	for(i = 0; i<=*ptrSizeUV; i++){
+		memBlock* newBlock = (memBlock*)malloc(sizeof(memBlock));
+		end -> next = newBlock;
+		end = newBlock;
+		end -> isFree = 0;
+	}
+
+	printf("free accomplished");
+	return;
+						
 	
 	return;
 }
