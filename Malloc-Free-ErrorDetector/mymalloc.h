@@ -8,9 +8,9 @@ typedef struct memBlock memBlock;
 struct memBlock{ 		// memBlock struct for each memory "node"
 	memBlock *prev;
 	memBlock *next;
-	int isFree
+	int isFree;
 	int size;
-	void data; 
+	void* data; 
 };
 
 // Function definitions to be implemented in malloc.c
