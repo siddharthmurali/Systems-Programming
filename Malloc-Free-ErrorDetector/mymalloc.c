@@ -157,14 +157,3 @@ void myfree(void *ptr, char *file, int line){
 
 
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-
-
-	
-=======
-*/	
->>>>>>> 062513d20e97fd3fbcb92651845521163fc73fa5
->>>>>>> 41e0fbb961afab514d22dd393e0a8df06b71a78e
