@@ -37,9 +37,7 @@ void *mycalloc(int numEle, unsigned int size, char *file, int line){
                         spaceCheck=1;
                         break;
 
-<<<<<<< HEAD
-return 0;
-=======
+			return 0;
                 }
 
                 if (count>totalsize)
@@ -67,8 +65,10 @@ return 0;
 	front =  newBlock;
 	newBlock->prev=NULL; 
 	newBlock->size=totalsize; 
+
 	newBlock->data = malloc(numEle * (sizeof(size)));
->>>>>>> 2214a2f25ba519127b8e6f414dd0cb383048ac64
+
+	return newBlock->data;
 }	
 
 
@@ -171,10 +171,6 @@ void *mymalloc(unsigned int size, char * file, int line) {
 
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 2214a2f25ba519127b8e6f414dd0cb383048ac64
 /*
 void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 
@@ -203,8 +199,6 @@ void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 } 
 <<<<<<< HEAD
 */
-=======
->>>>>>> 2214a2f25ba519127b8e6f414dd0cb383048ac64
 
 void myfree(void *ptr, char *file, int line){
 
@@ -256,4 +250,3 @@ void myfree(void *ptr, char *file, int line){
 }
 
 
-*/

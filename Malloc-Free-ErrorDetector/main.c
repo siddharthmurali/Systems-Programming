@@ -25,12 +25,7 @@ int main(int argc, char **argv){
 	printf("Preliminary Malloc Tests:\n"); 
 
 	char* s = (char*) malloc(sizeof(char)); 
-<<<<<<< HEAD
 	char* a = (char*) malloc(sizeof(char)); 
-=======
-	
-	free(s);
->>>>>>> 654eb69b66bf39a2dd3a5acbceea18602f51c0ab
 
 	s = "d";
 	a = "s"; 
