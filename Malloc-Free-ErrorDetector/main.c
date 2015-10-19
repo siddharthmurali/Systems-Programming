@@ -3,7 +3,6 @@
 #include <string.h>
 #include "mymalloc.c"
 
-
 #define malloc(x) mymalloc(x, __FILE__, __LINE__);
 #define calloc(x, y) mycalloc(x,y, __FILE__, __LINE__);
 #define realloc(x,y) myrealloc(x,y, __FILE__, __LINE__);
@@ -19,6 +18,14 @@ typedef struct node* nodeptr;
 int main(int argc, char **argv){
 
 //Implement Test Cases
+
+	printf("Preliminary Malloc Tests:\n"); 
+
+	char* s = (char*) malloc(sizeof(char)); 
+
+	s = "d"; 
+
+	printf("s = %s\n", s); 
 
 return 0;
 }

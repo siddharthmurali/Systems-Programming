@@ -22,7 +22,7 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	}
 
 	if (debug) 
-		printf("Before initialization");
+		printf("Before initialization\n");
 
 	if (!initialized){
 		front = (memBlock*)malloc(sizeof(memBlock)); 
@@ -45,10 +45,11 @@ void *mymalloc(unsigned int size, char * file, int line) {
 			front=front->next;	
 		}
 		
-		end = front;
+		end = bptr;
 		front = fptr;
 	}
-	
+
+		
 	if (size==0){
 		printf("ERROR: Can't allocate size 0");
 		return (void *) 0;
@@ -58,8 +59,14 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	int count = 0 ;
 	memBlock* nodeDelptr = end;
 
-	while(nodeDelptr->isFree) {
+	if (debug)
+		printf("Before while loop: nodedelptr->isFree = %d\n",nodeDelptr->isFree);
+
+	while(nodeDelptr->isFree==1) {
 		count++;
+
+		if (debug)
+			printf("In while loop to delete nodes\n");
 		if (count==size) {
 			spaceCheck=1; 
 			break;	
@@ -72,6 +79,7 @@ void *mymalloc(unsigned int size, char * file, int line) {
 		nodeDelptr=nodeDelptr->prev;	
 	}	
 
+	
 
 	if (!spaceCheck){ 
 		printf("Error: Not enough space to malloc size of %d",size); 
@@ -87,12 +95,12 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	
 	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
 	newBlock->next=front; 
+	front =  newBlock;
 	newBlock->prev=NULL; 
 	newBlock->size=size; 
 	
 	
 	return (void *)newBlock->data;
-
 
 }
 
@@ -108,19 +116,6 @@ void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 void myfree(void *ptr, char *file, int line){
 
 
-
-//Macro Definitions
-
-#define mymalloc( x ) mymalloc(x, __FILE__, __LINE__)
-#define myfree( x) myfree(x, __FILE__, __LINE__ )
-#define mycalloc(x) mycalloc(x, __FILE__, __LINE__)
-#define myrealloc(x) myrealloc(x, __FILE__, __LINE__)
-
-
-
-
-void myfree(void *ptr, char *file, int line){
-	
 
 
 }
