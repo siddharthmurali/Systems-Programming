@@ -3,14 +3,19 @@
 #include <string.h>
 
 #define MYMALLOC_H
+#define malloc( x ) mymalloc( x, __FILE__, __LINE__ )
+#define free( x ) myfree( x, __FILE__, __LINE__ )
+#define calloc( x , y ) mycalloc( x, y, __FILE__, __LINE__ )
+#define realloc( x , y ) myrealloc( x, y, __FILE__, __LINE__ )
+
 
 typedef struct memBlock memBlock;
 struct memBlock{ 		// memBlock struct for each memory "node"
 	memBlock *prev;
 	memBlock *next;
-	void data; 
 	int isFree;
 	int size;
+	void* data; 
 };
 
 // Function definitions to be implemented in malloc.c
