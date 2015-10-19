@@ -23,11 +23,12 @@ int main(int argc, char **argv){
 	printf("Preliminary Malloc Tests:\n"); 
 
 	char* s = (char*) malloc(sizeof(char)); 
-	
-	free(s);
+		
 
 	s = "d"; 
 	printf("s = %s\n", s); 
+	
+	free(s);
 
 	printf("\n");
 

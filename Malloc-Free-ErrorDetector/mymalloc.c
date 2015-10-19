@@ -35,9 +35,7 @@ void *mycalloc(int numEle, unsigned int size, char *file, int line){
                         spaceCheck=1;
                         break;
 
-<<<<<<< HEAD
 return 0;
-=======
                 }
 
                 if (count>totalsize)
@@ -65,7 +63,6 @@ return 0;
 	newBlock->prev=NULL; 
 	newBlock->size=totalsize; 
 	newBlock->data = malloc(numEle * (sizeof(size)));
->>>>>>> 2214a2f25ba519127b8e6f414dd0cb383048ac64
 }	
 
 
@@ -160,10 +157,6 @@ void *mymalloc(unsigned int size, char * file, int line) {
 
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 2214a2f25ba519127b8e6f414dd0cb383048ac64
 /*
 void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 
@@ -190,10 +183,7 @@ void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 				
 
 } 
-<<<<<<< HEAD
 */
-=======
->>>>>>> 2214a2f25ba519127b8e6f414dd0cb383048ac64
 
 void myfree(void *ptr, char *file, int line){
 
@@ -207,10 +197,10 @@ void myfree(void *ptr, char *file, int line){
 
 //	printf("seg check\n");
 
-	ptrSize = ptr - (sizeof(int) + 1);
-	ptrIsFree = ptrSize -(sizeof(int) +1);
-	ptrNext = ptrIsFree -(sizeof(memBlock*) +1);
-	ptrPrev = ptrNext - (sizeof(memBlock*) + 1);
+	ptrSize = ptr - (sizeof(int));
+	ptrIsFree = ptrSize -(sizeof(int));
+	ptrNext = ptrIsFree -(sizeof(memBlock*));
+	ptrPrev = ptrNext - (sizeof(memBlock*));
 
 	printf("seg check\n");
 
@@ -245,4 +235,4 @@ void myfree(void *ptr, char *file, int line){
 }
 
 
-*/
+
