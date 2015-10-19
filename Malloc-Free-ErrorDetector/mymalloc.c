@@ -103,9 +103,24 @@ void *mymalloc(unsigned int size, char * file, int line) {
 
 void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 
+	
+	
+	ptrSize = ptr - (sizeof(int) +1);
+	ptrIsFree = ptrSize -(sizeof(int +1);
+        ptrNext = ptrIsFree -(sizeof(memBlock* +1);
+        ptrPrev = ptrNext - (sizeof(memBlock* + 1);	
+	if(p == NULL){
+		printf("%s:%d: Error: Cannot realloc to Null", file, line);
+		exit(EXIT_FAILURE);
+	}
+	else{
+		ptrSize = size;
+		ptrNext = front;
+		front = ptrNext;
+	}
 
-
-
+	return ptr;
+				
 
 } 
 
@@ -149,9 +164,4 @@ void myfree(void *ptr, char *file, int line){
 
 
 
-void myfree(void *ptr, char *file, int line){
-	
-
-
-}
 	
