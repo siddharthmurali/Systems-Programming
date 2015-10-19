@@ -95,12 +95,20 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	
 	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
 	newBlock->next=front; 
+<<<<<<< HEAD
 	front =  newBlock;
+=======
+	front = newBlock;
+>>>>>>> 4c2174b140abf760c54bf30b02621e027972201b
 	newBlock->prev=NULL; 
 	newBlock->size=size; 
 	
 	
+<<<<<<< HEAD
+	return front->data;
+=======
 	return (void *)newBlock->data;
+>>>>>>> 6f629371e9f5b2065dee0830f7cbb654adf4087d
 
 }
 
@@ -114,7 +122,32 @@ void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 
 
 void myfree(void *ptr, char *file, int line){
+	
+	int i;
 
+	ptrSize = ptr - (sizeof(int) + 1);
+	ptrIsFree = ptrSize -(sizeof(int +1);
+	ptrNext = ptrIsFree -(sizeof(memBlock* +1);
+	ptrPrev = ptrNext - (sizeof(memBlock* + 1);
+	if(ptrSize ==0){
+		printf("Error: Cannot free size 0");
+		return;
+	}
+	
+	ptrPrev->next = ptrNext;
+
+	else{
+		for(i = 0; i<=ptrSize; i++){
+			memBlock* newBlock = (memBlock*)malloc(sizeof(memBlock));
+			end -> next = newBlock;
+			end = newBlock;
+			end -> isFree = 0;
+		}
+		return;
+	}					
+	
+	return;
+}
 
 
 
