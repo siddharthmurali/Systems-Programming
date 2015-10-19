@@ -127,7 +127,7 @@ void *myrealloc(void *ptr, unsigned int size, char *file, int line){
 
 } 
 
-/*
+
 void myfree(void *ptr, char *file, int line){
 	
 	int i;
@@ -158,11 +158,4 @@ void myfree(void *ptr, char *file, int line){
 
 
 
-<<<<<<< HEAD
-
-
-
 	
-=======
-*/	
->>>>>>> 062513d20e97fd3fbcb92651845521163fc73fa5
