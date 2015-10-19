@@ -32,6 +32,8 @@ int main(int argc, char **argv){
 	printf("s = %s\n", s); 
 	printf("a = %s\n", a); 
 
+	free(s); 
+
 	printf("\n");
 
 	//CALLOC TEST
