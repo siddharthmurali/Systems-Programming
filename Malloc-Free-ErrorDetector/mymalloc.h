@@ -20,3 +20,4 @@ void *mycalloc(int numEle, unsigned int size, char *file, int line);
 void *myrealloc(void *ptr, unsigned int size, char *file, int line);
 void myfree(void *ptr, char *file, int line);
 
+void intializer();
