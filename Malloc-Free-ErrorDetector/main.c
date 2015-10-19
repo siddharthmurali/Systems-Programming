@@ -22,6 +22,8 @@ int main(int argc, char **argv){
 	printf("Preliminary Malloc Tests:\n"); 
 
 	char* s = (char*) malloc(sizeof(char)); 
+	
+	free(s);
 
 	s = "d"; 
 
