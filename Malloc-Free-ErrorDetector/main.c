@@ -38,7 +38,6 @@ int main(int argc, char **argv){
 	
 	free(s);
 	free(d);
-
 	printf("\n");
 
 	//REALLOC TEST

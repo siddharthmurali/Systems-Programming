@@ -12,7 +12,7 @@ void intializer() {
 	// intialize the 5000 nodes for the linked list
 	front = (memBlock*)malloc(sizeof(memBlock)); 
 	front->isFree = 1;
-	front->size = 0; 
+	front->size = 1; 
 	front->prev=NULL;
 	front->next=NULL;
 	memBlock* fptr=front;
@@ -83,13 +83,17 @@ void *mymalloc(unsigned int size, char * file, int line) {
 		return (void *) 0;
 	}
 
-	//delets the free nodes at the end of the doubly linked list
-	while(nodeDelptr->next!=NULL){
+	end=nodeDelptr;
 
-		nodeDelptr=nodeDelptr->next; 
-		free(nodeDelptr->prev);	
+	//delets the free nodes at the end of the doubly linked list
+	memBlock* temp = nodeDelPtr->next;
+	while(nodeDelptr->next!=NULL){
+		nodeDelptr=temp->next; 
+		free(temp);
+		temp=nodeDelptr;	
 	}
 
+	free(temp);
 
 	//adds a new node to the beginning of the list of the new mallocd data. This is where the 
 	//free nodes are joined into one node. Ex. malloc(sizeof(int)) ==> 4 free nodes are deleted at 
@@ -123,6 +127,10 @@ void *mymalloc(unsigned int size, char * file, int line) {
 }
 
 void myfree(void *ptr, char *file, int line){
+	printf("\n");
+	printf("Entering myFree\n");
+
+	printf("ptr Add: %p\n", ptr);
 	int i;
 	int x = 0;	
 	memBlock * nodePtr;
@@ -141,6 +149,8 @@ void myfree(void *ptr, char *file, int line){
 			break;
 		}
 	}
+	printf("nodePtr Add: %p\n", &nodePtr);
+	printf("nodePtr Add: %p\n", nodePtr);
 
 	//Error for non-existant node pointer
 	if(x== 0){
