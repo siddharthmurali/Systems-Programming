@@ -61,11 +61,21 @@ void *mycalloc(int numEle, unsigned int size, char *file, int line){
 	//adds a new node to the beginning of the list of size=totalsize	
 	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
 	newBlock->next=front; 
-	front =  newBlock;
 	newBlock->prev=NULL; 
 	newBlock->size=totalsize; 
-
 	newBlock->data = malloc(numEle * (sizeof(size)));
+
+	front =  newBlock;
+
+	//adds information to the memory map
+	int y=0; 
+	for(y=0;y<sizeof(map);y++){
+
+		if(map[y].memAddr==0) {
+			map[y].memAddr = newBlock;
+			map[y].dataAddr = newBlock->data;
+		}
+	}
 
 	return newBlock->data;
 }	
@@ -185,7 +195,10 @@ void *mymalloc(unsigned int size, char * file, int line) {
 
 	for(y=0;y<sizeof(map);y++){
 
-
+		if(map[y].memAddr==0) {
+			map[y].memAddr = newBlock;
+			map[y].dataAddr = newBlock->data;
+		}
 	}
 
 	return newBlock->data;
@@ -231,20 +244,14 @@ void myfree(void *ptr, char *file, int line){
 
 //	printf("seg check\n");
 
-	void * strucAdd = ptr - sizeof(long);
-	printf("Size of long = %lu\n",sizeof(long)); 
-	printf("Address of structAdd = %p and Address of ptr = %p\n",&strucAdd,&ptr);	
-	long tmp=*((long*)strucAdd);
-	printf("tmp of address = %lu\n",tmp);
-	void* p =(void *) tmp; 
+	
 	
 	ptrSize = p - (sizeof(int));
 	ptrIsFree = ptrSize -(sizeof(int));
 	ptrNext = ptrIsFree -(sizeof(memBlock*));
 	ptrPrev = ptrNext - (sizeof(memBlock*));
 
-	printf("seg check: tmp=%lu\n",tmp);
-	printf("ptrsize address = %p\n",&ptrSize);
+	printf("seg check");
 
 	int ptrSizeUV = *((int *)ptrSize);
 
