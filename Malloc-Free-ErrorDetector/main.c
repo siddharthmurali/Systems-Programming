@@ -25,23 +25,24 @@ int main(int argc, char **argv){
 	printf("Preliminary Malloc Tests:\n"); 
 
 	char* s = (char*) malloc(sizeof(char)); 
-<<<<<<< HEAD
-		
-=======
 	char* a = (char*) malloc(sizeof(char)); 
->>>>>>> db9d7334360564e828b3240a6c944a58dfb51eb3
 
 	s = "d";
 	a = "s"; 
+
+	free(s)
 	printf("s = %s\n", s); 
-<<<<<<< HEAD
-	
-	free(s);
-=======
+
 	printf("a = %s\n", a); 
->>>>>>> db9d7334360564e828b3240a6c944a58dfb51eb3
 
 	printf("\n");
+
+	//REALLOC TEST
+
+	char *str;
+	
+//	str = (char *)malloc(15);
+//	str = (char *)realloc(str, 25);
 
 	//CALLOC TEST
 	printf("Preliminary Calloc Tests:\n"); 
