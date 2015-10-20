@@ -114,7 +114,7 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	newBlock->prev=NULL; 
 	newBlock->size=size; 
 	newBlock->data=(void *) malloc(sizeof(size));
-	
+	newBlock->isFree = 0;	
 	
 	front =  newBlock;
 
@@ -128,11 +128,19 @@ void *mymalloc(unsigned int size, char * file, int line) {
 			map[y].memAddr = newBlock;
 			map[y].dataAddr = newBlock->data;
 			printf("inserted data into map\n");
+			break;
+
 		}
-		break;
+		
 	}
 
+<<<<<<< HEAD
 	printf("newblock->data Addr: %p\n", newBlock->data);
+=======
+	printf("map[0] memAddr Data: %p\n", map[0].memAddr);
+	printf("newBlock Add: %p\n", newBlock);
+	printf("newBlock->Data: %p\n", newBlock->data);
+>>>>>>> 30250618dad077483af307d268ceef99ffba1f45
 	return newBlock->data;
 }
 
@@ -145,17 +153,24 @@ void myfree(void *ptr, char *file, int line){
 	memBlock * nodePtr;
 	printf("myFree: initialized nodePtr\n");
 	for(i=0; i<5000; i++){
-		if(map[i].dataAddr == &ptr){
+		if(map[i].dataAddr == ptr){
 			nodePtr = map[i].memAddr;
 			printf("Found data in map\n");
+			break;
 		}
-		break;
 	}
+<<<<<<< HEAD
 	printf("nodePtr Add: %p\n", &nodePtr);
+=======
+	printf("nodePtr Add: %p\n", nodePtr);
 
-	//int size = nodePtr->size;
-	//printf("nodePtr size: %d\n", size);
-	//ptrPrev->next = ptrNext;
+	int isFree = nodePtr->isFree;
+	printf("nodePtr isFree?: %d\n", isFree);
+>>>>>>> 30250618dad077483af307d268ceef99ffba1f45
+
+	memBlock* nodePtrPrev = nodePtr->prev;
+	printf("nodePtrPrev size: %d\n", nodePtrPrev->size);
+	//nodePtrPrev->next = nodePtr->next;
 
 	/*
 	for(i = 0; i<=ptrSizeUV; i++){
