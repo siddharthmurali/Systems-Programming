@@ -31,7 +31,11 @@ int main(int argc, char **argv){
 	*d = 20;
 	*s = 10;
 
-	printf("s = %d and d=%d\n", *s,*d); 
+	//FREE TEST
+	printf("Preliminary Free Tests:\n");
+	
+	free(s);
+	free(d);
 	printf("\n");
 
 	//FREE TEST

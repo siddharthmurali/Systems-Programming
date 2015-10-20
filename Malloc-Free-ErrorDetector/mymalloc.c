@@ -5,8 +5,6 @@
 static memBlock* front; 
 static memBlock* end;
 static memMap* map;
-int debug = 0;
-
 
 void intializer() {
 	int x=0 ;
@@ -44,17 +42,10 @@ void intializer() {
 		map[y].memAddr = 0; 
 		map[y].dataAddr = 0;
 	}
-	
-	if (debug)
-		printf("Map 3 values: %p and %p\n",map[2].memAddr, map[2].dataAddr);
 }
 
 void *mymalloc(unsigned int size, char * file, int line) {
 	int x=0;
-
-	if (debug) 
-		printf("Before initialization\n");
-
 
 	//intializes doubly linked list if first malloc
 	if (front==NULL){
@@ -70,15 +61,10 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	int count = 0 ;
 	memBlock* nodeDelptr = end;
 
-	if (debug)
-		printf("Before while loop: nodedelptr->isFree = %d\n",nodeDelptr->isFree);
-
 	//checks to make sure there are enough free nodes at the end of the list.
 	while(nodeDelptr->isFree==1) {
 		count++;
 
-		if (debug)
-			printf("In while loop to delete nodes\n");
 		if (count==size) {
 			spaceCheck=1; 
 			break;	
@@ -131,17 +117,12 @@ void *mymalloc(unsigned int size, char * file, int line) {
 		if(map[y].memAddr==0) {
 			map[y].memAddr = newBlock;
 			map[y].dataAddr = newBlock->data;
-			printf("inserted data into map\n");
 			break;
 
 		}
 		
 	}
 
-	printf("newblock->data Addr: %p\n", newBlock->data);
-	printf("map[0] memAddr Data: %p\n", map[0].memAddr);
-	printf("newBlock Add: %p\n", newBlock);
-	printf("newBlock->Data: %p\n", newBlock->data);
 	return newBlock->data;
 }
 
@@ -171,8 +152,17 @@ void myfree(void *ptr, char *file, int line){
 		printf("Error: pointer was never allocated to memory\n");
 	}
 
-	//Delete current node
-	nodePtr->prev->next = nodePtr->next;
+	//Delete current nod
+	if(nodePtr->prev == NULL){
+		front = nodePtr->next;
+	}
+	else if(nodePtr == end){
+		end = end->prev;
+	}
+	else{
+		nodePtr->prev->next = nodePtr->next;
+	}
+	
 
 	//repopulate list with # nodes = size(nodePtr)
 	for(i = 0; i<=nodePtr->size; i++){
@@ -188,6 +178,5 @@ void myfree(void *ptr, char *file, int line){
 	
 	return;
 						
-	
 }
 
