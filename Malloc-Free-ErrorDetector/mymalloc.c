@@ -132,15 +132,15 @@ void *mymalloc(unsigned int size, char * file, int line) {
 		break;
 	}
 
-	printf("neblockData Add: %d\n", newBlock->data);
-	printf("newBlock Add: %d\n", &newBlock);
+	printf("newblock->data Addr: %p\n", newBlock->data);
 	return newBlock->data;
 }
 
 void myfree(void *ptr, char *file, int line){
+	printf("\n");
 	printf("Entering myFree\n");
 
-	printf("ptr Add: %d\n", &ptr);
+	printf("ptr Add: %p\n", ptr);
 	int i;
 	memBlock * nodePtr;
 	printf("myFree: initialized nodePtr\n");
@@ -151,7 +151,7 @@ void myfree(void *ptr, char *file, int line){
 		}
 		break;
 	}
-	printf("nodePtr Add: %d\n", &nodePtr);
+	printf("nodePtr Add: %p\n", &nodePtr);
 
 	//int size = nodePtr->size;
 	//printf("nodePtr size: %d\n", size);

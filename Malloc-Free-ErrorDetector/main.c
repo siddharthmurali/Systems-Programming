@@ -24,22 +24,21 @@ int main(int argc, char **argv){
 	//MALLOC TEST
 	printf("Preliminary Malloc Tests:\n"); 
 
-	char* s = (char*) malloc(sizeof(char)); 
+	char* s = (char*) malloc(sizeof(char)*2); 
 	//char* a = (char*) malloc(sizeof(char)); 
 
-	s = "d";
+	*s = "c";
 	//a = "s"; 
 
 	//FREE TEST
 	printf("Preliminary Free Tests:\n");
 	
-	free(s)
 	printf("s = %s\n", s); 
+	free(s)
 
+	printf("s = %s\n", s); 
 	//printf("a = %s\n", a); 
 
-	s = "d";
-	printf("s = %s\n", s); 
 
 	printf("\n");
 
