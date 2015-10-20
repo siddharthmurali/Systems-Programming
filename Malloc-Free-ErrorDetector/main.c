@@ -24,12 +24,6 @@ int main(int argc, char **argv){
 	//MALLOC TEST
 	printf("Preliminary Malloc Tests:\n"); 
 
-<<<<<<< HEAD
-	char* s = (char*) malloc(sizeof(char)*2); 
-	//char* a = (char*) malloc(sizeof(char)); 
-
-	*s = "c";
-=======
 	int* s = (int*) malloc(sizeof(int)); 
 	//char* a = (char*) malloc(sizeof(char)); 
 
@@ -37,23 +31,13 @@ int main(int argc, char **argv){
 
 	*d = 20;
 	*s = 10;
->>>>>>> 30250618dad077483af307d268ceef99ffba1f45
 	//a = "s"; 
 
 	//FREE TEST
 	printf("Preliminary Free Tests:\n");
 	
-<<<<<<< HEAD
-	printf("s = %s\n", s); 
+	printf("s = %d\n", *s); 
 	free(s)
-
-	printf("s = %s\n", s); 
-	//printf("a = %s\n", a); 
-
-=======
-	free(s)
->>>>>>> 30250618dad077483af307d268ceef99ffba1f45
-
 	printf("\n");
 
 	//REALLOC TEST
