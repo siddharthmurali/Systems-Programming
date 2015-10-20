@@ -15,7 +15,7 @@ struct memBlock{ 		// memBlock struct for each memory "node"
 
 typedef struct memMapping memMap; 
 struct memMapping {
-	void* memAddr; 
+	memBlock* memAddr; 
 	void* dataAddr;
 };
 

@@ -4,8 +4,8 @@
 #include "mymalloc.c"
 
 #define malloc(x) mymalloc(x, __FILE__, __LINE__);
-#define calloc(x, y) mycalloc(x,y, __FILE__, __LINE__);
-#define realloc(x,y) myrealloc(x,y, __FILE__, __LINE__);
+//#define calloc(x, y) mycalloc(x,y, __FILE__, __LINE__);
+//#define realloc(x,y) myrealloc(x,y, __FILE__, __LINE__);
 #define free(x) myfree(x, __FILE__, __LINE__);
 
 struct node{
@@ -25,21 +25,21 @@ int main(int argc, char **argv){
 	printf("Preliminary Malloc Tests:\n"); 
 
 	char* s = (char*) malloc(sizeof(char)); 
-<<<<<<< HEAD
-	char* a = (char*) malloc(sizeof(char)); 
+	//char* a = (char*) malloc(sizeof(char)); 
 
 	s = "d";
-	a = "s"; 
+	//a = "s"; 
 
+	//FREE TEST
+	printf("Preliminary Free Tests:\n");
+	
 	free(s)
 	printf("s = %s\n", s); 
 
-	printf("a = %s\n", a); 
-=======
+	//printf("a = %s\n", a); 
 
 	s = "d";
 	printf("s = %s\n", s); 
->>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
 
 	printf("\n");
 

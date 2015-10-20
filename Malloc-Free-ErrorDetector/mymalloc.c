@@ -4,93 +4,8 @@
 
 static memBlock* front; 
 static memBlock* end;
-<<<<<<< HEAD
-=======
 static memMap* map;
->>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
 int debug = 0;
-
-void *mycalloc(int numEle, unsigned int size, char *file, int line){
-
-	if (size==0){ 
-		printf("ERROR: size of malloc cannot be 0"); 
-		return (void *) 0;
-	}
-
-	int totalsize=numEle*size; 
-	int count = 0; 
-	int spaceCheck = 0;
-	memBlock* nodeDelptr = end;
-
-	if (debug && (front==NULL)) 
-		printf("Front is equal to NULL in Calloc");
-
-	//intializes doubly linked list if first malloc
-	if (front==NULL) {
-		intializer();
-	}
-
-	//checks to see if there are free nodes at the end of the list, each node is a byte. 
-	while(nodeDelptr->isFree==1) {
-                count++;
-
-                if (debug)
-                        printf("In while loop to delete nodes, count = %d and totalsize = %d\n",count,totalsize);
-
-                if (count==totalsize) {
-                        spaceCheck=1;
-                        break;
-<<<<<<< HEAD
-
-return 0;
-			return 0;
-=======
->>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
-                }
-
-                if (count>totalsize)
-                        break;
-
-                nodeDelptr=nodeDelptr->prev;
-        }
-
-	if (!spaceCheck) {
-		printf("ERROR: Not enough space to allocate desired size\n"); 
-		return (void *) 0;
-	}	
-
-	//Deletes the number of nodes needed. Aka when number of free nodes=totalsize
-	while(nodeDelptr->next!=NULL){
-
-		nodeDelptr=nodeDelptr->next; 
-		free(nodeDelptr->prev);	
-	}
-
-
-	//adds a new node to the beginning of the list of size=totalsize	
-	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
-	newBlock->next=front; 
-	newBlock->prev=NULL; 
-	newBlock->size=totalsize; 
-	newBlock->data = malloc(numEle * (sizeof(size)));
-<<<<<<< HEAD
-=======
-
-	front =  newBlock;
-
-	//adds information to the memory map
-	int y=0; 
-	for(y=0;y<sizeof(map);y++){
-
-		if(map[y].memAddr==0) {
-			map[y].memAddr = newBlock;
-			map[y].dataAddr = newBlock->data;
-		}
-	}
->>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
-
-	return newBlock->data;
-}	
 
 
 void intializer() {
@@ -200,118 +115,60 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	newBlock->size=size; 
 	newBlock->data=(void *) malloc(sizeof(size));
 	
-<<<<<<< HEAD
 	
-	return front->data;
-=======
 	front =  newBlock;
 
+	
 	//adds the malloc to the memory map 
-	int y=0; 
+	int y; 
 
 	for(y=0;y<sizeof(map);y++){
 
 		if(map[y].memAddr==0) {
 			map[y].memAddr = newBlock;
 			map[y].dataAddr = newBlock->data;
+			printf("inserted data into map\n");
 		}
+		break;
 	}
 
+	printf("neblockData Add: %d\n", newBlock->data);
+	printf("newBlock Add: %d\n", &newBlock);
 	return newBlock->data;
->>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
 }
 
-/*
-void *myrealloc(void *ptr, unsigned int size, char *file, int line){
-
-	void* ptrSize;
-	int ptrIsFree;
-	memBlock* ptrNext;
-	memBlock* ptrPrev;	
-	
-	ptrSize = &ptr - (sizeof(int));
-
-	int* ptrSizeUV = ptrSize;	
-	printf("%d\n", *ptrSizeUV);
-
-	ptrIsFree = ptrSize -(sizeof(int));
-        ptrNext = ptrIsFree -(sizeof(memBlock*));
-        ptrPrev = ptrNext - (sizeof(memBlock*));	
-
-	if(ptr == NULL){
-		printf("%s:%d: Error: Cannot realloc to Null", file, line);
-		exit(EXIT_FAILURE);
-	}
-	else{
-		ptrSize = size;
-		ptrNext = front;
-		front = ptrNext;
-	}
-
-	printf("Accomplished Realloc\n");
-	return ptr;
-				
-
-} 
-*/
-
-
 void myfree(void *ptr, char *file, int line){
+	printf("Entering myFree\n");
 
-//	printf("seg check\n");
-	
+	printf("ptr Add: %d\n", &ptr);
 	int i;
-	void* ptrSize;
-	void* ptrIsFree;	
-	memBlock* ptrNext;
-	memBlock* ptrPrev;
-
-//	printf("seg check\n");
-
-<<<<<<< HEAD
-	ptrSize = &ptr - (sizeof(int));
-=======
-	
-	
-	ptrSize = p - (sizeof(int));
->>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
-	ptrIsFree = ptrSize -(sizeof(int));
-	ptrNext = ptrIsFree -(sizeof(memBlock*));
-	ptrPrev = ptrNext - (sizeof(memBlock*));
-
-	printf("seg check");
-
-	int ptrSizeUV = *((int *)ptrSize);
-
-	printf("%d\n", ptrSizeUV);
-
-	printf("seg check\n");
-
-	if(ptrSizeUV ==0){
-		printf("Error: Cannot free size 0");
-		return;
+	memBlock * nodePtr;
+	printf("myFree: initialized nodePtr\n");
+	for(i=0; i<5000; i++){
+		if(map[i].dataAddr == &ptr){
+			nodePtr = map[i].memAddr;
+			printf("Found data in map\n");
+		}
+		break;
 	}
+	printf("nodePtr Add: %d\n", &nodePtr);
 
-	printf("seg check after EC\n");
+	//int size = nodePtr->size;
+	//printf("nodePtr size: %d\n", size);
+	//ptrPrev->next = ptrNext;
 
-	ptrPrev->next = ptrNext;
-
-	printf("seg check before for\n");	
+	/*
 	for(i = 0; i<=ptrSizeUV; i++){
 		memBlock* newBlock = (memBlock*)malloc(sizeof(memBlock));
 		end -> next = newBlock;
 		end = newBlock;
 		end -> isFree = 0;
 	}
+	*/
 
 	printf("free accomplished");
 	return;
 						
 	
-	return;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
