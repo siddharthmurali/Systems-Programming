@@ -20,42 +20,26 @@ int main(int argc, char **argv){
 //Implement Test Cases
 
 	printf("\n");
-
+	//PreliminaryTests
+	
 	//MALLOC TEST
 	printf("Preliminary Malloc Tests:\n"); 
 
 	int* s = (int*) malloc(sizeof(int)); 
-	//char* a = (char*) malloc(sizeof(char)); 
-
 	int* d = (int*) malloc(sizeof(int));
 
 	*d = 20;
 	*s = 10;
-	//a = "s"; 
+
+	printf("s = %d and d=%d\n", *s,*d); 
+	printf("\n");
 
 	//FREE TEST
 	printf("Preliminary Free Tests:\n");
 	
-	printf("s = %d\n", *s); 
-	free(s)
-	printf("\n");
-
-	//REALLOC TEST
-
-	char *str;
-	
-//	str = (char *)malloc(15);
-//	str = (char *)realloc(str, 25);
-
-	//CALLOC TEST
-	printf("Preliminary Calloc Tests:\n"); 
-
-	int* t = (int*) calloc(3,sizeof(int)); 
-
-	t[0] = 2; 
-	t[1] = 3;
-
-	printf("t[0] = %d and t[1] = %d\n", t[0],t[1]); 
+	free(s);
+	free(d);
+	printf("s and d freed successfully");
 	printf("\n");
 
 

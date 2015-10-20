@@ -100,7 +100,7 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	end=nodeDelptr;
 
 	//delets the free nodes at the end of the doubly linked list
-	memBlock* temp = nodeDelPtr->next;
+	memBlock* temp = nodeDelptr->next;
 	while(nodeDelptr->next!=NULL){
 		nodeDelptr=temp->next; 
 		free(temp);
@@ -146,10 +146,7 @@ void *mymalloc(unsigned int size, char * file, int line) {
 }
 
 void myfree(void *ptr, char *file, int line){
-	printf("\n");
-	printf("Entering myFree\n");
 
-	printf("ptr Add: %p\n", ptr);
 	int i;
 	int x = 0;	
 	memBlock * nodePtr;
@@ -168,8 +165,6 @@ void myfree(void *ptr, char *file, int line){
 			break;
 		}
 	}
-	printf("nodePtr Add: %p\n", &nodePtr);
-	printf("nodePtr Add: %p\n", nodePtr);
 
 	//Error for non-existant node pointer
 	if(x== 0){
