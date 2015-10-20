@@ -119,7 +119,7 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	newBlock->size=size; 
 	newBlock->data=(void *) malloc(sizeof(size));
 	newBlock->isFree = 0;	
-	front->prev=newBlock;	
+	front->prev = newBlock;
 	front =  newBlock;
 
 	
@@ -151,35 +151,46 @@ void myfree(void *ptr, char *file, int line){
 
 	printf("ptr Add: %p\n", ptr);
 	int i;
+	int x = 0;	
 	memBlock * nodePtr;
-	printf("myFree: initialized nodePtr\n");
+
+	//Initial Null Check
+	if(ptr == NULL){
+		printf("Error: Cannot free pointer that does not exist\n");
+	}
+
+	//Check pointer map for node pointer
 	for(i=0; i<5000; i++){
 		if(map[i].dataAddr == ptr){
 			nodePtr = map[i].memAddr;
 			printf("Found data in map\n");
+			x = 1;
 			break;
 		}
 	}
 	printf("nodePtr Add: %p\n", &nodePtr);
 	printf("nodePtr Add: %p\n", nodePtr);
 
-	int isFree = nodePtr->isFree;
-	printf("nodePtr isFree?: %d\n", isFree);
+	//Error for non-existant node pointer
+	if(x== 0){
+		printf("Error: pointer was never allocated to memory\n");
+	}
 
-	memBlock* nodePtrPrev = nodePtr->prev;
-	printf("nodePtrPrev size: %d\n", nodePtrPrev->size);
-	//nodePtrPrev->next = nodePtr->next;
+	//Delete current node
+	nodePtr->prev->next = nodePtr->next;
 
-	/*
-	for(i = 0; i<=ptrSizeUV; i++){
+	//repopulate list with # nodes = size(nodePtr)
+	for(i = 0; i<=nodePtr->size; i++){
 		memBlock* newBlock = (memBlock*)malloc(sizeof(memBlock));
 		end -> next = newBlock;
+		newBlock->prev = end;
 		end = newBlock;
-		end -> isFree = 0;
+		end -> isFree = 1;
 	}
-	*/
-
-	printf("free accomplished");
+	
+	free(nodePtr->data);
+	free(nodePtr);
+	
 	return;
 						
 	
