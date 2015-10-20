@@ -36,7 +36,8 @@ int main(int argc, char **argv){
 	//FREE TEST
 	printf("Preliminary Free Tests:\n");
 	
-	free(s)
+	free(s);
+	free(d);
 
 	printf("\n");
 
