@@ -13,6 +13,12 @@ struct memBlock{ 		// memBlock struct for each memory "node"
 	void* data; 
 };
 
+typedef struct memMapping memMap; 
+struct memMapping {
+	void* memAddr; 
+	void* dataAddr;
+};
+
 // Function definitions to be implemented in malloc.c
 
 void *mymalloc(unsigned int size, char * file, int line);

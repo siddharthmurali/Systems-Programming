@@ -4,6 +4,10 @@
 
 static memBlock* front; 
 static memBlock* end;
+<<<<<<< HEAD
+=======
+static memMap* map;
+>>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
 int debug = 0;
 
 void *mycalloc(int numEle, unsigned int size, char *file, int line){
@@ -36,9 +40,12 @@ void *mycalloc(int numEle, unsigned int size, char *file, int line){
                 if (count==totalsize) {
                         spaceCheck=1;
                         break;
+<<<<<<< HEAD
 
 return 0;
 			return 0;
+=======
+>>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
                 }
 
                 if (count>totalsize)
@@ -63,11 +70,24 @@ return 0;
 	//adds a new node to the beginning of the list of size=totalsize	
 	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
 	newBlock->next=front; 
-	front =  newBlock;
 	newBlock->prev=NULL; 
 	newBlock->size=totalsize; 
-
 	newBlock->data = malloc(numEle * (sizeof(size)));
+<<<<<<< HEAD
+=======
+
+	front =  newBlock;
+
+	//adds information to the memory map
+	int y=0; 
+	for(y=0;y<sizeof(map);y++){
+
+		if(map[y].memAddr==0) {
+			map[y].memAddr = newBlock;
+			map[y].dataAddr = newBlock->data;
+		}
+	}
+>>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
 
 	return newBlock->data;
 }	
@@ -76,6 +96,7 @@ return 0;
 void intializer() {
 	int x=0 ;
 
+	// intialize the 5000 nodes for the linked list
 	front = (memBlock*)malloc(sizeof(memBlock)); 
 	front->isFree = 1;
 	front->size = 0; 
@@ -98,6 +119,19 @@ void intializer() {
 		
 	end = bptr;
 	front = fptr;
+
+
+
+	//intialize the mapping array 
+	map= (memMap*) malloc(sizeof(memMap)*5000); 
+	int y=0; 
+	for(y=0; y<sizeof(map);y++) {
+		map[y].memAddr = 0; 
+		map[y].dataAddr = 0;
+	}
+	
+	if (debug)
+		printf("Map 3 values: %p and %p\n",map[2].memAddr, map[2].dataAddr);
 }
 
 void *mymalloc(unsigned int size, char * file, int line) {
@@ -162,13 +196,29 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	
 	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
 	newBlock->next=front; 
-	front =  newBlock;
 	newBlock->prev=NULL; 
 	newBlock->size=size; 
-	newBlock->data = malloc(sizeof(size));
+	newBlock->data=(void *) malloc(sizeof(size));
 	
+<<<<<<< HEAD
 	
 	return front->data;
+=======
+	front =  newBlock;
+
+	//adds the malloc to the memory map 
+	int y=0; 
+
+	for(y=0;y<sizeof(map);y++){
+
+		if(map[y].memAddr==0) {
+			map[y].memAddr = newBlock;
+			map[y].dataAddr = newBlock->data;
+		}
+	}
+
+	return newBlock->data;
+>>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
 }
 
 /*
@@ -218,16 +268,22 @@ void myfree(void *ptr, char *file, int line){
 
 //	printf("seg check\n");
 
+<<<<<<< HEAD
 	ptrSize = &ptr - (sizeof(int));
+=======
+	
+	
+	ptrSize = p - (sizeof(int));
+>>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
 	ptrIsFree = ptrSize -(sizeof(int));
 	ptrNext = ptrIsFree -(sizeof(memBlock*));
 	ptrPrev = ptrNext - (sizeof(memBlock*));
 
-	printf("seg check\n");
+	printf("seg check");
 
-	int *ptrSizeUV = ptrSize;
-	
-	printf("%d\n", *ptrSizeUV);
+	int ptrSizeUV = *((int *)ptrSize);
+
+	printf("%d\n", ptrSizeUV);
 
 	printf("seg check\n");
 
@@ -255,4 +311,7 @@ void myfree(void *ptr, char *file, int line){
 	return;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1

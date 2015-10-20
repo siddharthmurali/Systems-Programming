@@ -25,6 +25,7 @@ int main(int argc, char **argv){
 	printf("Preliminary Malloc Tests:\n"); 
 
 	char* s = (char*) malloc(sizeof(char)); 
+<<<<<<< HEAD
 	char* a = (char*) malloc(sizeof(char)); 
 
 	s = "d";
@@ -34,6 +35,11 @@ int main(int argc, char **argv){
 	printf("s = %s\n", s); 
 
 	printf("a = %s\n", a); 
+=======
+
+	s = "d";
+	printf("s = %s\n", s); 
+>>>>>>> 4cfb891885cd682c01d23dda1843a85108da4fe1
 
 	printf("\n");
 
