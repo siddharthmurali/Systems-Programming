@@ -11,9 +11,16 @@
 #define blockSize sizeof(struct memBlock)
 
 
+<<<<<<< HEAD
 typedef struct memBlock memBlock;
 struct memBlock{ 		// memBlock struct for each memory "node"
 	memBlock *prev;
+=======
+typedef struct  memBlock* memBlock;
+struct memBlock{ 		// memBlock struct for each memory "node"
+	memBlock prev;
+	memBlock next;
+>>>>>>> 4f6fded40447432fca8ad0e882da5a1c364d599d
 	int isFree;
 	unsigned int size;
 	 
@@ -25,4 +32,3 @@ void *mymalloc(unsigned int size, char * file, int line);
 void myfree(void *ptr, char *file, int line);
 
 
-#endif

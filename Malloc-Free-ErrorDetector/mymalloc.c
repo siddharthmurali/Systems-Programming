@@ -2,8 +2,8 @@
 
 //Need to add definitions, etc...
 
-static memBlock* front; 
-static memBlock* end;
+static memBlock front; 
+static memBlock end;
 static char TotalMemBlock[5000];
 long unsigned int blockCount=0;
 long unsigned int spaceCount=0;
@@ -36,6 +36,7 @@ void *mymalloc(unsigned int size, char * file, int line) {
 		initialize = 1;
 	}
 
+<<<<<<< HEAD
 	if(size < 250){
 		curr = front;
 		memBlock* lag = 0;
@@ -97,4 +98,74 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	return (void *) 0;
 	   
 	
+=======
+void myfree(void *ptr, char *file, int line){
+	int i;
+	int x = 0;	
+	memBlock  nodePtr;
+	memBlock prev;
+
+	memBlock curr = (memBlock)((char*)ptr - sizeof(memBlock));
+
+	//Initial Null Check
+	if(ptr == 0){
+		printf("Error: Cannot free pointer that does not exist\n");
+	}
+
+	//not in heap check 
+	if ( (char*)ptr >=  (TotalMemBlock + 5000) || (((char*)ptr - sizeof(memBlock))) < TotalMemBlock){ 
+		printf("ERORR: pointer is not in heap.\n");
+		return; 
+	}	
+
+
+	//check if already free 
+	if (curr->isFree) { 
+		printf("ERROR: pointer is already freed"); 
+		return; 
+	}
+
+	curr->isFree=1;
+	blockCount--;	
+	spaceCount = spaceCount - (curr->size + sizeof(memBlock));
+	prev = (memBlock)(((memBlock)(char*)curr+sizeof(memBlock))+(int)curr->size);
+
+	if(prev <= end) {
+
+		if (prev->isFree) {
+
+			memBlock twoprev = (memBlock)(((char *)prev+sizeof(memBlock)) + (int)prev->size);
+		
+			if (twoprev <= end ) {
+				twoprev->prev=curr; 
+			}
+		
+			curr->size= curr->size  + ((prev->size)+sizeof(memBlock));
+
+			if(prev==end) {
+
+				end = curr; 
+			}
+	
+		}
+	}else {
+		end = curr;
+	}
+
+	if (curr!=front && ((curr->prev)->isFree)) {
+
+		if (curr == end ) {
+			end = curr->prev; 
+		} 
+
+		if (prev <= end ) {
+			prev->prev= curr -> prev; 
+
+		}
+
+		(curr->prev)->size += (curr->size + sizeof(memBlock));
+
+	}	
+						
+>>>>>>> 4f6fded40447432fca8ad0e882da5a1c364d599d
 }

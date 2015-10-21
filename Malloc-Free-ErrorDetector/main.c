@@ -20,43 +20,24 @@ int main(int argc, char **argv){
 //Implement Test Cases
 
 	printf("\n");
-
-	//MALLOC TEST
+	//PreliminaryTests
+	
+/*	//MALLOC TEST
 	printf("Preliminary Malloc Tests:\n"); 
 
 	int* s = (int*) malloc(sizeof(int)); 
-	//char* a = (char*) malloc(sizeof(char)); 
-
 	int* d = (int*) malloc(sizeof(int));
 
 	*d = 20;
 	*s = 10;
-	//a = "s"; 
 
 	//FREE TEST
 	printf("Preliminary Free Tests:\n");
-	
+*/	
 	free(s);
 	free(d);
 	printf("\n");
 
-	//REALLOC TEST
-
-	char *str;
-	
-//	str = (char *)malloc(15);
-//	str = (char *)realloc(str, 25);
-
-	//CALLOC TEST
-	printf("Preliminary Calloc Tests:\n"); 
-
-	int* t = (int*) calloc(3,sizeof(int)); 
-
-	t[0] = 2; 
-	t[1] = 3;
-
-	printf("t[0] = %d and t[1] = %d\n", t[0],t[1]); 
-	printf("\n");
 
 
 	//HEAP STRESS TEST - Heap Overflow 
