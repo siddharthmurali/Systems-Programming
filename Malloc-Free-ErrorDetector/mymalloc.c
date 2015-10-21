@@ -4,84 +4,18 @@
 
 static memBlock* front; 
 static memBlock* end;
-static memMap* map;
-
-void intializer() {
-	int x=0 ;
-
-	// intialize the 5000 nodes for the linked list
-	front = (memBlock*)malloc(sizeof(memBlock)); 
-	front->isFree = 1;
-	front->size = 1; 
-	front->prev=NULL;
-	front->next=NULL;
-	memBlock* fptr=front;
-	memBlock* bptr=front;
-	front=front->next;
-
-	for (x=0; x<5000; x++){
-
-		front= (memBlock*)malloc(sizeof(memBlock)); 
-		front->isFree = 1;
-		front->size = 1; 
-		front->prev=bptr;
-		front->next=NULL;
-		bptr=front;
-		front=front->next;	
-	}
-		
-	end = bptr;
-	front = fptr;
-
-
-
-	//intialize the mapping array 
-	map= (memMap*) malloc(sizeof(memMap)*5000); 
-	int y=0; 
-	for(y=0; y<sizeof(map);y++) {
-		map[y].memAddr = 0; 
-		map[y].dataAddr = 0;
-	}
-}
+static char TotalMemBlock[5000];
+long unsigned int blockCount=0;
+long unsigned int spaceCount=0;
 
 void *mymalloc(unsigned int size, char * file, int line) {
-	int x=0;
 
-	//intializes doubly linked list if first malloc
-	if (front==NULL){
-		intializer();
+	//Cannot allocate to 0 or less
+	if(size<=0){
+		printf("Error: Cannot allocate memory to size of %d\n", size);
+		return (void*) 0;
 	}
-
-	if (size==0){
-		printf("ERROR: Can't allocate size 0");
-		return (void *) 0;
-	}
-
-	int spaceCheck = 0;
-	int count = 0 ;
-	memBlock* nodeDelptr = end;
-
-	//checks to make sure there are enough free nodes at the end of the list.
-	while(nodeDelptr->isFree==1) {
-		count++;
-
-		if (count==size) {
-			spaceCheck=1; 
-			break;	
-
-		} 
-
-		if (count>size) 
-			break;
-
-		nodeDelptr=nodeDelptr->prev;	
-	}	
-
-
-	if (!spaceCheck){ 
-		printf("Error: Not enough space to malloc size of %d",size); 
-		return (void *) 0;
-	}
+<<<<<<< HEAD
 
 	end=nodeDelptr;
 
@@ -108,26 +42,31 @@ void *mymalloc(unsigned int size, char * file, int line) {
 	front->prev = newBlock;
 	front =  newBlock;
 
+=======
+>>>>>>> a80c61836c09948ba0fca694d79e012c9cedd6d2
 	
-	//adds the malloc to the memory map 
-	int y; 
-
-	for(y=0;y<sizeof(map);y++){
-
-		if(map[y].memAddr==0) {
-			map[y].memAddr = newBlock;
-			map[y].dataAddr = newBlock->data;
-			break;
-
-		}
-		
+	//Not enough space
+	if((size + sizeof(struct memBlock) > (5000 - (spaceCount + sizeof(struct memBlock))))){
+		printf("Error: Not enough space to allocate memory of size %d\n", size);
 	}
 
-	return newBlock->data;
+	static int initialize = 0;
+
+	if(initialized == 0){
+		front = (memBlock*) TotalMemBlock;
+		end = front;
+		front->prev = 0;
+		front->isFree = 0;
+		front->size = totMemSize - blockSize;
+		
+
 }
 
 void myfree(void *ptr, char *file, int line){
+<<<<<<< HEAD
 
+=======
+>>>>>>> a80c61836c09948ba0fca694d79e012c9cedd6d2
 	int i;
 	int x = 0;	
 	memBlock * nodePtr;
@@ -141,7 +80,6 @@ void myfree(void *ptr, char *file, int line){
 	for(i=0; i<5000; i++){
 		if(map[i].dataAddr == ptr){
 			nodePtr = map[i].memAddr;
-			printf("Found data in map\n");
 			x = 1;
 			break;
 		}
