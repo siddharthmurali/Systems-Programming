@@ -12,8 +12,8 @@
 
 typedef struct  memBlock* memBlock;
 struct memBlock{ 		// memBlock struct for each memory "node"
-	memBlock *prev;
-	memBlock *next;
+	memBlock prev;
+	memBlock next;
 	int isFree;
 	unsigned int size;
 	 
@@ -25,4 +25,3 @@ void *mymalloc(unsigned int size, char * file, int line);
 void myfree(void *ptr, char *file, int line);
 
 
-#endif

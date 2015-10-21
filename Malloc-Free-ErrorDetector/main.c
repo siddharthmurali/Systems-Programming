@@ -22,7 +22,7 @@ int main(int argc, char **argv){
 	printf("\n");
 	//PreliminaryTests
 	
-	//MALLOC TEST
+/*	//MALLOC TEST
 	printf("Preliminary Malloc Tests:\n"); 
 
 	int* s = (int*) malloc(sizeof(int)); 
@@ -33,18 +33,11 @@ int main(int argc, char **argv){
 
 	//FREE TEST
 	printf("Preliminary Free Tests:\n");
-	
+*/	
 	free(s);
 	free(d);
 	printf("\n");
 
-	//FREE TEST
-	printf("Preliminary Free Tests:\n");
-	
-	free(s);
-	free(d);
-	printf("s and d freed successfully");
-	printf("\n");
 
 
 	//HEAP STRESS TEST - Heap Overflow 

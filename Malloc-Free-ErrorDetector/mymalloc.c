@@ -2,8 +2,8 @@
 
 //Need to add definitions, etc...
 
-static memBlock* front; 
-static memBlock* end;
+static memBlock front; 
+static memBlock end;
 static char TotalMemBlock[5000];
 long unsigned int blockCount=0;
 long unsigned int spaceCount=0;
@@ -47,7 +47,7 @@ void myfree(void *ptr, char *file, int line){
 	}
 
 	//not in heap check 
-	if ( (char*)ptr >=  (TotalMemBlock + memBlock) || (((memBlock)((char*)ptr - sizeof(memBlock))) < memBlock)){ 
+	if ( (char*)ptr >=  (TotalMemBlock + 5000) || (((char*)ptr - sizeof(memBlock))) < TotalMemBlock){ 
 		printf("ERORR: pointer is not in heap.\n");
 		return; 
 	}	
@@ -62,13 +62,13 @@ void myfree(void *ptr, char *file, int line){
 	curr->isFree=1;
 	blockCount--;	
 	spaceCount = spaceCount - (curr->size + sizeof(memBlock));
-	prev = (memBlock)(((char*)ptr+sizeof(memBlock))+(int)ptr->size);
+	prev = (memBlock)(((memBlock)(char*)curr+sizeof(memBlock))+(int)curr->size);
 
 	if(prev <= end) {
 
 		if (prev->isFree) {
 
-			memBlock twoprev = (memBlock)((char *)prev+sizeof(memBlock));
+			memBlock twoprev = (memBlock)(((char *)prev+sizeof(memBlock)) + (int)prev->size);
 		
 			if (twoprev <= end ) {
 				twoprev->prev=curr; 
@@ -86,7 +86,7 @@ void myfree(void *ptr, char *file, int line){
 		end = curr;
 	}
 
-	if (curr!=front & (curr->prev)->isFree) {
+	if (curr!=front && ((curr->prev)->isFree)) {
 
 		if (curr == end ) {
 			end = curr->prev; 
@@ -100,7 +100,5 @@ void myfree(void *ptr, char *file, int line){
 		(curr->prev)->size += (curr->size + sizeof(memBlock));
 
 	}	
-
-	return 1;
 						
 }
