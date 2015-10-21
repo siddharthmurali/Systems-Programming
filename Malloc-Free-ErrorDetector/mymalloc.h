@@ -10,7 +10,7 @@
 
 
 
- memBlock memBlock;
+typedef struct  memBlock* memBlock;
 struct memBlock{ 		// memBlock struct for each memory "node"
 	memBlock *prev;
 	memBlock *next;
