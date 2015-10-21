@@ -8,12 +8,12 @@
 #define malloc( x )  mymalloc( x, __FILE__, __LINE__ )
 #define free( x )  myfree( x, __FILE__, __LINE__ )
 
+#define blockSize sizeof(struct memBlock)
 
 
- memBlock memBlock;
+typedef struct memBlock memBlock;
 struct memBlock{ 		// memBlock struct for each memory "node"
 	memBlock *prev;
-	memBlock *next;
 	int isFree;
 	unsigned int size;
 	 
