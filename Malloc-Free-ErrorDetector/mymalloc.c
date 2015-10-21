@@ -10,6 +10,12 @@ long unsigned int spaceCount=0;
 
 void *mymalloc(unsigned int size, char * file, int line) {
 
+	
+	static int initialize = 0;
+	memBlock* curr;
+	memBlock* new;
+
+
 	//Cannot allocate to 0 or less
 	if(size<=0){
 		printf("Error: Cannot allocate memory to size of %d\n", size);
@@ -21,67 +27,74 @@ void *mymalloc(unsigned int size, char * file, int line) {
 		printf("Error: Not enough space to allocate memory of size %d\n", size);
 	}
 
-	static int initialize = 0;
-
-	if(initialized == 0){
+	if(initialize == 0){
 		front = (memBlock*) TotalMemBlock;
 		end = front;
 		front->prev = 0;
 		front->isFree = 0;
-		front->size = totMemSize - blockSize;
-		
+		front->size = 5000 - sizeof(struct memBlock);
+		initialize = 1;
+	}
 
+	if(size < 250){
+		curr = front;
+		memBlock* lag = 0;
+		do {
+			memBlock* nxt = (struct memBlock*) (((char*)curr + sizeof(struct memBlock)) + (int)curr->size);
+			
+			if(curr->size < size){
+				lag = curr;
+				curr = nxt;
+			}
+			else if(curr->isFree == 0){
+				lag = curr;
+				curr = nxt;
+			}
+			else if(curr->size == size){
+				curr->isFree = 0;
+				
+				if((char*)nxt >= (TotalMemBlock + 5000)){
+					end = curr;
+				}
+
+			blockCount++;
+			spaceCount += curr->size + sizeof(struct memBlock);
+
+			return (void*) ((char*)curr + 500);
+			}
+			} while((char*)curr < (TotalMemBlock + 5000));
+	}
+	 else{ 
+
+		curr = end;
+		memBlock* nxt = (struct memBlock*) (((char*)curr + sizeof(struct memBlock)) + (int)curr->size);
+		do{
+			if(curr->size < size){
+				nxt = curr;
+				curr = curr->prev;
+			}
+			else if(curr->isFree == 0){
+				nxt = curr;
+				curr = curr->prev;
+				
+			}
+
+			else if(curr->size == size){
+				curr->isFree = 0;
+			
+				if((char*)nxt >=(TotalMemBlock + 5000)){
+					end = curr;
+				}
+				blockCount++;
+				spaceCount += curr->size + sizeof(struct memBlock);
+			
+				return (void*) ((char*)new + sizeof(struct memBlock));
+			}
+		} while((char*)curr >= TotalMemBlock);
+	}
+
+	
+	return (void *) 0;
+	   
+	
 }
-
-void myfree(void *ptr, char *file, int line){
-	int i;
-	int x = 0;	
-	memBlock * nodePtr;
-
-	//Initial Null Check
-	if(ptr == NULL){
-		printf("Error: Cannot free pointer that does not exist\n");
-	}
-
-	//Check pointer map for node pointer
-	for(i=0; i<5000; i++){
-		if(map[i].dataAddr == ptr){
-			nodePtr = map[i].memAddr;
-			x = 1;
-			break;
-		}
-	}
-
-	//Error for non-existant node pointer
-	if(x== 0){
-		printf("Error: pointer was never allocated to memory\n");
-	}
-
-	//Delete current nod
-	if(nodePtr->prev == NULL){
-		front = nodePtr->next;
-	}
-	else if(nodePtr == end){
-		end = end->prev;
-	}
-	else{
-		nodePtr->prev->next = nodePtr->next;
-	}
-	
-
-	//repopulate list with # nodes = size(nodePtr)
-	for(i = 0; i<=nodePtr->size; i++){
-		memBlock* newBlock = (memBlock*)malloc(sizeof(memBlock));
-		end -> next = newBlock;
-		newBlock->prev = end;
-		end = newBlock;
-		end -> isFree = 1;
-	}
-	
-	free(nodePtr->data);
-	free(nodePtr);
-	
-	return;
-						
-}
-
