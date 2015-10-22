@@ -1,27 +1,23 @@
-#ifndef MALLOC_H
-#define MALLOC_H
+#ifndef MYMALLOC_H
+#define MYMALLOC_H
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <stdio.h>
 
-#define malloc( x )  mymalloc( x, __FILE__, __LINE__ )
-#define free( x )  myfree( x, __FILE__, __LINE__ )
+typedef struct MemEntry MemEntry;
 
-#define blockSize sizeof(struct memBlock)
-
-
-typedef struct memBlock memBlock;
-struct memBlock{ 		// memBlock struct for each memory "node"
-	memBlock *prev;
-	int isFree;
-	unsigned int size;
-	 
+struct MemEntry{
+	MemEntry *prev, *succ; //prev or next chunk of mem
+	int isfree;	//boolean flag
+	int size;
 };
 
-// Function definitions to be implemented in malloc.c
 
-void *mymalloc(unsigned int size, char * file, int line);
-void myfree(void *ptr, char *file, int line);
+void *mymalloc(unsigned int size, char *file, int line);
+void myfree(void *p, char *file, int line);
+int hasEntry(MemEntry *ptr);
+void *mycalloc(int ct, unsigned int size, char *file, int line);
+void *myrealloc(void *p, unsigned int size, char *file, int line);
+size_t getSize(void * p);
 
 #endif
