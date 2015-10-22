@@ -1,23 +1,29 @@
-#ifndef MYMALLOC_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define MYMALLOC_H
 
-#include <stdlib.h>
-#include <stdio.h>
-
-typedef struct MemEntry MemEntry;
-
-struct MemEntry{
-	MemEntry *prev, *succ; //prev or next chunk of mem
-	int isfree;	//boolean flag
+typedef struct memBlock memBlock;
+struct memBlock{ 		// memBlock struct for each memory "node"
+	memBlock *prev;
+	memBlock *next;
+	int isFree;
 	int size;
+	void* data; 
 };
 
+typedef struct memMapping memMap; 
+struct memMapping {
+	memBlock* memAddr; 
+	void* dataAddr;
+};
 
-void *mymalloc(unsigned int size, char *file, int line);
-void myfree(void *p, char *file, int line);
-int hasEntry(MemEntry *ptr);
-void *mycalloc(int ct, unsigned int size, char *file, int line);
-void *myrealloc(void *p, unsigned int size, char *file, int line);
-size_t getSize(void * p);
+// Function definitions to be implemented in malloc.c
 
-#endif
+void *mymalloc(unsigned int size, char * file, int line);
+void *mycalloc(int numEle, unsigned int size, char *file, int line);
+void *myrealloc(void *ptr, unsigned int size, char *file, int line);
+void myfree(void *ptr, char *file, int line);
+
+void intializer();

@@ -1,194 +1,195 @@
 #include "mymalloc.h"
 
-#define MESIZE sizeof(struct MemEntry)
-#define BLOCKSIZE (1024)
-#define LISTLENGTH (BLOCKSIZE/MESIZE+1)
-static char big_block[BLOCKSIZE];
-static void *memEntryList[BLOCKSIZE/MESIZE+1];
-static int listindex = 0;
+//Need to add definitions, etc...
 
-/* Obtains a free index from the memEntryList array */
-static int getIndex() {
-	int i;
-	for (i = 0; i < (LISTLENGTH); i++) {
-		if (memEntryList[i] == 0)
-			return i;
-	}
-	return 1;
-}
-/* Checks if the memEntryList has a given entry */
-int hasEntry(MemEntry *ptr) {
-	int isValid = 0;
-	for(listindex = 0; listindex < LISTLENGTH; listindex++) {
-		if(ptr == memEntryList[listindex] && !ptr->isfree) {
-			isValid = 1;
-			return 0;	/*Success*/
-		}
-	}
-	/*Failure*/
-	return 1;
-}
+static memBlock* front; 
+static memBlock* end;
+static memMap* map;
+int debug = 0;
 
-size_t getSize(void * p) {
-    size_t *x = p;
-    if (x) {
-		--x;
-		return *x;
-	}
-    return -1;
-}
 
-void exfnc(void) {
-	
-	
-}
+void intializer() {
+	int x=0 ;
 
-void *mymalloc(unsigned int size, char *file, int line){
-	static int initialized = 0;
-	static struct MemEntry *root, *last;
-	struct MemEntry *p, *succ;
-	
-	// Error check, cannot malloc something to size 0
-	if(size == 0){
-		printf("%s:%d: error: Cannot malloc memory of size 0.\n", file, line);
-		exit(EXIT_FAILURE);
+	// intialize the 5000 nodes for the linked list
+	front = (memBlock*)malloc(sizeof(memBlock)); 
+	front->isFree = 1;
+	front->size = 1; 
+	front->prev=NULL;
+	front->next=NULL;
+	memBlock* fptr=front;
+	memBlock* bptr=front;
+	front=front->next;
+
+	for (x=0; x<5000; x++){
+
+		front= (memBlock*)malloc(sizeof(memBlock)); 
+		front->isFree = 1;
+		front->size = 1; 
+		front->prev=bptr;
+		front->next=NULL;
+		bptr=front;
+		front=front->next;	
+	}
+		
+	end = bptr;
+	front = fptr;
+
+
+
+	//intialize the mapping array 
+	map= (memMap*) malloc(sizeof(memMap)*5000); 
+	int y=0; 
+	for(y=0; y<sizeof(map);y++) {
+		map[y].memAddr = 0; 
+		map[y].dataAddr = 0;
 	}
 	
-	// If initialized is NULL (i.e. equal to 0). Root has nothing (i.e nothing in memory atm)
-	if(!initialized){
-		root = (struct MemEntry*)big_block;
-		root->prev = root->succ = 0;
-		root->size = BLOCKSIZE - MESIZE;	
-		root->isfree = 1;					// The space is occupied by the root, isfree becomes false.
-		initialized = 1;					// Static int initialized is true. acts like a global.
-		memEntryList[getIndex()] = big_block;
-	}
-	
-	
-	p = root;
-	do{
-		if(p->size < size)					// not enough space exists to store the memory.
-			p = p->succ;
-		else if (!p->isfree)				// the current space is occupied
-			p = p->succ;
-		else if (p->size < (size + MESIZE)){
-			p->isfree = 0;
-			return (char*)p + MESIZE;
-		}else{								// Creating the doubly LL
-			if (size < (BLOCKSIZE/4)){
-				succ = (struct MemEntry*)((char*)p + MESIZE + size);
-			}
-			if (size >= (BLOCKSIZE/4))
-			{
-				succ = (struct MemEntry*)((BLOCKSIZE/2)+(char*)p + MESIZE + size);
-			}
-			succ->prev = p;
-			succ->succ = p->succ;
-			if(p->succ != 0)
-				p->succ->prev = succ;
-			p->succ = succ;
-			succ->size = p->size - MESIZE - size;		// The rest of the unallocated memory (this is huge)
-			succ->isfree = 1;
-			p->size = size;
-			p->isfree = 0;
-			if (p == last) { last = succ; }
-			else { last = last;	}
-			memEntryList[getIndex()] = succ;
-			return (char*)p + MESIZE;
-		}
-	}while(p != 0);
-	
-	// Handles saturation. Allocates more space when the big_block has insufficient memory.
-	if ((p = (struct MemEntry*)sbrk(MESIZE + size)) == (void *)-1) {
-		return 0;
-	}
-	else if (last == 0) {
-		printf("SBKR makes first chunk size %d\n", size);
-		p->prev = p->succ = 0;
-		p->size = size;
-		p->isfree = 0;
-		root = last = p;
-		return (char *)p + MESIZE;
-	}
-	else {
-		printf("SBKR making another chunk size %d\n", size);
-		p->prev = last;
-		p->succ = last->succ;
-		p->size = size;
-		p->isfree = 0;
-		last->succ = p;
-		last = p;
-		return (char *)p + MESIZE;
-	}
-	printf("%s:%d: error: not enough address space available. \n", file, line); 
-	return 0;
+	if (debug)
+		printf("Map 3 values: %p and %p\n",map[2].memAddr, map[2].dataAddr);
 }
 
-void myfree(void *p, char *file, int line){
-	struct MemEntry *ptr, *pred, *succ;
-	ptr = (struct MemEntry*)((char*)p - MESIZE);
-	
-	// Check if pointer tries to free null
-	if(!p){ 
-		printf("%s:%d: error: Can't free pointer to NULL.\n", file, line); 
-		exit(EXIT_FAILURE);
+void *mymalloc(unsigned int size, char * file, int line) {
+	int x=0;
+
+	if (debug) 
+		printf("Before initialization\n");
+
+
+	//intializes doubly linked list if first malloc
+	if (front==NULL){
+		intializer();
 	}
-	
-	// Can't free pointers that were never allocated. Goes for double freeing too.
-	if (ptr->isfree){
-		printf(	"%s:%d: error: Cannot free memory from a variable that has no reserved memory. \n", file, line); 
-		return;
+
+	if (size==0){
+		printf("ERROR: Can't allocate size 0");
+		return (void *) 0;
+	}
+
+	int spaceCheck = 0;
+	int count = 0 ;
+	memBlock* nodeDelptr = end;
+
+	if (debug)
+		printf("Before while loop: nodedelptr->isFree = %d\n",nodeDelptr->isFree);
+
+	//checks to make sure there are enough free nodes at the end of the list.
+	while(nodeDelptr->isFree==1) {
+		count++;
+
+		if (debug)
+			printf("In while loop to delete nodes\n");
+		if (count==size) {
+			spaceCheck=1; 
+			break;	
+
+		} 
+
+		if (count>size) 
+			break;
+
+		nodeDelptr=nodeDelptr->prev;	
 	}	
-	// Can't free dynamic memory not returned from malloc [eg free(p + 10)]
-	if (hasEntry(ptr) == 1) {
-		printf(	"%s:%d: error: Cannot free memory that was not returned from malloc or is not in the heap. \n", file, line);
-		return;
+
+
+	if (!spaceCheck){ 
+		printf("Error: Not enough space to malloc size of %d",size); 
+		return (void *) 0;
 	}
+
+	end=nodeDelptr;
+
+	//delets the free nodes at the end of the doubly linked list
+	memBlock* temp = nodeDelptr->next;
+	while(nodeDelptr->next!=NULL){
+		nodeDelptr=temp->next; 
+		free(temp);
+		temp=nodeDelptr;	
+	}
+
+	free(temp);
+
+	//adds a new node to the beginning of the list of the new mallocd data. This is where the 
+	//free nodes are joined into one node. Ex. malloc(sizeof(int)) ==> 4 free nodes are deleted at 
+	//the end of the list and 1 node of size=4 is created in the beginning
 	
-	if((pred = ptr->prev) != 0 && pred->isfree){
-		pred->size += MESIZE + ptr->size;			// Adding the amount of space back when its freed
-		pred->succ = ptr->succ;
-		if(ptr->succ != 0)
-			ptr->succ->prev = pred;
-		memEntryList[listindex] = 0;
-	}else{
-		ptr->isfree = 1;
-		pred = ptr;
+	memBlock* newBlock= (memBlock*) malloc(sizeof(memBlock)); 
+	newBlock->next=front; 
+	newBlock->prev=NULL; 
+	newBlock->size=size; 
+	newBlock->data=(void *) malloc(sizeof(size));
+	newBlock->isFree = 0;	
+	front->prev = newBlock;
+	front =  newBlock;
+
+	
+	//adds the malloc to the memory map 
+	int y; 
+
+	for(y=0;y<sizeof(map);y++){
+
+		if(map[y].memAddr==0) {
+			map[y].memAddr = newBlock;
+			map[y].dataAddr = newBlock->data;
+			break;
+
+		}
+		
 	}
-	if((succ = ptr->succ)!= 0 && succ->isfree){
-		pred->size += MESIZE + succ->size;
-		pred->succ = succ->succ;
-		if(succ->succ != 0)
-			succ->succ->prev = pred;
+
+	return newBlock->data;
+}
+
+void myfree(void *ptr, char *file, int line){
+
+	int i;
+	int x = 0;	
+	memBlock * nodePtr;
+
+	//Initial Null Check
+	if(ptr == NULL){
+		printf("Error: Cannot free pointer that does not exist\n");
 	}
-	for (listindex = 0; listindex < LISTLENGTH; listindex++) {
-		if (succ == memEntryList[listindex]) {
-			memEntryList[listindex] = 0; 
+
+	//Check pointer map for node pointer
+	for(i=0; i<5000; i++){
+		if(map[i].dataAddr == ptr){
+			nodePtr = map[i].memAddr;
+			x = 1;
 			break;
 		}
 	}
 
+//Error for non-existant node pointer
+	if(x== 0){
+		printf("Error: pointer was never allocated to memory\n");
+	}
+
+	//Delete current nod
+	if(nodePtr->prev == NULL){
+		front = nodePtr->next;
+	}
+	else if(nodePtr == end){
+		end = end->prev;
+	}
+	else{
+		nodePtr->prev->next = nodePtr->next;
+	}
+	
+
+	//repopulate list with # nodes = size(nodePtr)
+	for(i = 0; i<=nodePtr->size; i++){
+		memBlock* newBlock = (memBlock*)malloc(sizeof(memBlock));
+		end -> next = newBlock;
+		newBlock->prev = end;
+		end = newBlock;
+		end -> isFree = 1;
+	}
+	
+	free(nodePtr->data);
+	free(nodePtr);
+	
+	return;	
+	
 }
 
-void *mycalloc(int ct, unsigned int size, char *file, int line){
-	void *ptr = mymalloc(ct*size, file, line);
-
-	if(ptr){
-		memset(ptr, '0', ct*size);
-		return ptr;
-	}
-}
-
-void *myrealloc(void *p, unsigned int size, char *file, int line){
-	void *new;
-	new = mymalloc(size, file, line);
-	if(!p){ 
-		printf("%s:%d: error: Cannot realloc to NULL.\n", file, line); 
-		exit(EXIT_FAILURE);
-	}
-	else if(p){
-		memcpy(new, p, size);
-		myfree(p, file, line);
-	}
-	return new;
-}
