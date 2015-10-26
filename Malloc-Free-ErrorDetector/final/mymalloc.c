@@ -50,7 +50,6 @@ void intializer() {
 }
 
 void *mymalloc(unsigned int size, char * file, int line) {
-	int x=0;
 
 	if (debug) 
 		printf("Before initialization\n");

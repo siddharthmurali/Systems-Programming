@@ -1,0 +1,14 @@
+In our design we decided to go with a doubly linked list, for the efficiency of fragementation. 
+
+We first created a linked list of 5000 nodes each worth one byte. When someone mallocs we join the nodes into one node the size of the malloc. 
+
+So after malloc of sizeof(int) = 4, there will be 4996 nodes with the last one being 4 bytes. 
+
+We then move all the user  malloced nodes to the front of the list and leave all the free ones at the end . 
+
+We also employed various techniques such as keeping a variable isFree in the node and data, which helps us keep track of nodes that have been freed and mallocd. 
+
+With this implemntation it was easy to keep track of the free space and which nodes have been allocated. 
+
+We also created a mapping array, to map the data to the specific node on the linked list. 
+
