@@ -26,19 +26,16 @@ int main(int argc, char **argv){
 	printf("Preliminary Malloc Tests:\n"); 
 
 	int* s = (int*) malloc(sizeof(int)); 
-	int* d = (int*) malloc(sizeof(int));
-
-	*d = 20;
+	int*d = (int*) malloc(sizeof(int) *1250);
+	
 	*s = 10;
-
-	printf("s = %d and d=%d\n", *s,*d); 
-	printf("\n");
+	
+	
 
 	//FREE TEST
 	printf("Preliminary Free Tests:\n");
 	
 	free(s);
-	free(d);
 	printf("s and d freed successfully");
 	printf("\n");
 
