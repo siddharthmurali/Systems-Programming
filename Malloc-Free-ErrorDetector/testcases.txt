@@ -1,0 +1,39 @@
+Test Cases:
+
+Test 1:
+input: Trying to free pointer that was never allocated. free(&x) 
+output: Error: pointer was never allocated to memory.
+
+Expected Output is Actual output.
+
+Test 2:
+input: Trying to free a pointer more than once. free(s) free(s)
+output: Error: pointer was never allocated to memory.
+
+Expected Output is Actual output.
+
+Test 3:
+input: Malloc and then free a pointer. 
+
+int* x = (int*)malloc(sizeof(int))
+free(x)
+
+output: x is freed succesfully.
+
+Expected Output is actual output.
+
+Test 4:
+input: malloc a long, a long, an int and a char, then free all three.
+output: all pointers were freed successfully.
+
+Expected output is actual output.
+
+Test 5: Heap Overflow Test
+input: int *x = (int*)malloc(sizeof(int) * 1250));
+output: Not enough space to malloc size of 5000
+
+Expected output is actual output. 
+
+
+
+
