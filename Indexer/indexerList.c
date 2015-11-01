@@ -15,42 +15,62 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 		firstFile->nextFile = NULL; 
 
 		firstToken->nextFile = firstFile;
+		firstToken->nextNode = NULL;
 		front=firstToken;
 
 		return front;
 	}
 
-	int compareRet=0;
-	int prevCompareRet=0;
+	int compareReturn=0;
+	int prevCompareReturn=0;
 	int foundSpot=0;
 	int newToken=1;
 	tokenNodePtr insertSpot = front;
+	tokenNodePtr tmpFront = front;
 
 	//Sid if you have questions about this finding the spot of insertions, ask me. This shits too confusing
 
 	//loop through the linked list to find spot to insert
-	while (front->nextNode!=NULL) {
-		compareRet= indexCompare(front->token, token);	
+	do { 
+		/* 
+		Insertion Cases: 
 
-		if (compareRet==0 ){ 
+		(4 6 9 10). Insert 5. Passes, returns insertSpot = 4;  
+
+		(4 6 9 10). Insert 7. Passes, returns insertSpot = 6; 
+
+		(4 6 9 10). Insert 2. Passes, returns insertSpot = 4; 
+
+		(4 6 9 10). Inseert 11. Passes, returns insertSpot = 10; 
+
+		*/
+
+		compareReturn = indexCompare(front->token, token);	
+
+		if (compareReturn==0 ){ 
 		//if front->token == token
 			insertSpot = front; 
 			newToken=0;
 			break;
 		} 
 
-		if (compareRet>0) {
-		//if front->token >token 
-			if ( prevCompareRet == 1) 
+		if (compareReturn>0) {
+		//if front->token > token 
+			if ( prevCompareReturn == 1) 
 				break;
 		}
 
-		if (compareRet<0) {
+		if (compareReturn<0) {
 		//if front->token < token
-			prevCompareRet=1;
+			prevCompareReturn=1;
 			insertSpot = front;
 		}
-	}
+	
+		front=front->nextNode;
+
+	} while (front!=NULL); 
+
+	front=tmpFront;	
 
 	if (newToken==0) {
 	//if it is not a new token
@@ -64,14 +84,34 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 	//if insertion spot is the front of the list
 
 		tokenNodePtr newToke=(tokenNodePtr) malloc(sizeof(tokenNodePtr)); 
-		newToke->token = token; 
-		newToke->nextNode = front;
 
-		fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
-		newFile->filePath = filePath; 
-		newFile->nextFile = NULL; 
+		if(indexCompare(insertSpot->token, token)>0){
+			// if insertSpot->token > token
+			newToke->token = token; 
+			newToke->nextNode = insertSpot;
 
-		newToke->nextFile = newFile;
+			fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
+			newFile->filePath = filePath; 
+			newFile->nextFile = NULL; 
+
+			newToke->nextFile = newFile;
+
+		}else{ 
+			// if insertSpot->token < token
+
+			tokenNodePtr tmpPtr = insertSpot->nextNode;	
+
+			newToke->token = token; 
+			newToke->nextNode = tmpPtr;
+
+			insertSpot->nextNode = newToke;
+
+			fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
+			newFile->filePath = filePath; 
+			newFile->nextFile = NULL; 
+
+			newToke->nextFile = newFile;
+		}
 	
 		return newToke;	
 	}
