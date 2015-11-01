@@ -25,6 +25,7 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 	int prevCompareReturn=0;
 	int foundSpot=0;
 	int newToken=1;
+	tokenNodePtr previnsertSpot = front;
 	tokenNodePtr insertSpot = front;
 	tokenNodePtr tmpFront = front;
 
@@ -75,68 +76,69 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 	if (newToken==0) {
 	//if it is not a new token
 
-		//add a file node
+		fileNode frontFile = insertSpot->nextFile;
+		fileNode tmpfrontFile = frontFile;
+
+		do { 
+			if (indexCompare(frontFile->filePath, filePath)==0) {
+				frontFile->freq++;
+				return front;
+			}
+			frontFile = frontFile->nextFile;
+
+		} while (frontFile != NULL); 
+
+		
+		fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
+		newFile->filePath = filePath; 
+		newFile->freq = 0;
+		newFile->nextFile = tmpfrontFile; 
 
 		return front;
 	}
+
+
+	tokenNodePtr newToke=(tokenNodePtr) malloc(sizeof(tokenNodePtr)); 
+	newToke->token = token; 
+
+	fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
+	newFile->filePath = filePath; 
+	newFile->freq = 0;
+	newFile->nextFile = NULL; 
+
+	newToke->nextFile = newFile;
 	
 	if (insertSpot==front){
 	//if insertion spot is the front of the list
 
-		tokenNodePtr newToke=(tokenNodePtr) malloc(sizeof(tokenNodePtr)); 
-
 		if(indexCompare(insertSpot->token, token)>0){
 			// if insertSpot->token > token
-			newToke->token = token; 
 			newToke->nextNode = insertSpot;
-
-			fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
-			newFile->filePath = filePath; 
-			newFile->nextFile = NULL; 
-
-			newToke->nextFile = newFile;
+			return newToke;
 
 		}else{ 
 			// if insertSpot->token < token
-
 			tokenNodePtr tmpPtr = insertSpot->nextNode;	
-
-			newToke->token = token; 
 			newToke->nextNode = tmpPtr;
-
 			insertSpot->nextNode = newToke;
-
-			fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
-			newFile->filePath = filePath; 
-			newFile->nextFile = NULL; 
-
-			newToke->nextFile = newFile;
+			return front;
 		}
 	
-		return newToke;	
 	}
 
 	if (insertSpot->nextNode == NULL) {
-	// if the insertion spot is a new node at the end of the list
-		tokenNodePtr newToke=(tokenNodePtr) malloc(sizeof(tokenNodePtr)); 
-		newToke->token = token; 
-
-		fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
-		newFile->filePath = filePath; 
-		newFile->nextFile = NULL; 
-
-		newToke->nextFile = newFile;
-
+	// if the insertion spot is the last of the list 
+		newToke->nextNode = NULL;;
+		insertSpot->nextNode = newToke; 
+		return front;
 
 	}else {
 	// if the insertion spot is inside the list somewhere  
-		
-
-
+		tokenNodePtr tmpPtr = insertSpot->nextNode;	
+		newToke->nextNode = tmpPtr;
+		insertSpot->nextNode = newToke;
+		return front;
 	} 
-
-
-	
 
 	return front;
 

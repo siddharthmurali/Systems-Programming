@@ -8,6 +8,7 @@
 typedef struct fileNode* fileNode;
 struct fileNode{
 	char* filePath; 
+	int freq;
 	fileNode nextFile;
 };
 
