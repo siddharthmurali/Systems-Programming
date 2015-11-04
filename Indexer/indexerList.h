@@ -20,8 +20,9 @@ struct tokenNode{
 };
 
 
-tokenNodePtr  indexInsert(tokenNodePtr front, char* token, char* filePath);
 
+tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath);
+void indexPrint(tokenNodePtr front); 
 int indexCompare(char* newToken, char* token);
 char* strlwr(char* str);
 

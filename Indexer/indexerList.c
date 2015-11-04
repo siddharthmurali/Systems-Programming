@@ -12,6 +12,7 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
 		fileNode firstFile = (fileNode) malloc(sizeof(fileNode)); 
 		firstFile->filePath = filePath; 
+		firstFile->freq = 1;
 		firstFile->nextFile = NULL; 
 
 		firstToken->nextFile = firstFile;
@@ -45,9 +46,8 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 		(4 6 9 10). Inseert 11. Passes, returns insertSpot = 10; 
 
 		*/
-
+		
 		compareReturn = indexCompare(front->token, token);	
-
 		if (compareReturn==0 ){ 
 		//if front->token == token
 			insertSpot = front; 
@@ -80,6 +80,7 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 		fileNode tmpfrontFile = frontFile;
 
 		do { 
+			tmpfrontFile=frontFile;
 			if (indexCompare(frontFile->filePath, filePath)==0) {
 				frontFile->freq++;
 				return front;
@@ -91,8 +92,10 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 		
 		fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
 		newFile->filePath = filePath; 
-		newFile->freq = 0;
-		newFile->nextFile = tmpfrontFile; 
+		newFile->freq = 1;
+		newFile->nextFile = NULL; 
+
+		tmpfrontFile->nextFile = newFile;
 
 		return front;
 	}
@@ -103,7 +106,7 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
 	fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
 	newFile->filePath = filePath; 
-	newFile->freq = 0;
+	newFile->freq = 1;
 	newFile->nextFile = NULL; 
 
 	newToke->nextFile = newFile;
@@ -142,22 +145,40 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
 	return front;
 
+} 
+
+void indexPrint(tokenNodePtr front) {
+	tokenNodePtr tmpFront = front;
+
+	printf("{'list' : [\n");
+
+	do{
+		printf("            {'%s' : [\n",front->token); 
+
+		fileNode tmpFrontFile = front-> nextFile;
+		do{ 
+			printf("                    {'%s' : '%d'},\n", tmpFrontFile->filePath, tmpFrontFile->freq); 
+			tmpFrontFile= tmpFrontFile->nextFile;
+
+		} while (tmpFrontFile!=NULL);
+		
+		front = front->nextNode;
+	}while(front!=NULL);
 }
 
 int indexCompare(char* newToken, char* token){
-	char* lnewToken = strlwr(newToken);
-	char* ltoken = strlwr(token);
 
-	return strcmp(lnewToken, ltoken);
+	return strcmp(strlwr(newToken), strlwr(token));
 }
 
-char *strlwr(char *str)
+char *strlwr(char *p)
 {
-	size_t i;
-	size_t len = strlen(str);
+	char *tmp = strdup(p);
 
-	for(i=0; i<len; i++)
-		str[i]=tolower((unsigned char)str[i]);
+	int i=0;
+	for(i; tmp[i]; i++){
+  		tmp[i] = tolower(tmp[i]);
+	}
 
- 	return str;
+	return tmp;
 }
