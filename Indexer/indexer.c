@@ -14,6 +14,16 @@ int main(int argc, char* argv[]){
 
 	// indexInsert(front node, token word, filepath); 
 	front = indexInsert(front, "b", "testFile2");
+	front = indexInsert(front, "b", "testFile2");
+	front = indexInsert(front, "b", "testFile2");
+	front = indexInsert(front, "b", "testFileasdf2");
+	front = indexInsert(front, "b", "testFileasdf2");
+	front = indexInsert(front, "sid", "testFileasdf2");
+	front = indexInsert(front, "sunny", "testFileasdf2");
+	front = indexInsert(front, "sid", "testFileasdf2");
+	front = indexInsert(front, "dog", "testFileasdf2");
+	front = indexInsert(front, "apples`", "testFileasdf2");
+	front = indexInsert(front, "c", "tessdfasdfile2");
 	front = indexInsert(front, "a", "testFile"); //use this to insert a new token into the list, indexInsert() will return the front of the list
 	front = indexInsert(front, "a", "zestFileee");
 	front = indexInsert(front, "a", "zestfffFileee");

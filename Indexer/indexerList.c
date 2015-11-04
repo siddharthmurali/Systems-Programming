@@ -149,6 +149,7 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
 void indexPrint(tokenNodePtr front) {
 	tokenNodePtr tmpFront = front;
+	tokenNodePtr front2 = front;
 
 	printf("{'list' : [\n");
 
@@ -161,9 +162,11 @@ void indexPrint(tokenNodePtr front) {
 			tmpFrontFile= tmpFrontFile->nextFile;
 
 		} while (tmpFrontFile!=NULL);
-		
+	
 		front = front->nextNode;
+		printf("            ]},\n"); 
 	}while(front!=NULL);
+	printf("]}\n");
 }
 
 int indexCompare(char* newToken, char* token){
