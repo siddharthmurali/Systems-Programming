@@ -1,9 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "indexerTokenizer.c"
-#include "indexerList.c"
+//#include "indexerTokenizer.c"
+//#include "indexerList.c"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 int main(int argc, char* argv[]){
+	
+	int isDirBool = 0;
+	struct stat statbuf;
+
+	FILE *fp = fopen(argv[1], "r");
+		if(fp == NULL){
+			printf("is null\n");
+		} 
+
+		stat(argv[1], &statbuf);
+ 
+		if(S_ISDIR(statbuf.st_mode)){
+			printf("directory\n");
+			isDirBool = 1;
+		}
+		else{
+			printf("file\n");
+		}
+
+		if(isDirBool == 1){
+			
+
+		
+}
+
+
+/*				
 
 	//Get initial input and depending on input type, go through directory or a single file
 
@@ -39,7 +69,7 @@ int main(int argc, char* argv[]){
 
 //Add helper functions sorting?
 
-
+*/
 
 
 
