@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 //#include "indexerTokenizer.c"
-//#include "indexerList.c"
+#include "indexerList.c"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -29,6 +29,7 @@ int main(int argc, char* argv[]){
 		if(isDirBool == 1){
 			
 
+		}
 		
 }
 
