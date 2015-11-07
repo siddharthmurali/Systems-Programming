@@ -6,4 +6,8 @@ char* tokenate(FILE f){
 	//Get input file and create list of tokens for each file 
 
 
+
+
+
+
 }
