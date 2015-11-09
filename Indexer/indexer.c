@@ -23,7 +23,6 @@ void traverseDir(char *dirName){
 		exit(0);
 	}
 
-	
 
 	chdir(dirName);
 
@@ -37,24 +36,18 @@ void traverseDir(char *dirName){
 		}
 
 		if (dir->d_type == 8) {
-			char path[100];
-			getcwd(path, 100);
-
-			
 			FILE *f;
-
 			f = fopen(dir->d_name, "r");
 		//	printf("%s file\n", dir->d_name);
-
 			tokenate( f , dir->d_name);
 			fclose(f);
 		} 
 
 		if ( dir->d_type == 4) {
-			char path[100];
-			getcwd(path, 100);
+			char filePath[100];
+			getcwd(filePath, 100);
 			traverseDir(dir->d_name);
-			chdir(path);
+			chdir(filePath);
 		}
 	} 
 
@@ -148,8 +141,6 @@ int main(int argc, char* argv[]){
 		tokenateHelper(argv[1]);
 		indexPrint(frontDir);
 	}
-
-
 	
 	indexPrintToFile(frontDir, argv[2]);
 	return 0;
