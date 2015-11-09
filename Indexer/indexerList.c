@@ -7,6 +7,7 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
 	if (front==NULL) {
 		// first tokennode and filenode
+
 		tokenNodePtr firstToken=(tokenNodePtr) malloc(sizeof(tokenNodePtr)); 
 		firstToken->token = token; 
 
@@ -30,6 +31,10 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 	tokenNodePtr insertSpot = front;
 	tokenNodePtr tmpFront = front;
 
+	
+	token = strdup(token); 
+	front->token=strdup(front->token);
+
 	//Sid if you have questions about this finding the spot of insertions, ask me. This shits too confusing
 
 	//loop through the linked list to find spot to insert
@@ -51,7 +56,7 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 		if (compareReturn==0 ){ 
 		//if front->token == token
 			insertSpot = front; 
-			newToken=0;
+			newToken=0; 
 			break;
 		} 
 
@@ -150,10 +155,11 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 void indexPrint(tokenNodePtr front) {
 	tokenNodePtr tmpFront = front;
 	tokenNodePtr front2 = front;
-
+	int count=0;
 	printf("{'list' : [\n");
 
 	do{
+
 		printf("            {'%s' : [\n",front->token); 
 
 		fileNode tmpFrontFile = front-> nextFile;
@@ -167,6 +173,41 @@ void indexPrint(tokenNodePtr front) {
 		printf("            ]},\n"); 
 	}while(front!=NULL);
 	printf("]}\n");
+}
+
+void indexPrintToFile(tokenNodePtr front, char* file) {
+
+	FILE *f = fopen(file, "w"); 
+
+	if (f==NULL) {
+		printf("Error: Cannot Open File"); 
+		exit(1);
+	}
+
+
+	tokenNodePtr tmpFront = front;
+	tokenNodePtr front2 = front;
+	int count=0;
+	fprintf(f,"{'list' : [\n");
+
+	do{
+
+		fprintf(f,"            {'%s' : [\n",front->token); 
+
+		fileNode tmpFrontFile = front-> nextFile;
+		do{ 
+			fprintf(f,"                    {'%s' : '%d'},\n", tmpFrontFile->filePath, tmpFrontFile->freq); 
+			tmpFrontFile= tmpFrontFile->nextFile;
+
+		} while (tmpFrontFile!=NULL);
+	
+		front = front->nextNode;
+		fprintf(f,"            ]},\n"); 
+	}while(front!=NULL);
+	fprintf(f,"]}\n");
+	
+	fclose(f);
+
 }
 
 int indexCompare(char* newToken, char* token){

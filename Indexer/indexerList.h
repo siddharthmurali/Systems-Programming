@@ -22,6 +22,7 @@ struct tokenNode{
 
 tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath);
 void indexPrint(tokenNodePtr front); 
+void indexPrintToFile(tokenNodePtr front, char* file); 
 int indexCompare(char* newToken, char* token);
 char* strlwr(char* str);
 

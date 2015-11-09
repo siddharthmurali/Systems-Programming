@@ -1,0 +1,29 @@
+{'list' : [
+            {'1' : [
+                    {'testDir/test1.txt' : '5'},
+            ]},
+            {'and' : [
+                    {'testDir/test1.txt' : '2'},
+            ]},
+            {'carrots' : [
+                    {'testDir/test1.txt' : '1'},
+            ]},
+            {'is' : [
+                    {'testDir/test1.txt' : '3'},
+            ]},
+            {'percent' : [
+                    {'testDir/test1.txt' : '1'},
+            ]},
+            {'symbols' : [
+                    {'testDir/test1.txt' : '2'},
+            ]},
+            {'test' : [
+                    {'testDir/test1.txt' : '3'},
+            ]},
+            {'this' : [
+                    {'testDir/test1.txt' : '3'},
+            ]},
+            {'with' : [
+                    {'testDir/test1.txt' : '2'},
+            ]},
+]}
