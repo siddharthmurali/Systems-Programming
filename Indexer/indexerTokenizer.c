@@ -1,65 +1,77 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
+//#include "indexerList.c"
+//#include "indexerList.h"
+//#include "indexer.c"
+#define BUFFER_LEN 25
+#define REALLOC_OFFSET 10
 
-typedef struct token* tokenPtr;
+void tokenate(FILE* file, char* filename){
+	printf("It has entered tokenate");
 
-struct token{
-	char word[50];
-	char fileName[50];
-	int freq;
-	tokenPtr next;
-};
+	if (file == NULL){
+		return;
+	}
 
+	char *token = (char *) malloc(sizeof(char) * (25 + 1));
 
-struct tokenStream{
-	tokenPtr head;
-	tokenPtr token;
-	tokenPtr next;
-};
-typedef struct tokenStream* tokenStreamPtr;
+	int c;
+	int cCount = 0;
+	do {
+		c = fgetc(file);
 
-tokenPtr tokenate(tokenPtr head, FILE f){
-	
-	FILE *fp;
-	fp = fopen(f, "r");
-	char line[300];
-	char c;
-	int linePlaceHolder = 0;
-	int lineCountCurr = 0;
-	char tmp[50];
-	tokenPtr newToken;
-	tokenPtr tokenIter;
-	while(fgets(line, sizeof(line), fp) != NULL){
-		c = line[lineCountCurr];			 
-		while(1){
-			if(isalnum(c)){
-				c = line[lineCountCurr++];
+		if (isalnum(c)) {
+			if( cCount == 25) {
+				token = (char *) realloc( token, (35) );
 			}
-			else{
-				newToken =(tokenPtr) malloc(sizeof( struct token));			
-				linePlaceHolder;
-				while(linePlaceHolder != lineCountCurr){
-					tmp[linePlaceHolder] = line[linePlaceHolder];
-					linePlaceHolder++;
-				}
-				newToken->word = tmp;
-				if(head == NULL){
-					head = newToken;
-				}
-				else{
-					tokenIter =(tokenPtr)malloc(sizeof(struct token));
-					while(tokenIter->next != NULL){
-						tokenIter = tokenIter->next;
-					}
-					tokenIter->next = newToken;
-				} 		
+
+			token[cCount] = tolower( c ); //Make it lower case
+			cCount++;
+		} else {
+			if ( cCount > 0 ) {
+				token[cCount] = '\0';
+				cCount = 0;
+
+				//indexWord( word, filename );
+				printf("%s\n", token);
 			}
-							 
-			if(lineCountCurr > 299){
+
+			if ( feof(file) ) {
 				break;
-			} 
+			} else if( cCount > 0 ) {
+				token = (char *) malloc(sizeof(char) * (26));
+			}
 		}
 
+	} while(1);
+
+
+}
+
+
+int main(int argc, char* argv[]){
+char* filename = argv[1];
+if (filename == NULL )  return -1;
+
+	FILE *fpData;
+
+	// open file given from filename given
+	fpData = fopen(filename, "r");
+
+	// check if files exist, if not error message and abort
+	if( fpData == NULL ){
+		//fprintf(stderr, "%sError Opening Files: %s%s%s\n", KRED, KNRM, filename, KRED);
+		printf("Error opening file");
+		return -1;
 	}
+
+	tokenate(fpData, filename);
+
+	fclose(fpData);
+
+
+return 0;
+
 }
