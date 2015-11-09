@@ -9,15 +9,16 @@
 #include <string.h>
 #include <ctype.h>
 
+tokenNodePtr frontDir;
+void tokenate(FILE *file, char *filename);
+
 void traverseDir(char *dirName){
 	DIR *d;	
 	struct dirent *dir;
 
 	d = opendir(dirName);
-		printf("dirName = %s\n",dirName);
 
 	if(d == NULL){
-		printf("dirName = %s\n",dirName);
 		printf("Invalid directory\n");
 		exit(0);
 	}
@@ -36,13 +37,24 @@ void traverseDir(char *dirName){
 		}
 
 		if (dir->d_type == 8) {
+			char path[100];
+			getcwd(path, 100);
 
-			printf("%s file\n", dir->d_name);
+			
+			FILE *f;
+
+			f = fopen(dir->d_name, "r");
+		//	printf("%s file\n", dir->d_name);
+
+			tokenate( f , dir->d_name);
+			fclose(f);
 		} 
 
 		if ( dir->d_type == 4) {
+			char path[100];
+			getcwd(path, 100);
 			traverseDir(dir->d_name);
-
+			chdir(path);
 		}
 	} 
 
@@ -50,10 +62,9 @@ void traverseDir(char *dirName){
 }
 
 
-tokenNodePtr tokenate( FILE* file, char* filename){
+void tokenate( FILE* file, char* filename){
 
 	tokenNodePtr front = NULL;
-	printf("It has entered tokenate");
 
 	if (file == NULL){
 		return;
@@ -78,8 +89,8 @@ tokenNodePtr tokenate( FILE* file, char* filename){
 				token[cCount] = '\0';
 
 				cCount = 0;
-
-				front = indexInsert(front, token, filename);
+				
+				frontDir = indexInsert(frontDir, token, filename);
 			}
 
 			if ( feof(file) ) {
@@ -92,12 +103,10 @@ tokenNodePtr tokenate( FILE* file, char* filename){
 
 	};
 
-
-	return front;
 }
 
 
-tokenNodePtr tokenateHelper(char* filename){
+void  tokenateHelper(char* filename){
 	
 	if(filename == NULL){
 		return;
@@ -112,11 +121,10 @@ tokenNodePtr tokenateHelper(char* filename){
 		return;
 	}
 
-	tokenNodePtr tmpFront = tokenate( f, filename);
+	tokenate(f, filename);
 
 	fclose(f);
 
-	return tmpFront;
 }
 
 
@@ -130,19 +138,20 @@ int main(int argc, char* argv[]){
 	char *outputFile = argv[2];
 
 	tokenNodePtr front;
+	frontDir=NULL;
 
 	if(S_ISDIR(statbuf.st_mode)){
-		printf("input is a directory\n");
 		traverseDir(argv[1]);
+		indexPrint(frontDir);
 	}
 	else{
-		printf("input isa file\n");
-		front=tokenateHelper(argv[1]);
+		tokenateHelper(argv[1]);
+		indexPrint(frontDir);
 	}
 
-	indexPrint(front);
 
-	indexPrintToFile(front, argv[2]);
+	
+	indexPrintToFile(frontDir, argv[2]);
 	return 0;
 }
 
