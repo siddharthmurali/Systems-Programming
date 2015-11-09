@@ -37,7 +37,7 @@ void traverseDir(char *dirName){
 
 
 void tokenate(FILE* file, char* filename){
-	printf("It has entered tokenate");
+	printf("It has entered tokenate\n");
 
 	if (file == NULL){
 		return;
@@ -75,7 +75,7 @@ void tokenate(FILE* file, char* filename){
 			}
 		}
 
-	};
+	} 
 
 
 }
