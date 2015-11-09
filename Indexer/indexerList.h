@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#define segcheck()  printf("segcheck \n");
 
 typedef struct fileNode* fileNode;
 struct fileNode{

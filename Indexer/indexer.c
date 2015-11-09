@@ -9,6 +9,8 @@
 #include <string.h>
 #include <errno.h>
 
+#define segcheck  printf("Seg Check\n");
+
 static void cat(FILE *fp)
 {
     char   buffer[4096];
@@ -28,6 +30,7 @@ int main(int argc, char* argv[]){
 	FILE *fp;
 	char str[200];
 	fp = fopen(argv[1], "r");
+	segcheck;
 		if(fp == NULL){
 			printf("is null\n");
 			fclose(fp);
@@ -55,7 +58,7 @@ int main(int argc, char* argv[]){
 		FILE *fileIter;
 
 		if(isDirBool == 1){
-			
+			segcheck;		
 			d = opendir(argv[1]);
 			while ((dir = readdir(d))){
 
@@ -88,10 +91,11 @@ int main(int argc, char* argv[]){
 			 }
 				
    			 closedir(d);
-		}
 
 		}
 
+	return 0; 
+}
 
 /*				
 
