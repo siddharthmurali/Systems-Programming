@@ -1,194 +1,76 @@
 {'list' : [
             {'1' : [
-                    {'test1.txt' : '4'},
-                    {'textPrint.txt' : '55'},
-            ]},
-            {'10' : [
-                    {'textPrint.txt' : '2'},
-            ]},
-            {'11' : [
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/test1.txt' : '4'},
             ]},
             {'2' : [
-                    {'test2.txt' : '2'},
-                    {'textPrint.txt' : '11'},
-            ]},
-            {'20' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'27' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'3' : [
-                    {'textPrint.txt' : '4'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/test2.txt' : '2'},
             ]},
             {'324ijp' : [
-                    {'test3.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/test3.txt' : '1'},
             ]},
             {'32r' : [
-                    {'test3.txt' : '1'},
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'34' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'4' : [
-                    {'textPrint.txt' : '5'},
-            ]},
-            {'42' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'45' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'47' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'48' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'5' : [
-                    {'textPrint.txt' : '2'},
-            ]},
-            {'50' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'52' : [
-                    {'textPrint.txt' : '2'},
-            ]},
-            {'6' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'62' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'69' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'7' : [
-                    {'textPrint.txt' : '2'},
-            ]},
-            {'74' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'77' : [
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'8' : [
-                    {'textPrint.txt' : '2'},
-            ]},
-            {'9' : [
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/test3.txt' : '1'},
             ]},
             {'a' : [
-                    {'test09090909.txt' : '1'},
-                    {'test123.txt' : '1'},
-                    {'test3.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/testDir4/test09090909.txt' : '1'},
+                    {'/home/sunny/documents/coding/systems/systems-programming/indexer/testdir/testdir2/test3.txt' : '2'},
             ]},
             {'adfadsf' : [
-                    {'test09090909.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/testDir4/test09090909.txt' : '1'},
             ]},
             {'afasdf' : [
-                    {'test123.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/testDir3/test123.txt' : '1'},
             ]},
             {'aisdj' : [
-                    {'test123.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/testDir3/test123.txt' : '1'},
             ]},
             {'and' : [
-                    {'test1.txt' : '2'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/test1.txt' : '2'},
             ]},
             {'asdf' : [
-                    {'test09090909.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/testDir4/test09090909.txt' : '1'},
             ]},
             {'asdfjk' : [
-                    {'test123.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/testDir3/test123.txt' : '1'},
             ]},
             {'asdfjlasdkfjla' : [
-                    {'test30404.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/testDir3/test30404.txt' : '1'},
             ]},
             {'carrots' : [
-                    {'test1.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/test1.txt' : '1'},
             ]},
             {'f' : [
-                    {'test3.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/test3.txt' : '1'},
             ]},
             {'fl' : [
-                    {'test123.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/testDir3/test123.txt' : '1'},
             ]},
             {'hello' : [
-                    {'test3.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/test3.txt' : '1'},
             ]},
             {'is' : [
-                    {'test1.txt' : '3'},
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'list' : [
-                    {'textPrint.txt' : '2'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/test1.txt' : '3'},
             ]},
             {'percent' : [
-                    {'test1.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/test1.txt' : '1'},
             ]},
             {'sdlkfj' : [
-                    {'test123.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/testDir3/test123.txt' : '1'},
             ]},
             {'symbols' : [
-                    {'test1.txt' : '2'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/test1.txt' : '2'},
             ]},
             {'teasdf' : [
-                    {'test3.txt' : '1'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/test3.txt' : '1'},
             ]},
             {'test' : [
-                    {'test1.txt' : '4'},
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'test09090909' : [
-                    {'textPrint.txt' : '4'},
-            ]},
-            {'test1' : [
-                    {'textPrint.txt' : '10'},
-            ]},
-            {'test123' : [
-                    {'textPrint.txt' : '7'},
-            ]},
-            {'test2' : [
-                    {'textPrint.txt' : '2'},
-            ]},
-            {'test3' : [
-                    {'textPrint.txt' : '8'},
-            ]},
-            {'test30404' : [
-                    {'textPrint.txt' : '2'},
-            ]},
-            {'textprint' : [
-                    {'textPrint.txt' : '53'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/test1.txt' : '4'},
             ]},
             {'this' : [
-                    {'test3.txt' : '1'},
-                    {'test1.txt' : '3'},
-                    {'textPrint.txt' : '1'},
-            ]},
-            {'txt' : [
-                    {'textPrint.txt' : '80'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/testDir2/test3.txt' : '1'},
+                    {'' : '3'},
             ]},
             {'with' : [
-                    {'test1.txt' : '2'},
-                    {'textPrint.txt' : '1'},
+                    {'/home/sunny/Documents/Coding/Systems/Systems-Programming/Indexer/testDir/test1.txt' : '2'},
             ]},
 ]}

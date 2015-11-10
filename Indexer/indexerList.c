@@ -6,6 +6,7 @@
 
 tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
+	printf("File path is: %s\n", filePath);
 	if (front==NULL) {
 		// first tokennode and filenode
 
@@ -13,7 +14,7 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 		firstToken->token = token; 
 
 		fileNode firstFile = (fileNode) malloc(sizeof(fileNode)); 
-		firstFile->filePath = filePath; 
+		firstFile->filePath = strdup(filePath); 
 		firstFile->freq = 1;
 		firstFile->nextFile = NULL; 
 
@@ -111,7 +112,7 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 	newToke->token = token; 
 
 	fileNode newFile = (fileNode) malloc(sizeof(fileNode)); 
-	newFile->filePath = filePath; 
+	newFile->filePath = strdup(filePath); 
 	newFile->freq = 1;
 	newFile->nextFile = NULL; 
 
@@ -188,11 +189,6 @@ void indexPrintToFile(int dirCheck, tokenNodePtr front, char* file) {
 		exit(1);
 	}
 
-
- 	char filePath[100];
-        getcwd(filePath, 100);
-
-	printf("Current workign directory: %s\n", filePath);
 
 	tokenNodePtr tmpFront = front;
 	tokenNodePtr front2 = front;

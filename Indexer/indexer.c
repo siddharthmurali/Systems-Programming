@@ -38,9 +38,21 @@ void traverseDir(char *dirName){
 		if (dir->d_type == 8) {
 			FILE *f;
 			f = fopen(dir->d_name, "r");
-		//	printf("%s file\n", dir->d_name);
-			tokenate( f , dir->d_name);
+			
+			char filePath[100];
+			getcwd(filePath, 100);
+
+			char* tmpSlash = "/";
+			char* fullName = (char *) malloc(2+strlen(filePath)+strlen(dir->d_name));
+			strcpy(fullName, filePath); 
+			strcat(fullName, tmpSlash);
+			strcat(fullName, dir->d_name);
+	
+			printf("fullName = %s\n", strdup(fullName));
+			
+			tokenate( f , fullName);
 			fclose(f);
+			free(fullName);
 		} 
 
 		if ( dir->d_type == 4) {
@@ -124,11 +136,11 @@ void  tokenateHelper(char* filename){
 int main(int argc, char* argv[]){
 	
 	struct stat statbuf;
-	stat(argv[1], &statbuf);
+	stat(argv[2], &statbuf);
 
 
-	char *inputFile = argv[1];
-	char *outputFile = argv[2];
+	char *inputFile = argv[2];
+	char *outputFile = argv[1];
 
 	tokenNodePtr front;
 	frontDir=NULL;
@@ -136,19 +148,19 @@ int main(int argc, char* argv[]){
 	int dirCheck=0;
 
 	if(S_ISDIR(statbuf.st_mode)){
-		traverseDir(argv[1]);
+		traverseDir(argv[2]);
 		dirCheck=1;
-		indexPrint(frontDir);
+//		indexPrint(frontDir);
 	}
 	else{
-		tokenateHelper(argv[1]);
-		indexPrint(frontDir);
+		tokenateHelper(argv[2]);
+//		indexPrint(frontDir);
 	}
 
 	if (dirCheck) 	
-		indexPrintToFile(dirCheck, frontDir, argv[2]);
+		indexPrintToFile(dirCheck, frontDir, argv[1]);
 	else 
-		indexPrintToFile(dirCheck, frontDir, argv[2]);
+		indexPrintToFile(dirCheck, frontDir, argv[1]);
 
 	return 0;
 }
