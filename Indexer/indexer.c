@@ -93,7 +93,6 @@ void tokenate( FILE* file, char* filename){
 				token[cCount] = '\0';
 
 				cCount = 0;
-				printf("inserting into list\n");		
 				frontDir = indexInsert(frontDir, token, filename);
 			}
 
@@ -175,8 +174,36 @@ int main(int argc, char* argv[]){
 	char filePath[100];
 	getcwd(filePath, 100);
 
-	printf("file path: %s\n", filePath);
-	
+
+	DIR *d;	
+	struct dirent *dir;
+
+	d = opendir(filePath);
+
+	chdir(filePath);
+
+	int fileBool = 0 ;
+
+	while((dir=readdir(d)) != NULL){
+
+		if(strcmp(dir->d_name,argv[1])==0) {
+
+			printf("Inverted file exists.\n");
+			fileBool = 1;
+			break;	
+		}
+
+	}
+	if (fileBool) {
+		int answer=0;
+		printf("Would you like to overwrite the file? If so enter 1, otherwise enter 0 to exist.\n"); 
+		scanf("%d",&answer); 
+
+		if(answer==0) 
+			exit(0); 
+	}
+
+	printf("INDEXING...\n");	
 	if(S_ISDIR(statbuf.st_mode)){
 		traverseDir(argv[2]);
 		dirCheck=1;
@@ -191,6 +218,7 @@ int main(int argc, char* argv[]){
 		indexPrintToFile(dirCheck, filePath, frontDir, argv[1]);
 	
 
+	printf("Finished indexing.\n");
 	//freeFront();
 	
 
