@@ -19,7 +19,7 @@ void traverseDir(char *dirName){
 	d = opendir(dirName);
 
 	if(d == NULL){
-		printf("Invalid directory\n");
+		perror("Invalid directory\n");
 		exit(0);
 	}
 
@@ -122,7 +122,8 @@ void  tokenateHelper(char* filename){
 	f = fopen(filename, "r");
 
 	if( f == NULL ){
-		printf("Error opening file");
+		perror("Error opening file");
+		exit(0);
 		return;
 	}
 
@@ -188,6 +189,7 @@ int main(int argc, char* argv[]){
 
 		if(strcmp(dir->d_name,argv[1])==0) {
 
+			printf("\n");
 			printf("Inverted file exists.\n");
 			fileBool = 1;
 			break;	
@@ -196,13 +198,14 @@ int main(int argc, char* argv[]){
 	}
 	if (fileBool) {
 		int answer=0;
-		printf("Would you like to overwrite the file? If so enter 1, otherwise enter 0 to exist.\n"); 
+		printf("Would you like to overwrite the file? If so enter 1, otherwise enter 0 to exit.\n"); 
 		scanf("%d",&answer); 
 
 		if(answer==0) 
 			exit(0); 
 	}
 
+	printf("\n");
 	printf("INDEXING...\n");	
 	if(S_ISDIR(statbuf.st_mode)){
 		traverseDir(argv[2]);
@@ -219,6 +222,8 @@ int main(int argc, char* argv[]){
 	
 
 	printf("Finished indexing.\n");
+	printf("\n");
+	printf("Output is in %s/%s\n", filePath,argv[1]);
 	//freeFront();
 	
 
