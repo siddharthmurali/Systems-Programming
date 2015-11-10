@@ -171,6 +171,12 @@ int main(int argc, char* argv[]){
 
 	int dirCheck=0;
 
+
+	char filePath[100];
+	getcwd(filePath, 100);
+
+	printf("file path: %s\n", filePath);
+	
 	if(S_ISDIR(statbuf.st_mode)){
 		traverseDir(argv[2]);
 		dirCheck=1;
@@ -180,12 +186,12 @@ int main(int argc, char* argv[]){
 	}
 
 	if (dirCheck) 	
-		indexPrintToFile(dirCheck, frontDir, argv[1]);
+		indexPrintToFile(dirCheck, filePath, frontDir, argv[1]);
 	else 
-		indexPrintToFile(dirCheck, frontDir, argv[1]);
+		indexPrintToFile(dirCheck, filePath, frontDir, argv[1]);
 	
 
-	freeFront();
+	//freeFront();
 	
 
 	return 0;

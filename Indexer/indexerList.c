@@ -190,10 +190,10 @@ void indexPrint(tokenNodePtr front) {
 }
 
 
-void indexPrintToFile(int dirCheck, tokenNodePtr front, char* file) {
+void indexPrintToFile(int dirCheck,char* filePath, tokenNodePtr front, char* file) {
 
 	if (dirCheck) 
-		chdir("..");
+		chdir(filePath);
 
 	if(front==NULL) {
 		printf("There are no tokens...\n"); 
