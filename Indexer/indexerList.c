@@ -158,13 +158,78 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
 fileNode sortFreq(fileNode front) {
 
-	fileNode head=NULL; 
 
-
-	return head;
+	
 
 }
+fileNode sortFreq(fileNode front) {
 
+        fileNode tmp=front;
+        fileNode ptr=tmp->nextFile;
+        fileNode lag=front;
+
+        if(ptr->freq > tmp->freq){
+                tmp->nextFile = ptr->nextFile;
+                ptr->nextFile = tmp;
+                front=ptr;
+                ptr=tmp;
+                tmp=ptr;
+        }
+
+
+        if(ptr->freq == tmp->freq){
+                int ic = indexCompare(ptr->filePath, tmp->filePath);
+                if(ic < 0){
+                        tmp->nextFile = ptr->nextFile;
+                        ptr->nextFile = tmp;
+                        front=ptr;
+                        ptr=tmp;
+                        tmp=ptr;
+                }
+        }
+	
+	 while(1){
+                if(ptr->freq > tmp->freq){
+                        while(lag->nextFile !=tmp){
+                                lag = lag->nextFile;
+                        }
+                        lag->nextFile = ptr;
+                        if(ptr->nextFile != NULL){
+                                tmp->nextFile = ptr->nextFile;
+                        }
+                        else{
+                                tmp->nextFile = NULL;
+                        }
+                        ptr->nextFile = tmp;
+                }
+                if(ptr->freq == tmp->freq){
+                        int icVal = indexCompare(ptr->filePath, tmp->filePath);
+                        if(icVal < 0){
+
+                                while(lag->nextFile !=tmp){
+                                        lag = lag->nextFile;
+                                }
+                                lag->nextFile = ptr;
+                                if(ptr->nextFile != NULL){
+                                        tmp->nextFile = ptr->nextFile;
+                                }
+                                else{
+                                        tmp->nextFile = NULL;
+                                }
+                        }
+                }
+                else{
+                        continue;
+                }
+
+                ptr->nextFile = tmp;
+                ptr = ptr->nextFile;
+                tmp= tmp->nextFile;
+
+        }
+
+        return front;
+}
 
 void indexPrint(tokenNodePtr front) {
 	tokenNodePtr tmpFront = front;
