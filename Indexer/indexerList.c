@@ -255,13 +255,14 @@ void indexPrint(tokenNodePtr front) {
 }
 
 
-void indexPrintToFile(int dirCheck, tokenNodePtr front, char* file) {
+void indexPrintToFile(int dirCheck,char* filePath, tokenNodePtr front, char* file) {
 
 	if (dirCheck) 
-		chdir("..");
+		chdir(filePath);
 
 	if(front==NULL) {
-		printf("There are no tokens...\n"); 
+		printf("There are no tokens...Something went wrong....\n"); 
+		exit(0);
 	}
 
 	FILE *f = fopen(file, "w"); 
