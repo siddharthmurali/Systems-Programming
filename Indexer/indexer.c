@@ -47,8 +47,7 @@ void traverseDir(char *dirName){
 			strcpy(fullName, filePath); 
 			strcat(fullName, tmpSlash);
 			strcat(fullName, dir->d_name);
-	
-			printf("fullName = %s\n", strdup(fullName));
+		
 			
 			tokenate( f , fullName);
 			fclose(f);

@@ -6,7 +6,6 @@
 
 tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
-	printf("File path is: %s\n", filePath);
 	if (front==NULL) {
 		// first tokennode and filenode
 
