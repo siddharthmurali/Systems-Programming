@@ -74,7 +74,7 @@ void tokenate( FILE* file, char* filename){
 		return;
 	}
 
-	char *token = (char *) malloc(sizeof(char) * (26));
+	char *token = (char *) malloc(sizeof(char) * (100));
 
 	int c;
 	int cCount = 0;
@@ -83,7 +83,7 @@ void tokenate( FILE* file, char* filename){
 
 		if (isalnum(c)) {
 			if( cCount == 25) {
-				token = (char *) realloc( token, (35) );
+				//token = (char *) realloc( token, (35) );
 			}
 
 			token[cCount] = tolower( c ); //Make it lower case
@@ -93,7 +93,7 @@ void tokenate( FILE* file, char* filename){
 				token[cCount] = '\0';
 
 				cCount = 0;
-				
+				printf("inserting into list\n");		
 				frontDir = indexInsert(frontDir, token, filename);
 			}
 
@@ -101,11 +101,13 @@ void tokenate( FILE* file, char* filename){
 				break;
 			} 
 			else if( cCount > 0 ) {
-				token = (char *) malloc(sizeof(char) * (26));
+				token = (char *) malloc(sizeof(char) * (100));
 			}
 		}
 
 	};
+
+	free(token);
 
 }
 
@@ -131,6 +133,29 @@ void  tokenateHelper(char* filename){
 
 }
 
+void freeFront() {
+
+	tokenNodePtr front=NULL;
+	
+	do{
+                fileNode frontFile = frontDir->nextFile;
+		fileNode tmpFront = NULL;
+
+                do {
+			free(frontFile->filePath);
+			tmpFront = frontFile;
+                        frontFile = frontFile->nextFile;
+			free(tmpFront);
+                } while (frontFile != NULL);
+
+		front=frontDir;
+		frontDir=frontDir->nextNode;
+		free(front);
+	}
+	while(frontDir !=NULL);
+
+}
+
 
 int main(int argc, char* argv[]){
 	
@@ -149,17 +174,19 @@ int main(int argc, char* argv[]){
 	if(S_ISDIR(statbuf.st_mode)){
 		traverseDir(argv[2]);
 		dirCheck=1;
-//		indexPrint(frontDir);
 	}
 	else{
 		tokenateHelper(argv[2]);
-//		indexPrint(frontDir);
 	}
 
 	if (dirCheck) 	
 		indexPrintToFile(dirCheck, frontDir, argv[1]);
 	else 
 		indexPrintToFile(dirCheck, frontDir, argv[1]);
+	
+
+	freeFront();
+	
 
 	return 0;
 }

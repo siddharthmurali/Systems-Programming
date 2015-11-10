@@ -103,6 +103,9 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
 		tmpfrontFile->nextFile = newFile;
 
+		//add sort insertSpot->nextFile = sortFreq(insertSpot->nextFile);
+
+
 		return front;
 	}
 
@@ -153,6 +156,16 @@ tokenNodePtr indexInsert(tokenNodePtr front, char* token, char* filePath){
 
 } 
 
+fileNode sortFreq(fileNode front) {
+
+	fileNode head=NULL; 
+
+
+	return head;
+
+}
+
+
 void indexPrint(tokenNodePtr front) {
 	tokenNodePtr tmpFront = front;
 	tokenNodePtr front2 = front;
@@ -176,10 +189,15 @@ void indexPrint(tokenNodePtr front) {
 	printf("]}\n");
 }
 
+
 void indexPrintToFile(int dirCheck, tokenNodePtr front, char* file) {
 
 	if (dirCheck) 
 		chdir("..");
+
+	if(front==NULL) {
+		printf("There are no tokens...\n"); 
+	}
 
 	FILE *f = fopen(file, "w"); 
 
