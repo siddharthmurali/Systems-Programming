@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include "indexerList.h"
 
@@ -175,15 +176,23 @@ void indexPrint(tokenNodePtr front) {
 	printf("]}\n");
 }
 
-void indexPrintToFile(tokenNodePtr front, char* file) {
+void indexPrintToFile(int dirCheck, tokenNodePtr front, char* file) {
+
+	if (dirCheck) 
+		chdir("..");
 
 	FILE *f = fopen(file, "w"); 
 
 	if (f==NULL) {
-		printf("Error: Cannot Open File"); 
+		perror("Error");
 		exit(1);
 	}
 
+
+ 	char filePath[100];
+        getcwd(filePath, 100);
+
+	printf("Current workign directory: %s\n", filePath);
 
 	tokenNodePtr tmpFront = front;
 	tokenNodePtr front2 = front;

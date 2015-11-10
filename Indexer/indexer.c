@@ -133,16 +133,23 @@ int main(int argc, char* argv[]){
 	tokenNodePtr front;
 	frontDir=NULL;
 
+	int dirCheck=0;
+
 	if(S_ISDIR(statbuf.st_mode)){
 		traverseDir(argv[1]);
+		dirCheck=1;
 		indexPrint(frontDir);
 	}
 	else{
 		tokenateHelper(argv[1]);
 		indexPrint(frontDir);
 	}
-	
-	indexPrintToFile(frontDir, argv[2]);
+
+	if (dirCheck) 	
+		indexPrintToFile(dirCheck, frontDir, argv[2]);
+	else 
+		indexPrintToFile(dirCheck, frontDir, argv[2]);
+
 	return 0;
 }
 
