@@ -9,7 +9,6 @@
 #include <errno.h>
 #include <pthread.h>
 
-typedef char*	string;
 
 struct BankAccount{
 	string name;
