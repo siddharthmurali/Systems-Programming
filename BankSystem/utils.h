@@ -11,7 +11,7 @@
 
 
 struct BankAccount{
-	string name;
+	char* name;
 	float balance;
 	int isf; 
 };
