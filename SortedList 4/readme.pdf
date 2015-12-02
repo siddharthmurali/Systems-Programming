@@ -1,0 +1,32 @@
+SLCreate 
+
+The efficiency for SL Create was the maximum efficiency possible. All that occurs was the intialization of the list. Creates malloced memory for the List variables.
+
+SLDestroy 
+
+Efficiency is O(n). Where n is the length of the list. 
+
+
+SLInsert 
+
+Worst case efficiency is O(n). If the new node is the smallest number it has to go all the way to the end. New memory was allocated for new nodes. Also with minimal static memory for  variables for tmp nodes to hold data.
+
+SLRemove 
+
+Worst case efficiency is O(n). Again if the node is the last one in the list. New allocated memory is none. Only tempory variable holders again. 
+
+SLCreate Iterator 
+
+Max efficiency reached. Creates new memory allocation for the iterator.
+
+SLDestroyIterator 
+
+Max efficiency reached. 
+
+SLGetItem 
+
+Max efficiency reached. 
+
+SLNextItem
+
+Max efficiency reached. Only static tmp variables created. 

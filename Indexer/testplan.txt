@@ -1,0 +1,5 @@
+TESTPLAN
+
+In this assignment we created a test directory called testDir in which exists a multitude of text files and more directories. In each text file we wrote various sentences conjoined with varying characters such as space characters, @, #, $, and much more. We first wanted to test that our tokenizer was working efficiently. We then tested our Sort and made sure that our output was sorted alphabetically. Lastly, we implemented a sortFreq function which sorts each token’s fileName by the amount of times it was called. This last function is only partially working, and has some errors where the first couple tokens were not able to be sorted by fileName frequency. 
+
+kET#ofq<G0w%

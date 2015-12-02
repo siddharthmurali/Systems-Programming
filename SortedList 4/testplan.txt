@@ -1,0 +1,12 @@
+The test plan. 
+
+In order to thoroughly test the Sorted-List library, we followed the below plan. 
+
+1. We first created the sorted list of ints, with 5 random numbers. Then we permutated the numbers and made sure that each time the insertion worked and was in order. 
+2. The next step was to test removing a node. Again, using the interface in main.c we permutated all the possible nodes you can remove (front, middle, and last nodes). 
+3. The next step was to test the iterators. We began by first creating two iterators and making sure the SLGet and SlNext  items worked. Once that was assurred, we made 
+   sure that when removing a node with a iterator pointing to it, it didnt delete it. After testing this we then tested that it did get deleted. Once this was thoroughly 
+   tested, we made sure that when the iterator got to the end of the list it would return null. 
+4. After these were tested, we made sure that the deletiong of iterators and nodes worked 
+
+This test plan allowed us to thoroughly test the code and make sure that every possible case was accounted for. 
