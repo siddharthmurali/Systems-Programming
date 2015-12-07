@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html">
+  <title>Customer - Store - Laptop</title>
+  <link rel="stylesheet" type="text/css" media="all" href="styles.css">
+  <script type="text/javascript" src="jquery-1.11.1.min.js"></script>    
+</head>
+    
+    
+    <body>
+  <nav>
+    <div class="wrapper">
+      <ul id="menu" class="clearfix">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a>
+          <ul>
+            <li id='team'><a href="#">The Team</a></li>
+            <li id='proj'><a href="#">Project Details</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+        
+    <div id="dropInfo">
+        <p id="homeTitle">
+            Find Laptop Device Names!
+        </p>
+            <br>
+            <br>
+        <p id="InfoText">
+        Click on a Manufacturer Below to find the various laptops it makes.
+        Click on a computer scientist below to find out what kind of laptops computer scientists buy!
+        Click on AppleBuyers to find out what kind of people buy Apple laptops
+        </p>
+        
+        
+    </div>
+    <!-- Our manufacturer group drop down-->
+    <div id="dropDown">
+        
+        
+        <!-- Our devices for a group selection (empty on default) -->
+
+        <select id="device"></select>
+        
+        <button type="button" id="Apple">Apple!</button>
+        <button type="button" id="Samsung">Asus!</button>
+        <button type="button" id="Gateway">Gateway!</button>
+        <button type="button" id="Acer">Acer!</button>
+        <button type="button" id="Asus">Asus!</button>
+        <button type="button" id="Lenovo">Lenovo!</button>
+        <button type="button" id="HP">HP!</button>
+        <button type="button" id="Toshiba">Toshiba!</button>
+        <button type="button" id="Dell">Dell!</button>
+        <button type="button" id="IBM">IBM!</button>
+        <button type="button" id="Alienware">Alienware!</button>
+        <button type="button" id="CS">computer scientist!</button>
+        <button type="button" id="AppleBuyers">AppleBuyers!</button>
+        
+            
+        
+    </div>
+
+        
+<script type="text/javascript">
+var jsData;
+i = 1;
+    
+$(function(){
+  $('a[href="#"]').on('click', function(e){
+    e.preventDefault();
+  });
+  $('#team').on('click', function(){
+	  window.location = 'team.html';
+  });
+  $('#proj').on('click', function(){
+	  window.location = 'proj.html';
+  });
+  $('#menu > li').on('mouseover', function(e){
+    $(this).find("ul:first").show();
+    $(this).find('> a').addClass('active');
+  }).on('mouseout', function(e){
+    $(this).find("ul:first").hide();
+    $(this).find('> a').removeClass('active');
+  });
+  
+  $('#menu li li').on('mouseover',function(e){
+    if($(this).has('ul').length) {
+      $(this).parent().addClass('expanded');
+    }
+    $('ul:first',this).parent().find('> a').addClass('active');
+    $('ul:first',this).show();
+  }).on('mouseout',function(e){
+    $(this).parent().removeClass('expanded');
+    $('ul:first',this).parent().find('> a').removeClass('active');
+    $('ul:first', this).hide();
+  });
+});
+
+$(function() {
+	
+        
+    
+	    $("#Apple").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getApple",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    $("#Lenovo").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getLenovo",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    
+    $("#IBM").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getIBM",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    $("#Alienware").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getAlienware",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    
+    $("#Samsung").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getSamsung",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    
+    $("#Asus").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getAsus",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    
+    $("#Acer").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getAcer",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    
+    $("#Toshiba").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getToshiba",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    
+    $("#Gateway").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getGateway",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    $("#HP").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getHP",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    
+    $("#Dell").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getDell",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+     $("#CS").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getCS",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    $("#AppleBuyers").click(function() {
+	
+	        var groupID = $(this).val();
+	       
+	        $.ajax({
+	
+	            type: "GET",
+	
+	            url: "/getAppleBuyers",
+                
+                data: { id: groupID },
+                
+	            dataType: "json",
+                
+                error:function(){
+                 console.log('w'+ 't'+ 'f');
+                },
+                
+                success: function(response){
+                    console.log(response);
+                    //echo what the server sent back...
+                }
+	       
+            }).done(function(reply) {
+	
+	            // Clear options
+	           console.log(reply);
+	            $("#device").find("option").remove();
+	
+	             
+	
+	            // Loop through JSON response
+                
+                $.each(reply, function(key, value){
+	            
+                        console.log(value.Name);
+	               $('#device').append($('<option>', { value: value.Name}).text(value.Name));
+                    
+                });
+            
+
+	        });
+	
+	    });
+    
+    
+    
+    
+	
+	});
+    
+    
+
+
+</script>
+        
+        
+        
+    
+</body>
+</html>
